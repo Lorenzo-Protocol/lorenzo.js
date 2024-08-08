@@ -8,7 +8,3 @@ plugins:
       - useOptionals=messages
       - exportCommonSymbols=false
       - outputClientImpl=grpc-web
-  - plugin: buf.build/grpc-ecosystem/gateway
-    out: ../src/proto
-    opt: 
-      - logtostderr=true
