@@ -1,0 +1,64 @@
+syntax = "proto3";
+package lorenzo.agent.v1;
+
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "google/api/annotations.proto";
+
+import "lorenzo/agent/v1/params.proto";
+import "lorenzo/agent/v1/agent.proto";
+
+option go_package = "github.com/Lorenzo-Protocol/lorenzo/v2/x/agent/types";
+
+// Query defines the gRPC querier service.
+service Query {
+
+  // Params queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/lorenzo/plan/v1/params";
+  }
+
+  // Agent queries all agents
+  rpc Agents(QueryAgentsRequest) returns (QueryAgentsResponse) {
+    option (google.api.http).get = "/lorenzo/agent/v1/agents";
+  }
+
+  // Agent queries the agent of the specified escrow_address
+  rpc Agent(QueryAgentRequest) returns (QueryAgentResponse) {
+    option (google.api.http).get = "/lorenzo/agent/v1/agents/{id}";
+  }
+}
+
+// QueryParamsRequest is the request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is the response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1 [ (gogoproto.nullable) = false ];
+}
+
+// QueryAgentsRequest is the request type for the Query/Agents RPC method.
+message QueryAgentsRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAgentsResponse is the response type for the Query/Agents RPC method.
+message QueryAgentsResponse {
+  // Agent Contains the details of the agent.
+  repeated Agent agents = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryAgentRequest is the request type for the Query/Agent RPC method.
+message QueryAgentRequest {
+  // id is the unique identifier of the agent
+  uint64 id = 1;
+}
+
+// QueryAgentResponse is the response type for the Query/Agent RPC method.
+message QueryAgentResponse {
+  // Agent Contains the details of the agent.
+  Agent agent = 1 [ (gogoproto.nullable) = false ];
+}

@@ -1,0 +1,14 @@
+version: v1
+plugins:
+  - plugin: buf.build/community/stephenh-ts-proto
+    out: ../src/proto
+    opt: 
+      - esModuleInterop=true
+      - forceLong=long
+      - useOptionals=messages
+      - exportCommonSymbols=false
+      - outputClientImpl=grpc-web
+  - plugin: buf.build/grpc-ecosystem/gateway
+    out: ../src/proto
+    opt: 
+      - logtostderr=true
