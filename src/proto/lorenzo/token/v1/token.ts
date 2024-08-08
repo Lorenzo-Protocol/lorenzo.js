@@ -5,7 +5,6 @@
 // source: lorenzo/token/v1/token.proto
 
 /* eslint-disable */
-import Long from "long";
 import _m0 from "protobufjs/minimal";
 
 /**
@@ -58,7 +57,7 @@ export function sourceToJSON(object: Source): string {
 /** TokenPair defines a pairing of a cosmos coin and an erc20 token */
 export interface TokenPair {
   /** erc20 contract hex format address */
-  contractAddress: string;
+  contract_address: string;
   /** sdk coin base denomination */
   denom: string;
   /** allows for token conversion */
@@ -68,13 +67,13 @@ export interface TokenPair {
 }
 
 function createBaseTokenPair(): TokenPair {
-  return { contractAddress: "", denom: "", enabled: false, source: 0 };
+  return { contract_address: "", denom: "", enabled: false, source: 0 };
 }
 
 export const TokenPair = {
   encode(message: TokenPair, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.contractAddress !== "") {
-      writer.uint32(10).string(message.contractAddress);
+    if (message.contract_address !== "") {
+      writer.uint32(10).string(message.contract_address);
     }
     if (message.denom !== "") {
       writer.uint32(18).string(message.denom);
@@ -100,7 +99,7 @@ export const TokenPair = {
             break;
           }
 
-          message.contractAddress = reader.string();
+          message.contract_address = reader.string();
           continue;
         case 2:
           if (tag !== 18) {
@@ -134,7 +133,7 @@ export const TokenPair = {
 
   fromJSON(object: any): TokenPair {
     return {
-      contractAddress: isSet(object.contractAddress) ? globalThis.String(object.contractAddress) : "",
+      contract_address: isSet(object.contract_address) ? globalThis.String(object.contract_address) : "",
       denom: isSet(object.denom) ? globalThis.String(object.denom) : "",
       enabled: isSet(object.enabled) ? globalThis.Boolean(object.enabled) : false,
       source: isSet(object.source) ? sourceFromJSON(object.source) : 0,
@@ -143,8 +142,8 @@ export const TokenPair = {
 
   toJSON(message: TokenPair): unknown {
     const obj: any = {};
-    if (message.contractAddress !== "") {
-      obj.contractAddress = message.contractAddress;
+    if (message.contract_address !== "") {
+      obj.contract_address = message.contract_address;
     }
     if (message.denom !== "") {
       obj.denom = message.denom;
@@ -163,7 +162,7 @@ export const TokenPair = {
   },
   fromPartial<I extends Exact<DeepPartial<TokenPair>, I>>(object: I): TokenPair {
     const message = createBaseTokenPair();
-    message.contractAddress = object.contractAddress ?? "";
+    message.contract_address = object.contract_address ?? "";
     message.denom = object.denom ?? "";
     message.enabled = object.enabled ?? false;
     message.source = object.source ?? 0;
@@ -174,7 +173,7 @@ export const TokenPair = {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -182,11 +181,6 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
-
-if (_m0.util.Long !== Long) {
-  _m0.util.Long = Long as any;
-  _m0.configure();
-}
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;

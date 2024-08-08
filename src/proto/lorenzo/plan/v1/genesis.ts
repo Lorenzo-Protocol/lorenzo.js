@@ -17,13 +17,13 @@ export interface GenesisState {
     | Params
     | undefined;
   /** next_number is the next auto-increasing plan id */
-  nextNumber: Long;
+  next_number: string;
   /** plans are the plans */
   plans: Plan[];
 }
 
 function createBaseGenesisState(): GenesisState {
-  return { params: undefined, nextNumber: Long.UZERO, plans: [] };
+  return { params: undefined, next_number: "0", plans: [] };
 }
 
 export const GenesisState = {
@@ -31,8 +31,8 @@ export const GenesisState = {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
-    if (!message.nextNumber.equals(Long.UZERO)) {
-      writer.uint32(16).uint64(message.nextNumber);
+    if (message.next_number !== "0") {
+      writer.uint32(16).uint64(message.next_number);
     }
     for (const v of message.plans) {
       Plan.encode(v!, writer.uint32(26).fork()).ldelim();
@@ -59,7 +59,7 @@ export const GenesisState = {
             break;
           }
 
-          message.nextNumber = reader.uint64() as Long;
+          message.next_number = longToString(reader.uint64() as Long);
           continue;
         case 3:
           if (tag !== 26) {
@@ -80,7 +80,7 @@ export const GenesisState = {
   fromJSON(object: any): GenesisState {
     return {
       params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-      nextNumber: isSet(object.nextNumber) ? Long.fromValue(object.nextNumber) : Long.UZERO,
+      next_number: isSet(object.next_number) ? globalThis.String(object.next_number) : "0",
       plans: globalThis.Array.isArray(object?.plans) ? object.plans.map((e: any) => Plan.fromJSON(e)) : [],
     };
   },
@@ -90,8 +90,8 @@ export const GenesisState = {
     if (message.params !== undefined) {
       obj.params = Params.toJSON(message.params);
     }
-    if (!message.nextNumber.equals(Long.UZERO)) {
-      obj.nextNumber = (message.nextNumber || Long.UZERO).toString();
+    if (message.next_number !== "0") {
+      obj.next_number = message.next_number;
     }
     if (message.plans?.length) {
       obj.plans = message.plans.map((e) => Plan.toJSON(e));
@@ -107,9 +107,7 @@ export const GenesisState = {
     message.params = (object.params !== undefined && object.params !== null)
       ? Params.fromPartial(object.params)
       : undefined;
-    message.nextNumber = (object.nextNumber !== undefined && object.nextNumber !== null)
-      ? Long.fromValue(object.nextNumber)
-      : Long.UZERO;
+    message.next_number = object.next_number ?? "0";
     message.plans = object.plans?.map((e) => Plan.fromPartial(e)) || [];
     return message;
   },
@@ -118,7 +116,7 @@ export const GenesisState = {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -126,6 +124,10 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+function longToString(long: Long) {
+  return long.toString();
+}
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

@@ -9,49 +9,49 @@ import Long from "long";
 import _m0 from "protobufjs/minimal";
 
 export interface BTCStakingRecord {
-  txHash: Uint8Array;
-  amount: Long;
-  receiverAddr: Uint8Array;
-  agentName: string;
-  agentBtcAddr: string;
-  chainId: number;
-  mintYatResult: string;
+  tx_hash: Uint8Array;
+  amount: string;
+  receiver_addr: Uint8Array;
+  agent_name: string;
+  agent_btc_addr: string;
+  chain_id: number;
+  mint_yat_result: string;
 }
 
 function createBaseBTCStakingRecord(): BTCStakingRecord {
   return {
-    txHash: new Uint8Array(0),
-    amount: Long.UZERO,
-    receiverAddr: new Uint8Array(0),
-    agentName: "",
-    agentBtcAddr: "",
-    chainId: 0,
-    mintYatResult: "",
+    tx_hash: new Uint8Array(0),
+    amount: "0",
+    receiver_addr: new Uint8Array(0),
+    agent_name: "",
+    agent_btc_addr: "",
+    chain_id: 0,
+    mint_yat_result: "",
   };
 }
 
 export const BTCStakingRecord = {
   encode(message: BTCStakingRecord, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.txHash.length !== 0) {
-      writer.uint32(10).bytes(message.txHash);
+    if (message.tx_hash.length !== 0) {
+      writer.uint32(10).bytes(message.tx_hash);
     }
-    if (!message.amount.equals(Long.UZERO)) {
+    if (message.amount !== "0") {
       writer.uint32(16).uint64(message.amount);
     }
-    if (message.receiverAddr.length !== 0) {
-      writer.uint32(26).bytes(message.receiverAddr);
+    if (message.receiver_addr.length !== 0) {
+      writer.uint32(26).bytes(message.receiver_addr);
     }
-    if (message.agentName !== "") {
-      writer.uint32(34).string(message.agentName);
+    if (message.agent_name !== "") {
+      writer.uint32(34).string(message.agent_name);
     }
-    if (message.agentBtcAddr !== "") {
-      writer.uint32(42).string(message.agentBtcAddr);
+    if (message.agent_btc_addr !== "") {
+      writer.uint32(42).string(message.agent_btc_addr);
     }
-    if (message.chainId !== 0) {
-      writer.uint32(48).uint32(message.chainId);
+    if (message.chain_id !== 0) {
+      writer.uint32(48).uint32(message.chain_id);
     }
-    if (message.mintYatResult !== "") {
-      writer.uint32(58).string(message.mintYatResult);
+    if (message.mint_yat_result !== "") {
+      writer.uint32(58).string(message.mint_yat_result);
     }
     return writer;
   },
@@ -68,49 +68,49 @@ export const BTCStakingRecord = {
             break;
           }
 
-          message.txHash = reader.bytes();
+          message.tx_hash = reader.bytes();
           continue;
         case 2:
           if (tag !== 16) {
             break;
           }
 
-          message.amount = reader.uint64() as Long;
+          message.amount = longToString(reader.uint64() as Long);
           continue;
         case 3:
           if (tag !== 26) {
             break;
           }
 
-          message.receiverAddr = reader.bytes();
+          message.receiver_addr = reader.bytes();
           continue;
         case 4:
           if (tag !== 34) {
             break;
           }
 
-          message.agentName = reader.string();
+          message.agent_name = reader.string();
           continue;
         case 5:
           if (tag !== 42) {
             break;
           }
 
-          message.agentBtcAddr = reader.string();
+          message.agent_btc_addr = reader.string();
           continue;
         case 6:
           if (tag !== 48) {
             break;
           }
 
-          message.chainId = reader.uint32();
+          message.chain_id = reader.uint32();
           continue;
         case 7:
           if (tag !== 58) {
             break;
           }
 
-          message.mintYatResult = reader.string();
+          message.mint_yat_result = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -123,38 +123,38 @@ export const BTCStakingRecord = {
 
   fromJSON(object: any): BTCStakingRecord {
     return {
-      txHash: isSet(object.txHash) ? bytesFromBase64(object.txHash) : new Uint8Array(0),
-      amount: isSet(object.amount) ? Long.fromValue(object.amount) : Long.UZERO,
-      receiverAddr: isSet(object.receiverAddr) ? bytesFromBase64(object.receiverAddr) : new Uint8Array(0),
-      agentName: isSet(object.agentName) ? globalThis.String(object.agentName) : "",
-      agentBtcAddr: isSet(object.agentBtcAddr) ? globalThis.String(object.agentBtcAddr) : "",
-      chainId: isSet(object.chainId) ? globalThis.Number(object.chainId) : 0,
-      mintYatResult: isSet(object.mintYatResult) ? globalThis.String(object.mintYatResult) : "",
+      tx_hash: isSet(object.tx_hash) ? bytesFromBase64(object.tx_hash) : new Uint8Array(0),
+      amount: isSet(object.amount) ? globalThis.String(object.amount) : "0",
+      receiver_addr: isSet(object.receiver_addr) ? bytesFromBase64(object.receiver_addr) : new Uint8Array(0),
+      agent_name: isSet(object.agent_name) ? globalThis.String(object.agent_name) : "",
+      agent_btc_addr: isSet(object.agent_btc_addr) ? globalThis.String(object.agent_btc_addr) : "",
+      chain_id: isSet(object.chain_id) ? globalThis.Number(object.chain_id) : 0,
+      mint_yat_result: isSet(object.mint_yat_result) ? globalThis.String(object.mint_yat_result) : "",
     };
   },
 
   toJSON(message: BTCStakingRecord): unknown {
     const obj: any = {};
-    if (message.txHash.length !== 0) {
-      obj.txHash = base64FromBytes(message.txHash);
+    if (message.tx_hash.length !== 0) {
+      obj.tx_hash = base64FromBytes(message.tx_hash);
     }
-    if (!message.amount.equals(Long.UZERO)) {
-      obj.amount = (message.amount || Long.UZERO).toString();
+    if (message.amount !== "0") {
+      obj.amount = message.amount;
     }
-    if (message.receiverAddr.length !== 0) {
-      obj.receiverAddr = base64FromBytes(message.receiverAddr);
+    if (message.receiver_addr.length !== 0) {
+      obj.receiver_addr = base64FromBytes(message.receiver_addr);
     }
-    if (message.agentName !== "") {
-      obj.agentName = message.agentName;
+    if (message.agent_name !== "") {
+      obj.agent_name = message.agent_name;
     }
-    if (message.agentBtcAddr !== "") {
-      obj.agentBtcAddr = message.agentBtcAddr;
+    if (message.agent_btc_addr !== "") {
+      obj.agent_btc_addr = message.agent_btc_addr;
     }
-    if (message.chainId !== 0) {
-      obj.chainId = Math.round(message.chainId);
+    if (message.chain_id !== 0) {
+      obj.chain_id = Math.round(message.chain_id);
     }
-    if (message.mintYatResult !== "") {
-      obj.mintYatResult = message.mintYatResult;
+    if (message.mint_yat_result !== "") {
+      obj.mint_yat_result = message.mint_yat_result;
     }
     return obj;
   },
@@ -164,15 +164,13 @@ export const BTCStakingRecord = {
   },
   fromPartial<I extends Exact<DeepPartial<BTCStakingRecord>, I>>(object: I): BTCStakingRecord {
     const message = createBaseBTCStakingRecord();
-    message.txHash = object.txHash ?? new Uint8Array(0);
-    message.amount = (object.amount !== undefined && object.amount !== null)
-      ? Long.fromValue(object.amount)
-      : Long.UZERO;
-    message.receiverAddr = object.receiverAddr ?? new Uint8Array(0);
-    message.agentName = object.agentName ?? "";
-    message.agentBtcAddr = object.agentBtcAddr ?? "";
-    message.chainId = object.chainId ?? 0;
-    message.mintYatResult = object.mintYatResult ?? "";
+    message.tx_hash = object.tx_hash ?? new Uint8Array(0);
+    message.amount = object.amount ?? "0";
+    message.receiver_addr = object.receiver_addr ?? new Uint8Array(0);
+    message.agent_name = object.agent_name ?? "";
+    message.agent_btc_addr = object.agent_btc_addr ?? "";
+    message.chain_id = object.chain_id ?? 0;
+    message.mint_yat_result = object.mint_yat_result ?? "";
     return message;
   },
 };
@@ -205,7 +203,7 @@ function base64FromBytes(arr: Uint8Array): string {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -213,6 +211,10 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+function longToString(long: Long) {
+  return long.toString();
+}
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

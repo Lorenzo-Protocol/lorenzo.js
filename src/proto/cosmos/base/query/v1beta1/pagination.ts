@@ -29,19 +29,19 @@ export interface PageRequest {
    * It is less efficient than using key. Only one of offset or key should
    * be set.
    */
-  offset: Long;
+  offset: string;
   /**
    * limit is the total number of results to be returned in the result page.
    * If left empty it will default to a value to be set by each app.
    */
-  limit: Long;
+  limit: string;
   /**
    * count_total is set to true  to indicate that the result set should include
    * a count of the total number of items available for pagination in UIs.
    * count_total is only respected when offset is used. It is ignored when key
    * is set.
    */
-  countTotal: boolean;
+  count_total: boolean;
   /**
    * reverse is set to true if results are to be returned in the descending order.
    *
@@ -65,16 +65,16 @@ export interface PageResponse {
    * query the next page most efficiently. It will be empty if
    * there are no more results.
    */
-  nextKey: Uint8Array;
+  next_key: Uint8Array;
   /**
    * total is total number of results available if PageRequest.count_total
    * was set, its value is undefined otherwise
    */
-  total: Long;
+  total: string;
 }
 
 function createBasePageRequest(): PageRequest {
-  return { key: new Uint8Array(0), offset: Long.UZERO, limit: Long.UZERO, countTotal: false, reverse: false };
+  return { key: new Uint8Array(0), offset: "0", limit: "0", count_total: false, reverse: false };
 }
 
 export const PageRequest = {
@@ -82,14 +82,14 @@ export const PageRequest = {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key);
     }
-    if (!message.offset.equals(Long.UZERO)) {
+    if (message.offset !== "0") {
       writer.uint32(16).uint64(message.offset);
     }
-    if (!message.limit.equals(Long.UZERO)) {
+    if (message.limit !== "0") {
       writer.uint32(24).uint64(message.limit);
     }
-    if (message.countTotal !== false) {
-      writer.uint32(32).bool(message.countTotal);
+    if (message.count_total !== false) {
+      writer.uint32(32).bool(message.count_total);
     }
     if (message.reverse !== false) {
       writer.uint32(40).bool(message.reverse);
@@ -116,21 +116,21 @@ export const PageRequest = {
             break;
           }
 
-          message.offset = reader.uint64() as Long;
+          message.offset = longToString(reader.uint64() as Long);
           continue;
         case 3:
           if (tag !== 24) {
             break;
           }
 
-          message.limit = reader.uint64() as Long;
+          message.limit = longToString(reader.uint64() as Long);
           continue;
         case 4:
           if (tag !== 32) {
             break;
           }
 
-          message.countTotal = reader.bool();
+          message.count_total = reader.bool();
           continue;
         case 5:
           if (tag !== 40) {
@@ -151,9 +151,9 @@ export const PageRequest = {
   fromJSON(object: any): PageRequest {
     return {
       key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(0),
-      offset: isSet(object.offset) ? Long.fromValue(object.offset) : Long.UZERO,
-      limit: isSet(object.limit) ? Long.fromValue(object.limit) : Long.UZERO,
-      countTotal: isSet(object.countTotal) ? globalThis.Boolean(object.countTotal) : false,
+      offset: isSet(object.offset) ? globalThis.String(object.offset) : "0",
+      limit: isSet(object.limit) ? globalThis.String(object.limit) : "0",
+      count_total: isSet(object.count_total) ? globalThis.Boolean(object.count_total) : false,
       reverse: isSet(object.reverse) ? globalThis.Boolean(object.reverse) : false,
     };
   },
@@ -163,14 +163,14 @@ export const PageRequest = {
     if (message.key.length !== 0) {
       obj.key = base64FromBytes(message.key);
     }
-    if (!message.offset.equals(Long.UZERO)) {
-      obj.offset = (message.offset || Long.UZERO).toString();
+    if (message.offset !== "0") {
+      obj.offset = message.offset;
     }
-    if (!message.limit.equals(Long.UZERO)) {
-      obj.limit = (message.limit || Long.UZERO).toString();
+    if (message.limit !== "0") {
+      obj.limit = message.limit;
     }
-    if (message.countTotal !== false) {
-      obj.countTotal = message.countTotal;
+    if (message.count_total !== false) {
+      obj.count_total = message.count_total;
     }
     if (message.reverse !== false) {
       obj.reverse = message.reverse;
@@ -184,26 +184,24 @@ export const PageRequest = {
   fromPartial<I extends Exact<DeepPartial<PageRequest>, I>>(object: I): PageRequest {
     const message = createBasePageRequest();
     message.key = object.key ?? new Uint8Array(0);
-    message.offset = (object.offset !== undefined && object.offset !== null)
-      ? Long.fromValue(object.offset)
-      : Long.UZERO;
-    message.limit = (object.limit !== undefined && object.limit !== null) ? Long.fromValue(object.limit) : Long.UZERO;
-    message.countTotal = object.countTotal ?? false;
+    message.offset = object.offset ?? "0";
+    message.limit = object.limit ?? "0";
+    message.count_total = object.count_total ?? false;
     message.reverse = object.reverse ?? false;
     return message;
   },
 };
 
 function createBasePageResponse(): PageResponse {
-  return { nextKey: new Uint8Array(0), total: Long.UZERO };
+  return { next_key: new Uint8Array(0), total: "0" };
 }
 
 export const PageResponse = {
   encode(message: PageResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.nextKey.length !== 0) {
-      writer.uint32(10).bytes(message.nextKey);
+    if (message.next_key.length !== 0) {
+      writer.uint32(10).bytes(message.next_key);
     }
-    if (!message.total.equals(Long.UZERO)) {
+    if (message.total !== "0") {
       writer.uint32(16).uint64(message.total);
     }
     return writer;
@@ -221,14 +219,14 @@ export const PageResponse = {
             break;
           }
 
-          message.nextKey = reader.bytes();
+          message.next_key = reader.bytes();
           continue;
         case 2:
           if (tag !== 16) {
             break;
           }
 
-          message.total = reader.uint64() as Long;
+          message.total = longToString(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -241,18 +239,18 @@ export const PageResponse = {
 
   fromJSON(object: any): PageResponse {
     return {
-      nextKey: isSet(object.nextKey) ? bytesFromBase64(object.nextKey) : new Uint8Array(0),
-      total: isSet(object.total) ? Long.fromValue(object.total) : Long.UZERO,
+      next_key: isSet(object.next_key) ? bytesFromBase64(object.next_key) : new Uint8Array(0),
+      total: isSet(object.total) ? globalThis.String(object.total) : "0",
     };
   },
 
   toJSON(message: PageResponse): unknown {
     const obj: any = {};
-    if (message.nextKey.length !== 0) {
-      obj.nextKey = base64FromBytes(message.nextKey);
+    if (message.next_key.length !== 0) {
+      obj.next_key = base64FromBytes(message.next_key);
     }
-    if (!message.total.equals(Long.UZERO)) {
-      obj.total = (message.total || Long.UZERO).toString();
+    if (message.total !== "0") {
+      obj.total = message.total;
     }
     return obj;
   },
@@ -262,8 +260,8 @@ export const PageResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<PageResponse>, I>>(object: I): PageResponse {
     const message = createBasePageResponse();
-    message.nextKey = object.nextKey ?? new Uint8Array(0);
-    message.total = (object.total !== undefined && object.total !== null) ? Long.fromValue(object.total) : Long.UZERO;
+    message.next_key = object.next_key ?? new Uint8Array(0);
+    message.total = object.total ?? "0";
     return message;
   },
 };
@@ -296,7 +294,7 @@ function base64FromBytes(arr: Uint8Array): string {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -304,6 +302,10 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+function longToString(long: Long) {
+  return long.toString();
+}
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

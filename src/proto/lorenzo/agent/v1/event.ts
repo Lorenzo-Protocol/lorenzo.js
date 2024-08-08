@@ -11,13 +11,13 @@ import _m0 from "protobufjs/minimal";
 /** agent creation event */
 export interface EventAddAgent {
   /** id is the unique identifier of the agent */
-  id: Long;
+  id: string;
   /** agent name,required */
   name: string;
   /** btc_receiving_address is agent’s fund escrow address,required */
-  btcReceivingAddress: string;
+  btc_receiving_address: string;
   /** like 0xBAb28FF7659481F1c8516f616A576339936AFB06 */
-  ethAddr: string;
+  eth_addr: string;
   /** description is a brief description of the agent, optional */
   description: string;
   /** url is the agent's link, used for detailed introduction, optional */
@@ -29,7 +29,7 @@ export interface EventAddAgent {
 /** agent edit event */
 export interface EventEditAgent {
   /** id is the unique identifier of the agent */
-  id: Long;
+  id: string;
   /** agent name,required */
   name: string;
   /** description is a brief description of the agent, optional */
@@ -43,28 +43,28 @@ export interface EventEditAgent {
 /** agent remove event */
 export interface EventRemoveAgent {
   /** id is the unique identifier of the agent */
-  id: Long;
+  id: string;
   /** sender is the address of the governance account or module admin */
   sender: string;
 }
 
 function createBaseEventAddAgent(): EventAddAgent {
-  return { id: Long.UZERO, name: "", btcReceivingAddress: "", ethAddr: "", description: "", url: "", sender: "" };
+  return { id: "0", name: "", btc_receiving_address: "", eth_addr: "", description: "", url: "", sender: "" };
 }
 
 export const EventAddAgent = {
   encode(message: EventAddAgent, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.equals(Long.UZERO)) {
+    if (message.id !== "0") {
       writer.uint32(8).uint64(message.id);
     }
     if (message.name !== "") {
       writer.uint32(18).string(message.name);
     }
-    if (message.btcReceivingAddress !== "") {
-      writer.uint32(26).string(message.btcReceivingAddress);
+    if (message.btc_receiving_address !== "") {
+      writer.uint32(26).string(message.btc_receiving_address);
     }
-    if (message.ethAddr !== "") {
-      writer.uint32(34).string(message.ethAddr);
+    if (message.eth_addr !== "") {
+      writer.uint32(34).string(message.eth_addr);
     }
     if (message.description !== "") {
       writer.uint32(42).string(message.description);
@@ -90,7 +90,7 @@ export const EventAddAgent = {
             break;
           }
 
-          message.id = reader.uint64() as Long;
+          message.id = longToString(reader.uint64() as Long);
           continue;
         case 2:
           if (tag !== 18) {
@@ -104,14 +104,14 @@ export const EventAddAgent = {
             break;
           }
 
-          message.btcReceivingAddress = reader.string();
+          message.btc_receiving_address = reader.string();
           continue;
         case 4:
           if (tag !== 34) {
             break;
           }
 
-          message.ethAddr = reader.string();
+          message.eth_addr = reader.string();
           continue;
         case 5:
           if (tag !== 42) {
@@ -145,10 +145,10 @@ export const EventAddAgent = {
 
   fromJSON(object: any): EventAddAgent {
     return {
-      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      id: isSet(object.id) ? globalThis.String(object.id) : "0",
       name: isSet(object.name) ? globalThis.String(object.name) : "",
-      btcReceivingAddress: isSet(object.btcReceivingAddress) ? globalThis.String(object.btcReceivingAddress) : "",
-      ethAddr: isSet(object.ethAddr) ? globalThis.String(object.ethAddr) : "",
+      btc_receiving_address: isSet(object.btc_receiving_address) ? globalThis.String(object.btc_receiving_address) : "",
+      eth_addr: isSet(object.eth_addr) ? globalThis.String(object.eth_addr) : "",
       description: isSet(object.description) ? globalThis.String(object.description) : "",
       url: isSet(object.url) ? globalThis.String(object.url) : "",
       sender: isSet(object.sender) ? globalThis.String(object.sender) : "",
@@ -157,17 +157,17 @@ export const EventAddAgent = {
 
   toJSON(message: EventAddAgent): unknown {
     const obj: any = {};
-    if (!message.id.equals(Long.UZERO)) {
-      obj.id = (message.id || Long.UZERO).toString();
+    if (message.id !== "0") {
+      obj.id = message.id;
     }
     if (message.name !== "") {
       obj.name = message.name;
     }
-    if (message.btcReceivingAddress !== "") {
-      obj.btcReceivingAddress = message.btcReceivingAddress;
+    if (message.btc_receiving_address !== "") {
+      obj.btc_receiving_address = message.btc_receiving_address;
     }
-    if (message.ethAddr !== "") {
-      obj.ethAddr = message.ethAddr;
+    if (message.eth_addr !== "") {
+      obj.eth_addr = message.eth_addr;
     }
     if (message.description !== "") {
       obj.description = message.description;
@@ -186,10 +186,10 @@ export const EventAddAgent = {
   },
   fromPartial<I extends Exact<DeepPartial<EventAddAgent>, I>>(object: I): EventAddAgent {
     const message = createBaseEventAddAgent();
-    message.id = (object.id !== undefined && object.id !== null) ? Long.fromValue(object.id) : Long.UZERO;
+    message.id = object.id ?? "0";
     message.name = object.name ?? "";
-    message.btcReceivingAddress = object.btcReceivingAddress ?? "";
-    message.ethAddr = object.ethAddr ?? "";
+    message.btc_receiving_address = object.btc_receiving_address ?? "";
+    message.eth_addr = object.eth_addr ?? "";
     message.description = object.description ?? "";
     message.url = object.url ?? "";
     message.sender = object.sender ?? "";
@@ -198,12 +198,12 @@ export const EventAddAgent = {
 };
 
 function createBaseEventEditAgent(): EventEditAgent {
-  return { id: Long.UZERO, name: "", description: "", url: "", sender: "" };
+  return { id: "0", name: "", description: "", url: "", sender: "" };
 }
 
 export const EventEditAgent = {
   encode(message: EventEditAgent, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.equals(Long.UZERO)) {
+    if (message.id !== "0") {
       writer.uint32(8).uint64(message.id);
     }
     if (message.name !== "") {
@@ -233,7 +233,7 @@ export const EventEditAgent = {
             break;
           }
 
-          message.id = reader.uint64() as Long;
+          message.id = longToString(reader.uint64() as Long);
           continue;
         case 2:
           if (tag !== 18) {
@@ -274,7 +274,7 @@ export const EventEditAgent = {
 
   fromJSON(object: any): EventEditAgent {
     return {
-      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      id: isSet(object.id) ? globalThis.String(object.id) : "0",
       name: isSet(object.name) ? globalThis.String(object.name) : "",
       description: isSet(object.description) ? globalThis.String(object.description) : "",
       url: isSet(object.url) ? globalThis.String(object.url) : "",
@@ -284,8 +284,8 @@ export const EventEditAgent = {
 
   toJSON(message: EventEditAgent): unknown {
     const obj: any = {};
-    if (!message.id.equals(Long.UZERO)) {
-      obj.id = (message.id || Long.UZERO).toString();
+    if (message.id !== "0") {
+      obj.id = message.id;
     }
     if (message.name !== "") {
       obj.name = message.name;
@@ -307,7 +307,7 @@ export const EventEditAgent = {
   },
   fromPartial<I extends Exact<DeepPartial<EventEditAgent>, I>>(object: I): EventEditAgent {
     const message = createBaseEventEditAgent();
-    message.id = (object.id !== undefined && object.id !== null) ? Long.fromValue(object.id) : Long.UZERO;
+    message.id = object.id ?? "0";
     message.name = object.name ?? "";
     message.description = object.description ?? "";
     message.url = object.url ?? "";
@@ -317,12 +317,12 @@ export const EventEditAgent = {
 };
 
 function createBaseEventRemoveAgent(): EventRemoveAgent {
-  return { id: Long.UZERO, sender: "" };
+  return { id: "0", sender: "" };
 }
 
 export const EventRemoveAgent = {
   encode(message: EventRemoveAgent, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.equals(Long.UZERO)) {
+    if (message.id !== "0") {
       writer.uint32(8).uint64(message.id);
     }
     if (message.sender !== "") {
@@ -343,7 +343,7 @@ export const EventRemoveAgent = {
             break;
           }
 
-          message.id = reader.uint64() as Long;
+          message.id = longToString(reader.uint64() as Long);
           continue;
         case 2:
           if (tag !== 18) {
@@ -363,15 +363,15 @@ export const EventRemoveAgent = {
 
   fromJSON(object: any): EventRemoveAgent {
     return {
-      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      id: isSet(object.id) ? globalThis.String(object.id) : "0",
       sender: isSet(object.sender) ? globalThis.String(object.sender) : "",
     };
   },
 
   toJSON(message: EventRemoveAgent): unknown {
     const obj: any = {};
-    if (!message.id.equals(Long.UZERO)) {
-      obj.id = (message.id || Long.UZERO).toString();
+    if (message.id !== "0") {
+      obj.id = message.id;
     }
     if (message.sender !== "") {
       obj.sender = message.sender;
@@ -384,7 +384,7 @@ export const EventRemoveAgent = {
   },
   fromPartial<I extends Exact<DeepPartial<EventRemoveAgent>, I>>(object: I): EventRemoveAgent {
     const message = createBaseEventRemoveAgent();
-    message.id = (object.id !== undefined && object.id !== null) ? Long.fromValue(object.id) : Long.UZERO;
+    message.id = object.id ?? "0";
     message.sender = object.sender ?? "";
     return message;
   },
@@ -393,7 +393,7 @@ export const EventRemoveAgent = {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -401,6 +401,10 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+function longToString(long: Long) {
+  return long.toString();
+}
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

@@ -5,22 +5,21 @@
 // source: lorenzo/fee/v1/params.proto
 
 /* eslint-disable */
-import Long from "long";
 import _m0 from "protobufjs/minimal";
 
 /** Params defines the parameters for the module. */
 export interface Params {
   /** List of messages that are not fees */
-  nonFeeMsgs: string[];
+  non_fee_msgs: string[];
 }
 
 function createBaseParams(): Params {
-  return { nonFeeMsgs: [] };
+  return { non_fee_msgs: [] };
 }
 
 export const Params = {
   encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    for (const v of message.nonFeeMsgs) {
+    for (const v of message.non_fee_msgs) {
       writer.uint32(10).string(v!);
     }
     return writer;
@@ -38,7 +37,7 @@ export const Params = {
             break;
           }
 
-          message.nonFeeMsgs.push(reader.string());
+          message.non_fee_msgs.push(reader.string());
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -51,16 +50,16 @@ export const Params = {
 
   fromJSON(object: any): Params {
     return {
-      nonFeeMsgs: globalThis.Array.isArray(object?.nonFeeMsgs)
-        ? object.nonFeeMsgs.map((e: any) => globalThis.String(e))
+      non_fee_msgs: globalThis.Array.isArray(object?.non_fee_msgs)
+        ? object.non_fee_msgs.map((e: any) => globalThis.String(e))
         : [],
     };
   },
 
   toJSON(message: Params): unknown {
     const obj: any = {};
-    if (message.nonFeeMsgs?.length) {
-      obj.nonFeeMsgs = message.nonFeeMsgs;
+    if (message.non_fee_msgs?.length) {
+      obj.non_fee_msgs = message.non_fee_msgs;
     }
     return obj;
   },
@@ -70,7 +69,7 @@ export const Params = {
   },
   fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
     const message = createBaseParams();
-    message.nonFeeMsgs = object.nonFeeMsgs?.map((e) => e) || [];
+    message.non_fee_msgs = object.non_fee_msgs?.map((e) => e) || [];
     return message;
   },
 };
@@ -78,7 +77,7 @@ export const Params = {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -86,8 +85,3 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
-
-if (_m0.util.Long !== Long) {
-  _m0.util.Long = Long as any;
-  _m0.configure();
-}

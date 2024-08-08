@@ -39,7 +39,7 @@ export interface EventBTCHeaderInserted {
 }
 
 export interface EventBTCFeeRateUpdated {
-  feeRate: Long;
+  fee_rate: string;
 }
 
 function createBaseEventBTCRollBack(): EventBTCRollBack {
@@ -220,13 +220,13 @@ export const EventBTCHeaderInserted = {
 };
 
 function createBaseEventBTCFeeRateUpdated(): EventBTCFeeRateUpdated {
-  return { feeRate: Long.UZERO };
+  return { fee_rate: "0" };
 }
 
 export const EventBTCFeeRateUpdated = {
   encode(message: EventBTCFeeRateUpdated, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.feeRate.equals(Long.UZERO)) {
-      writer.uint32(8).uint64(message.feeRate);
+    if (message.fee_rate !== "0") {
+      writer.uint32(8).uint64(message.fee_rate);
     }
     return writer;
   },
@@ -243,7 +243,7 @@ export const EventBTCFeeRateUpdated = {
             break;
           }
 
-          message.feeRate = reader.uint64() as Long;
+          message.fee_rate = longToString(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -255,13 +255,13 @@ export const EventBTCFeeRateUpdated = {
   },
 
   fromJSON(object: any): EventBTCFeeRateUpdated {
-    return { feeRate: isSet(object.feeRate) ? Long.fromValue(object.feeRate) : Long.UZERO };
+    return { fee_rate: isSet(object.fee_rate) ? globalThis.String(object.fee_rate) : "0" };
   },
 
   toJSON(message: EventBTCFeeRateUpdated): unknown {
     const obj: any = {};
-    if (!message.feeRate.equals(Long.UZERO)) {
-      obj.feeRate = (message.feeRate || Long.UZERO).toString();
+    if (message.fee_rate !== "0") {
+      obj.fee_rate = message.fee_rate;
     }
     return obj;
   },
@@ -271,9 +271,7 @@ export const EventBTCFeeRateUpdated = {
   },
   fromPartial<I extends Exact<DeepPartial<EventBTCFeeRateUpdated>, I>>(object: I): EventBTCFeeRateUpdated {
     const message = createBaseEventBTCFeeRateUpdated();
-    message.feeRate = (object.feeRate !== undefined && object.feeRate !== null)
-      ? Long.fromValue(object.feeRate)
-      : Long.UZERO;
+    message.fee_rate = object.fee_rate ?? "0";
     return message;
   },
 };
@@ -281,7 +279,7 @@ export const EventBTCFeeRateUpdated = {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -289,6 +287,10 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+function longToString(long: Long) {
+  return long.toString();
+}
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

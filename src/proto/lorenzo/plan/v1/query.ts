@@ -5,8 +5,6 @@
 // source: lorenzo/plan/v1/query.proto
 
 /* eslint-disable */
-import { grpc } from "@improbable-eng/grpc-web";
-import { BrowserHeaders } from "browser-headers";
 import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { PageRequest, PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
@@ -37,7 +35,7 @@ export interface QueryPlansResponse {
 /** PlanRequest is the request type for the Query.Plan RPC method. */
 export interface QueryPlanRequest {
   /** id is the unique identifier of the plan */
-  id: Long;
+  id: string;
 }
 
 /** PlanResponse is the response type for the Query.Plan RPC method. */
@@ -51,11 +49,11 @@ export interface QueryPlanResponse {
  */
 export interface QueryClaimLeafNodeRequest {
   /** id is the unique identifier of the plan */
-  id: Long;
+  id: string;
   /** round_id is the unique identifier of the round */
-  roundId: string;
+  round_id: string;
   /** leaf_node is the leaf node to claim */
-  leafNode: string;
+  leaf_node: string;
 }
 
 /**
@@ -304,12 +302,12 @@ export const QueryPlansResponse = {
 };
 
 function createBaseQueryPlanRequest(): QueryPlanRequest {
-  return { id: Long.UZERO };
+  return { id: "0" };
 }
 
 export const QueryPlanRequest = {
   encode(message: QueryPlanRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.equals(Long.UZERO)) {
+    if (message.id !== "0") {
       writer.uint32(8).uint64(message.id);
     }
     return writer;
@@ -327,7 +325,7 @@ export const QueryPlanRequest = {
             break;
           }
 
-          message.id = reader.uint64() as Long;
+          message.id = longToString(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -339,13 +337,13 @@ export const QueryPlanRequest = {
   },
 
   fromJSON(object: any): QueryPlanRequest {
-    return { id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO };
+    return { id: isSet(object.id) ? globalThis.String(object.id) : "0" };
   },
 
   toJSON(message: QueryPlanRequest): unknown {
     const obj: any = {};
-    if (!message.id.equals(Long.UZERO)) {
-      obj.id = (message.id || Long.UZERO).toString();
+    if (message.id !== "0") {
+      obj.id = message.id;
     }
     return obj;
   },
@@ -355,7 +353,7 @@ export const QueryPlanRequest = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryPlanRequest>, I>>(object: I): QueryPlanRequest {
     const message = createBaseQueryPlanRequest();
-    message.id = (object.id !== undefined && object.id !== null) ? Long.fromValue(object.id) : Long.UZERO;
+    message.id = object.id ?? "0";
     return message;
   },
 };
@@ -418,19 +416,19 @@ export const QueryPlanResponse = {
 };
 
 function createBaseQueryClaimLeafNodeRequest(): QueryClaimLeafNodeRequest {
-  return { id: Long.UZERO, roundId: "", leafNode: "" };
+  return { id: "0", round_id: "", leaf_node: "" };
 }
 
 export const QueryClaimLeafNodeRequest = {
   encode(message: QueryClaimLeafNodeRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.equals(Long.UZERO)) {
+    if (message.id !== "0") {
       writer.uint32(8).uint64(message.id);
     }
-    if (message.roundId !== "") {
-      writer.uint32(18).string(message.roundId);
+    if (message.round_id !== "") {
+      writer.uint32(18).string(message.round_id);
     }
-    if (message.leafNode !== "") {
-      writer.uint32(26).string(message.leafNode);
+    if (message.leaf_node !== "") {
+      writer.uint32(26).string(message.leaf_node);
     }
     return writer;
   },
@@ -447,21 +445,21 @@ export const QueryClaimLeafNodeRequest = {
             break;
           }
 
-          message.id = reader.uint64() as Long;
+          message.id = longToString(reader.uint64() as Long);
           continue;
         case 2:
           if (tag !== 18) {
             break;
           }
 
-          message.roundId = reader.string();
+          message.round_id = reader.string();
           continue;
         case 3:
           if (tag !== 26) {
             break;
           }
 
-          message.leafNode = reader.string();
+          message.leaf_node = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -474,22 +472,22 @@ export const QueryClaimLeafNodeRequest = {
 
   fromJSON(object: any): QueryClaimLeafNodeRequest {
     return {
-      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
-      roundId: isSet(object.roundId) ? globalThis.String(object.roundId) : "",
-      leafNode: isSet(object.leafNode) ? globalThis.String(object.leafNode) : "",
+      id: isSet(object.id) ? globalThis.String(object.id) : "0",
+      round_id: isSet(object.round_id) ? globalThis.String(object.round_id) : "",
+      leaf_node: isSet(object.leaf_node) ? globalThis.String(object.leaf_node) : "",
     };
   },
 
   toJSON(message: QueryClaimLeafNodeRequest): unknown {
     const obj: any = {};
-    if (!message.id.equals(Long.UZERO)) {
-      obj.id = (message.id || Long.UZERO).toString();
+    if (message.id !== "0") {
+      obj.id = message.id;
     }
-    if (message.roundId !== "") {
-      obj.roundId = message.roundId;
+    if (message.round_id !== "") {
+      obj.round_id = message.round_id;
     }
-    if (message.leafNode !== "") {
-      obj.leafNode = message.leafNode;
+    if (message.leaf_node !== "") {
+      obj.leaf_node = message.leaf_node;
     }
     return obj;
   },
@@ -499,9 +497,9 @@ export const QueryClaimLeafNodeRequest = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryClaimLeafNodeRequest>, I>>(object: I): QueryClaimLeafNodeRequest {
     const message = createBaseQueryClaimLeafNodeRequest();
-    message.id = (object.id !== undefined && object.id !== null) ? Long.fromValue(object.id) : Long.UZERO;
-    message.roundId = object.roundId ?? "";
-    message.leafNode = object.leafNode ?? "";
+    message.id = object.id ?? "0";
+    message.round_id = object.round_id ?? "";
+    message.leaf_node = object.leaf_node ?? "";
     return message;
   },
 };
@@ -566,215 +564,60 @@ export const QueryClaimLeafNodeResponse = {
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Params queries the parameters of the module. */
-  Params(request: DeepPartial<QueryParamsRequest>, metadata?: grpc.Metadata): Promise<QueryParamsResponse>;
+  Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
   /** Plans queries all plans. */
-  Plans(request: DeepPartial<QueryPlansRequest>, metadata?: grpc.Metadata): Promise<QueryPlansResponse>;
+  Plans(request: QueryPlansRequest): Promise<QueryPlansResponse>;
   /** Plan queries a plan by id. */
-  Plan(request: DeepPartial<QueryPlanRequest>, metadata?: grpc.Metadata): Promise<QueryPlanResponse>;
+  Plan(request: QueryPlanRequest): Promise<QueryPlanResponse>;
   /** ClaimLeafNode queries a plan by id. */
-  ClaimLeafNode(
-    request: DeepPartial<QueryClaimLeafNodeRequest>,
-    metadata?: grpc.Metadata,
-  ): Promise<QueryClaimLeafNodeResponse>;
+  ClaimLeafNode(request: QueryClaimLeafNodeRequest): Promise<QueryClaimLeafNodeResponse>;
 }
 
+export const QueryServiceName = "lorenzo.plan.v1.Query";
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
-
-  constructor(rpc: Rpc) {
+  private readonly service: string;
+  constructor(rpc: Rpc, opts?: { service?: string }) {
+    this.service = opts?.service || QueryServiceName;
     this.rpc = rpc;
     this.Params = this.Params.bind(this);
     this.Plans = this.Plans.bind(this);
     this.Plan = this.Plan.bind(this);
     this.ClaimLeafNode = this.ClaimLeafNode.bind(this);
   }
-
-  Params(request: DeepPartial<QueryParamsRequest>, metadata?: grpc.Metadata): Promise<QueryParamsResponse> {
-    return this.rpc.unary(QueryParamsDesc, QueryParamsRequest.fromPartial(request), metadata);
+  Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
+    const data = QueryParamsRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Params", data);
+    return promise.then((data) => QueryParamsResponse.decode(_m0.Reader.create(data)));
   }
 
-  Plans(request: DeepPartial<QueryPlansRequest>, metadata?: grpc.Metadata): Promise<QueryPlansResponse> {
-    return this.rpc.unary(QueryPlansDesc, QueryPlansRequest.fromPartial(request), metadata);
+  Plans(request: QueryPlansRequest): Promise<QueryPlansResponse> {
+    const data = QueryPlansRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Plans", data);
+    return promise.then((data) => QueryPlansResponse.decode(_m0.Reader.create(data)));
   }
 
-  Plan(request: DeepPartial<QueryPlanRequest>, metadata?: grpc.Metadata): Promise<QueryPlanResponse> {
-    return this.rpc.unary(QueryPlanDesc, QueryPlanRequest.fromPartial(request), metadata);
+  Plan(request: QueryPlanRequest): Promise<QueryPlanResponse> {
+    const data = QueryPlanRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Plan", data);
+    return promise.then((data) => QueryPlanResponse.decode(_m0.Reader.create(data)));
   }
 
-  ClaimLeafNode(
-    request: DeepPartial<QueryClaimLeafNodeRequest>,
-    metadata?: grpc.Metadata,
-  ): Promise<QueryClaimLeafNodeResponse> {
-    return this.rpc.unary(QueryClaimLeafNodeDesc, QueryClaimLeafNodeRequest.fromPartial(request), metadata);
+  ClaimLeafNode(request: QueryClaimLeafNodeRequest): Promise<QueryClaimLeafNodeResponse> {
+    const data = QueryClaimLeafNodeRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "ClaimLeafNode", data);
+    return promise.then((data) => QueryClaimLeafNodeResponse.decode(_m0.Reader.create(data)));
   }
 }
-
-export const QueryDesc = { serviceName: "lorenzo.plan.v1.Query" };
-
-export const QueryParamsDesc: UnaryMethodDefinitionish = {
-  methodName: "Params",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryParamsRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryParamsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryPlansDesc: UnaryMethodDefinitionish = {
-  methodName: "Plans",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryPlansRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryPlansResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryPlanDesc: UnaryMethodDefinitionish = {
-  methodName: "Plan",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryPlanRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryPlanResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryClaimLeafNodeDesc: UnaryMethodDefinitionish = {
-  methodName: "ClaimLeafNode",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryClaimLeafNodeRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryClaimLeafNodeResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-interface UnaryMethodDefinitionishR extends grpc.UnaryMethodDefinition<any, any> {
-  requestStream: any;
-  responseStream: any;
-}
-
-type UnaryMethodDefinitionish = UnaryMethodDefinitionishR;
 
 interface Rpc {
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any>;
-}
-
-export class GrpcWebImpl {
-  private host: string;
-  private options: {
-    transport?: grpc.TransportFactory;
-
-    debug?: boolean;
-    metadata?: grpc.Metadata;
-    upStreamRetryCodes?: number[];
-  };
-
-  constructor(
-    host: string,
-    options: {
-      transport?: grpc.TransportFactory;
-
-      debug?: boolean;
-      metadata?: grpc.Metadata;
-      upStreamRetryCodes?: number[];
-    },
-  ) {
-    this.host = host;
-    this.options = options;
-  }
-
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    _request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any> {
-    const request = { ..._request, ...methodDesc.requestType };
-    const maybeCombinedMetadata = metadata && this.options.metadata
-      ? new BrowserHeaders({ ...this.options?.metadata.headersMap, ...metadata?.headersMap })
-      : metadata ?? this.options.metadata;
-    return new Promise((resolve, reject) => {
-      grpc.unary(methodDesc, {
-        request,
-        host: this.host,
-        metadata: maybeCombinedMetadata ?? {},
-        ...(this.options.transport !== undefined ? { transport: this.options.transport } : {}),
-        debug: this.options.debug ?? false,
-        onEnd: function (response) {
-          if (response.status === grpc.Code.OK) {
-            resolve(response.message!.toObject());
-          } else {
-            const err = new GrpcWebError(response.statusMessage, response.status, response.trailers);
-            reject(err);
-          }
-        },
-      });
-    });
-  }
+  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -783,6 +626,10 @@ type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
+function longToString(long: Long) {
+  return long.toString();
+}
+
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;
   _m0.configure();
@@ -790,10 +637,4 @@ if (_m0.util.Long !== Long) {
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
-}
-
-export class GrpcWebError extends globalThis.Error {
-  constructor(message: string, public code: grpc.Code, public metadata: grpc.Metadata) {
-    super(message);
-  }
 }

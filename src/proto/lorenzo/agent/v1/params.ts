@@ -5,22 +5,21 @@
 // source: lorenzo/agent/v1/params.proto
 
 /* eslint-disable */
-import Long from "long";
 import _m0 from "protobufjs/minimal";
 
 /** Params defines the parameters for the agent module. */
 export interface Params {
   /** List of addresses that are allowed to manage agents. */
-  allowList: string[];
+  allow_list: string[];
 }
 
 function createBaseParams(): Params {
-  return { allowList: [] };
+  return { allow_list: [] };
 }
 
 export const Params = {
   encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    for (const v of message.allowList) {
+    for (const v of message.allow_list) {
       writer.uint32(10).string(v!);
     }
     return writer;
@@ -38,7 +37,7 @@ export const Params = {
             break;
           }
 
-          message.allowList.push(reader.string());
+          message.allow_list.push(reader.string());
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -51,16 +50,16 @@ export const Params = {
 
   fromJSON(object: any): Params {
     return {
-      allowList: globalThis.Array.isArray(object?.allowList)
-        ? object.allowList.map((e: any) => globalThis.String(e))
+      allow_list: globalThis.Array.isArray(object?.allow_list)
+        ? object.allow_list.map((e: any) => globalThis.String(e))
         : [],
     };
   },
 
   toJSON(message: Params): unknown {
     const obj: any = {};
-    if (message.allowList?.length) {
-      obj.allowList = message.allowList;
+    if (message.allow_list?.length) {
+      obj.allow_list = message.allow_list;
     }
     return obj;
   },
@@ -70,7 +69,7 @@ export const Params = {
   },
   fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
     const message = createBaseParams();
-    message.allowList = object.allowList?.map((e) => e) || [];
+    message.allow_list = object.allow_list?.map((e) => e) || [];
     return message;
   },
 };
@@ -78,7 +77,7 @@ export const Params = {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -86,8 +85,3 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
-
-if (_m0.util.Long !== Long) {
-  _m0.util.Long = Long as any;
-  _m0.configure();
-}

@@ -5,7 +5,6 @@
 // source: lorenzo/btcstaking/v1/event.proto
 
 /* eslint-disable */
-import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
 import { BTCStakingRecord } from "./staking_record";
@@ -17,7 +16,7 @@ export interface EventBTCStakingCreated {
 
 export interface EventBurnCreated {
   signer: string;
-  btcTargetAddress: string;
+  btc_target_address: string;
   amount?: Coin | undefined;
 }
 
@@ -81,7 +80,7 @@ export const EventBTCStakingCreated = {
 };
 
 function createBaseEventBurnCreated(): EventBurnCreated {
-  return { signer: "", btcTargetAddress: "", amount: undefined };
+  return { signer: "", btc_target_address: "", amount: undefined };
 }
 
 export const EventBurnCreated = {
@@ -89,8 +88,8 @@ export const EventBurnCreated = {
     if (message.signer !== "") {
       writer.uint32(10).string(message.signer);
     }
-    if (message.btcTargetAddress !== "") {
-      writer.uint32(18).string(message.btcTargetAddress);
+    if (message.btc_target_address !== "") {
+      writer.uint32(18).string(message.btc_target_address);
     }
     if (message.amount !== undefined) {
       Coin.encode(message.amount, writer.uint32(26).fork()).ldelim();
@@ -117,7 +116,7 @@ export const EventBurnCreated = {
             break;
           }
 
-          message.btcTargetAddress = reader.string();
+          message.btc_target_address = reader.string();
           continue;
         case 3:
           if (tag !== 26) {
@@ -138,7 +137,7 @@ export const EventBurnCreated = {
   fromJSON(object: any): EventBurnCreated {
     return {
       signer: isSet(object.signer) ? globalThis.String(object.signer) : "",
-      btcTargetAddress: isSet(object.btcTargetAddress) ? globalThis.String(object.btcTargetAddress) : "",
+      btc_target_address: isSet(object.btc_target_address) ? globalThis.String(object.btc_target_address) : "",
       amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
     };
   },
@@ -148,8 +147,8 @@ export const EventBurnCreated = {
     if (message.signer !== "") {
       obj.signer = message.signer;
     }
-    if (message.btcTargetAddress !== "") {
-      obj.btcTargetAddress = message.btcTargetAddress;
+    if (message.btc_target_address !== "") {
+      obj.btc_target_address = message.btc_target_address;
     }
     if (message.amount !== undefined) {
       obj.amount = Coin.toJSON(message.amount);
@@ -163,7 +162,7 @@ export const EventBurnCreated = {
   fromPartial<I extends Exact<DeepPartial<EventBurnCreated>, I>>(object: I): EventBurnCreated {
     const message = createBaseEventBurnCreated();
     message.signer = object.signer ?? "";
-    message.btcTargetAddress = object.btcTargetAddress ?? "";
+    message.btc_target_address = object.btc_target_address ?? "";
     message.amount = (object.amount !== undefined && object.amount !== null)
       ? Coin.fromPartial(object.amount)
       : undefined;
@@ -174,7 +173,7 @@ export const EventBurnCreated = {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -182,11 +181,6 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
-
-if (_m0.util.Long !== Long) {
-  _m0.util.Long = Long as any;
-  _m0.configure();
-}
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;

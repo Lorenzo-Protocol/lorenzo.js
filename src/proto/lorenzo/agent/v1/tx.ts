@@ -5,8 +5,6 @@
 // source: lorenzo/agent/v1/tx.proto
 
 /* eslint-disable */
-import { grpc } from "@improbable-eng/grpc-web";
-import { BrowserHeaders } from "browser-headers";
 import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { Params } from "./params";
@@ -32,9 +30,9 @@ export interface MsgAddAgent {
   /** agent name,required */
   name: string;
   /** btc_receiving_address is agent’s fund escrow address,required */
-  btcReceivingAddress: string;
+  btc_receiving_address: string;
   /** like 0xBAb28FF7659481F1c8516f616A576339936AFB06 */
-  ethAddr: string;
+  eth_addr: string;
   /** description is a brief description of the agent, optional */
   description: string;
   /** url is the agent's link, used for detailed introduction, optional */
@@ -46,13 +44,13 @@ export interface MsgAddAgent {
 /** MsgAddAgentResponse is the response to the MsgAddAgent message. */
 export interface MsgAddAgentResponse {
   /** id is the unique identifier of the agent */
-  id: Long;
+  id: string;
 }
 
 /** MsgEditAgent defines a message for editting the agent. */
 export interface MsgEditAgent {
   /** id is the unique identifier of the agent */
-  id: Long;
+  id: string;
   /** agent name,required */
   name: string;
   /** description is a brief description of the agent, optional */
@@ -70,7 +68,7 @@ export interface MsgEditAgentResponse {
 /** MsgRemoveAgent defines a message for removing the agent. */
 export interface MsgRemoveAgent {
   /** id is the unique identifier of the agent */
-  id: Long;
+  id: string;
   /** sender is the address of the governance account or module admin */
   sender: string;
 }
@@ -199,7 +197,7 @@ export const MsgUpdateParamsResponse = {
 };
 
 function createBaseMsgAddAgent(): MsgAddAgent {
-  return { name: "", btcReceivingAddress: "", ethAddr: "", description: "", url: "", sender: "" };
+  return { name: "", btc_receiving_address: "", eth_addr: "", description: "", url: "", sender: "" };
 }
 
 export const MsgAddAgent = {
@@ -207,11 +205,11 @@ export const MsgAddAgent = {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
-    if (message.btcReceivingAddress !== "") {
-      writer.uint32(18).string(message.btcReceivingAddress);
+    if (message.btc_receiving_address !== "") {
+      writer.uint32(18).string(message.btc_receiving_address);
     }
-    if (message.ethAddr !== "") {
-      writer.uint32(26).string(message.ethAddr);
+    if (message.eth_addr !== "") {
+      writer.uint32(26).string(message.eth_addr);
     }
     if (message.description !== "") {
       writer.uint32(34).string(message.description);
@@ -244,14 +242,14 @@ export const MsgAddAgent = {
             break;
           }
 
-          message.btcReceivingAddress = reader.string();
+          message.btc_receiving_address = reader.string();
           continue;
         case 3:
           if (tag !== 26) {
             break;
           }
 
-          message.ethAddr = reader.string();
+          message.eth_addr = reader.string();
           continue;
         case 4:
           if (tag !== 34) {
@@ -286,8 +284,8 @@ export const MsgAddAgent = {
   fromJSON(object: any): MsgAddAgent {
     return {
       name: isSet(object.name) ? globalThis.String(object.name) : "",
-      btcReceivingAddress: isSet(object.btcReceivingAddress) ? globalThis.String(object.btcReceivingAddress) : "",
-      ethAddr: isSet(object.ethAddr) ? globalThis.String(object.ethAddr) : "",
+      btc_receiving_address: isSet(object.btc_receiving_address) ? globalThis.String(object.btc_receiving_address) : "",
+      eth_addr: isSet(object.eth_addr) ? globalThis.String(object.eth_addr) : "",
       description: isSet(object.description) ? globalThis.String(object.description) : "",
       url: isSet(object.url) ? globalThis.String(object.url) : "",
       sender: isSet(object.sender) ? globalThis.String(object.sender) : "",
@@ -299,11 +297,11 @@ export const MsgAddAgent = {
     if (message.name !== "") {
       obj.name = message.name;
     }
-    if (message.btcReceivingAddress !== "") {
-      obj.btcReceivingAddress = message.btcReceivingAddress;
+    if (message.btc_receiving_address !== "") {
+      obj.btc_receiving_address = message.btc_receiving_address;
     }
-    if (message.ethAddr !== "") {
-      obj.ethAddr = message.ethAddr;
+    if (message.eth_addr !== "") {
+      obj.eth_addr = message.eth_addr;
     }
     if (message.description !== "") {
       obj.description = message.description;
@@ -323,8 +321,8 @@ export const MsgAddAgent = {
   fromPartial<I extends Exact<DeepPartial<MsgAddAgent>, I>>(object: I): MsgAddAgent {
     const message = createBaseMsgAddAgent();
     message.name = object.name ?? "";
-    message.btcReceivingAddress = object.btcReceivingAddress ?? "";
-    message.ethAddr = object.ethAddr ?? "";
+    message.btc_receiving_address = object.btc_receiving_address ?? "";
+    message.eth_addr = object.eth_addr ?? "";
     message.description = object.description ?? "";
     message.url = object.url ?? "";
     message.sender = object.sender ?? "";
@@ -333,12 +331,12 @@ export const MsgAddAgent = {
 };
 
 function createBaseMsgAddAgentResponse(): MsgAddAgentResponse {
-  return { id: Long.UZERO };
+  return { id: "0" };
 }
 
 export const MsgAddAgentResponse = {
   encode(message: MsgAddAgentResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.equals(Long.UZERO)) {
+    if (message.id !== "0") {
       writer.uint32(8).uint64(message.id);
     }
     return writer;
@@ -356,7 +354,7 @@ export const MsgAddAgentResponse = {
             break;
           }
 
-          message.id = reader.uint64() as Long;
+          message.id = longToString(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -368,13 +366,13 @@ export const MsgAddAgentResponse = {
   },
 
   fromJSON(object: any): MsgAddAgentResponse {
-    return { id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO };
+    return { id: isSet(object.id) ? globalThis.String(object.id) : "0" };
   },
 
   toJSON(message: MsgAddAgentResponse): unknown {
     const obj: any = {};
-    if (!message.id.equals(Long.UZERO)) {
-      obj.id = (message.id || Long.UZERO).toString();
+    if (message.id !== "0") {
+      obj.id = message.id;
     }
     return obj;
   },
@@ -384,18 +382,18 @@ export const MsgAddAgentResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<MsgAddAgentResponse>, I>>(object: I): MsgAddAgentResponse {
     const message = createBaseMsgAddAgentResponse();
-    message.id = (object.id !== undefined && object.id !== null) ? Long.fromValue(object.id) : Long.UZERO;
+    message.id = object.id ?? "0";
     return message;
   },
 };
 
 function createBaseMsgEditAgent(): MsgEditAgent {
-  return { id: Long.UZERO, name: "", description: "", url: "", sender: "" };
+  return { id: "0", name: "", description: "", url: "", sender: "" };
 }
 
 export const MsgEditAgent = {
   encode(message: MsgEditAgent, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.equals(Long.UZERO)) {
+    if (message.id !== "0") {
       writer.uint32(8).uint64(message.id);
     }
     if (message.name !== "") {
@@ -425,7 +423,7 @@ export const MsgEditAgent = {
             break;
           }
 
-          message.id = reader.uint64() as Long;
+          message.id = longToString(reader.uint64() as Long);
           continue;
         case 2:
           if (tag !== 18) {
@@ -466,7 +464,7 @@ export const MsgEditAgent = {
 
   fromJSON(object: any): MsgEditAgent {
     return {
-      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      id: isSet(object.id) ? globalThis.String(object.id) : "0",
       name: isSet(object.name) ? globalThis.String(object.name) : "",
       description: isSet(object.description) ? globalThis.String(object.description) : "",
       url: isSet(object.url) ? globalThis.String(object.url) : "",
@@ -476,8 +474,8 @@ export const MsgEditAgent = {
 
   toJSON(message: MsgEditAgent): unknown {
     const obj: any = {};
-    if (!message.id.equals(Long.UZERO)) {
-      obj.id = (message.id || Long.UZERO).toString();
+    if (message.id !== "0") {
+      obj.id = message.id;
     }
     if (message.name !== "") {
       obj.name = message.name;
@@ -499,7 +497,7 @@ export const MsgEditAgent = {
   },
   fromPartial<I extends Exact<DeepPartial<MsgEditAgent>, I>>(object: I): MsgEditAgent {
     const message = createBaseMsgEditAgent();
-    message.id = (object.id !== undefined && object.id !== null) ? Long.fromValue(object.id) : Long.UZERO;
+    message.id = object.id ?? "0";
     message.name = object.name ?? "";
     message.description = object.description ?? "";
     message.url = object.url ?? "";
@@ -552,12 +550,12 @@ export const MsgEditAgentResponse = {
 };
 
 function createBaseMsgRemoveAgent(): MsgRemoveAgent {
-  return { id: Long.UZERO, sender: "" };
+  return { id: "0", sender: "" };
 }
 
 export const MsgRemoveAgent = {
   encode(message: MsgRemoveAgent, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.equals(Long.UZERO)) {
+    if (message.id !== "0") {
       writer.uint32(8).uint64(message.id);
     }
     if (message.sender !== "") {
@@ -578,7 +576,7 @@ export const MsgRemoveAgent = {
             break;
           }
 
-          message.id = reader.uint64() as Long;
+          message.id = longToString(reader.uint64() as Long);
           continue;
         case 2:
           if (tag !== 18) {
@@ -598,15 +596,15 @@ export const MsgRemoveAgent = {
 
   fromJSON(object: any): MsgRemoveAgent {
     return {
-      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      id: isSet(object.id) ? globalThis.String(object.id) : "0",
       sender: isSet(object.sender) ? globalThis.String(object.sender) : "",
     };
   },
 
   toJSON(message: MsgRemoveAgent): unknown {
     const obj: any = {};
-    if (!message.id.equals(Long.UZERO)) {
-      obj.id = (message.id || Long.UZERO).toString();
+    if (message.id !== "0") {
+      obj.id = message.id;
     }
     if (message.sender !== "") {
       obj.sender = message.sender;
@@ -619,7 +617,7 @@ export const MsgRemoveAgent = {
   },
   fromPartial<I extends Exact<DeepPartial<MsgRemoveAgent>, I>>(object: I): MsgRemoveAgent {
     const message = createBaseMsgRemoveAgent();
-    message.id = (object.id !== undefined && object.id !== null) ? Long.fromValue(object.id) : Long.UZERO;
+    message.id = object.id ?? "0";
     message.sender = object.sender ?? "";
     return message;
   },
@@ -671,209 +669,60 @@ export const MsgRemoveAgentResponse = {
 /** Msg defines the Msg service. */
 export interface Msg {
   /** UpdateParams defines a method for updating the agent parameters. */
-  UpdateParams(request: DeepPartial<MsgUpdateParams>, metadata?: grpc.Metadata): Promise<MsgUpdateParamsResponse>;
+  UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse>;
   /** AddAgent defines a method for adding a agent. */
-  AddAgent(request: DeepPartial<MsgAddAgent>, metadata?: grpc.Metadata): Promise<MsgAddAgentResponse>;
+  AddAgent(request: MsgAddAgent): Promise<MsgAddAgentResponse>;
   /** AddAgent defines a method for editting a agent. */
-  EditAgent(request: DeepPartial<MsgEditAgent>, metadata?: grpc.Metadata): Promise<MsgEditAgentResponse>;
+  EditAgent(request: MsgEditAgent): Promise<MsgEditAgentResponse>;
   /** RemoveAgent defines a method for removing a agent. */
-  RemoveAgent(request: DeepPartial<MsgRemoveAgent>, metadata?: grpc.Metadata): Promise<MsgRemoveAgentResponse>;
+  RemoveAgent(request: MsgRemoveAgent): Promise<MsgRemoveAgentResponse>;
 }
 
+export const MsgServiceName = "lorenzo.agent.v1.Msg";
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
-
-  constructor(rpc: Rpc) {
+  private readonly service: string;
+  constructor(rpc: Rpc, opts?: { service?: string }) {
+    this.service = opts?.service || MsgServiceName;
     this.rpc = rpc;
     this.UpdateParams = this.UpdateParams.bind(this);
     this.AddAgent = this.AddAgent.bind(this);
     this.EditAgent = this.EditAgent.bind(this);
     this.RemoveAgent = this.RemoveAgent.bind(this);
   }
-
-  UpdateParams(request: DeepPartial<MsgUpdateParams>, metadata?: grpc.Metadata): Promise<MsgUpdateParamsResponse> {
-    return this.rpc.unary(MsgUpdateParamsDesc, MsgUpdateParams.fromPartial(request), metadata);
+  UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse> {
+    const data = MsgUpdateParams.encode(request).finish();
+    const promise = this.rpc.request(this.service, "UpdateParams", data);
+    return promise.then((data) => MsgUpdateParamsResponse.decode(_m0.Reader.create(data)));
   }
 
-  AddAgent(request: DeepPartial<MsgAddAgent>, metadata?: grpc.Metadata): Promise<MsgAddAgentResponse> {
-    return this.rpc.unary(MsgAddAgentDesc, MsgAddAgent.fromPartial(request), metadata);
+  AddAgent(request: MsgAddAgent): Promise<MsgAddAgentResponse> {
+    const data = MsgAddAgent.encode(request).finish();
+    const promise = this.rpc.request(this.service, "AddAgent", data);
+    return promise.then((data) => MsgAddAgentResponse.decode(_m0.Reader.create(data)));
   }
 
-  EditAgent(request: DeepPartial<MsgEditAgent>, metadata?: grpc.Metadata): Promise<MsgEditAgentResponse> {
-    return this.rpc.unary(MsgEditAgentDesc, MsgEditAgent.fromPartial(request), metadata);
+  EditAgent(request: MsgEditAgent): Promise<MsgEditAgentResponse> {
+    const data = MsgEditAgent.encode(request).finish();
+    const promise = this.rpc.request(this.service, "EditAgent", data);
+    return promise.then((data) => MsgEditAgentResponse.decode(_m0.Reader.create(data)));
   }
 
-  RemoveAgent(request: DeepPartial<MsgRemoveAgent>, metadata?: grpc.Metadata): Promise<MsgRemoveAgentResponse> {
-    return this.rpc.unary(MsgRemoveAgentDesc, MsgRemoveAgent.fromPartial(request), metadata);
+  RemoveAgent(request: MsgRemoveAgent): Promise<MsgRemoveAgentResponse> {
+    const data = MsgRemoveAgent.encode(request).finish();
+    const promise = this.rpc.request(this.service, "RemoveAgent", data);
+    return promise.then((data) => MsgRemoveAgentResponse.decode(_m0.Reader.create(data)));
   }
 }
-
-export const MsgDesc = { serviceName: "lorenzo.agent.v1.Msg" };
-
-export const MsgUpdateParamsDesc: UnaryMethodDefinitionish = {
-  methodName: "UpdateParams",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgUpdateParams.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgUpdateParamsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgAddAgentDesc: UnaryMethodDefinitionish = {
-  methodName: "AddAgent",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgAddAgent.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgAddAgentResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgEditAgentDesc: UnaryMethodDefinitionish = {
-  methodName: "EditAgent",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgEditAgent.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgEditAgentResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgRemoveAgentDesc: UnaryMethodDefinitionish = {
-  methodName: "RemoveAgent",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgRemoveAgent.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgRemoveAgentResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-interface UnaryMethodDefinitionishR extends grpc.UnaryMethodDefinition<any, any> {
-  requestStream: any;
-  responseStream: any;
-}
-
-type UnaryMethodDefinitionish = UnaryMethodDefinitionishR;
 
 interface Rpc {
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any>;
-}
-
-export class GrpcWebImpl {
-  private host: string;
-  private options: {
-    transport?: grpc.TransportFactory;
-
-    debug?: boolean;
-    metadata?: grpc.Metadata;
-    upStreamRetryCodes?: number[];
-  };
-
-  constructor(
-    host: string,
-    options: {
-      transport?: grpc.TransportFactory;
-
-      debug?: boolean;
-      metadata?: grpc.Metadata;
-      upStreamRetryCodes?: number[];
-    },
-  ) {
-    this.host = host;
-    this.options = options;
-  }
-
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    _request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any> {
-    const request = { ..._request, ...methodDesc.requestType };
-    const maybeCombinedMetadata = metadata && this.options.metadata
-      ? new BrowserHeaders({ ...this.options?.metadata.headersMap, ...metadata?.headersMap })
-      : metadata ?? this.options.metadata;
-    return new Promise((resolve, reject) => {
-      grpc.unary(methodDesc, {
-        request,
-        host: this.host,
-        metadata: maybeCombinedMetadata ?? {},
-        ...(this.options.transport !== undefined ? { transport: this.options.transport } : {}),
-        debug: this.options.debug ?? false,
-        onEnd: function (response) {
-          if (response.status === grpc.Code.OK) {
-            resolve(response.message!.toObject());
-          } else {
-            const err = new GrpcWebError(response.statusMessage, response.status, response.trailers);
-            reject(err);
-          }
-        },
-      });
-    });
-  }
+  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -882,6 +731,10 @@ type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
+function longToString(long: Long) {
+  return long.toString();
+}
+
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;
   _m0.configure();
@@ -889,10 +742,4 @@ if (_m0.util.Long !== Long) {
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
-}
-
-export class GrpcWebError extends globalThis.Error {
-  constructor(message: string, public code: grpc.Code, public metadata: grpc.Metadata) {
-    super(message);
-  }
 }

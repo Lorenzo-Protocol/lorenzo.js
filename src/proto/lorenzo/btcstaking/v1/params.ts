@@ -14,7 +14,7 @@ export interface Receiver {
   /** btc address */
   addr: string;
   /** like 0xBAb28FF7659481F1c8516f616A576339936AFB06 */
-  ethAddr: string;
+  eth_addr: string;
 }
 
 /** GenesisState defines the btcstaking module's genesis state. */
@@ -22,17 +22,17 @@ export interface Params {
   /** receivers' name must be unique */
   receivers: Receiver[];
   /** deprecated */
-  btcConfirmationsDepth: number;
+  btc_confirmations_depth: number;
   /** allow list to mint for receiver with eth_addr */
-  minterAllowList: string[];
+  minter_allow_list: string[];
   /** cross chain bridge contract address */
-  bridgeAddr: string;
+  bridge_addr: string;
   /** minimum satoshi per txout */
-  txoutDustAmount: Long;
+  txout_dust_amount: string;
 }
 
 function createBaseReceiver(): Receiver {
-  return { name: "", addr: "", ethAddr: "" };
+  return { name: "", addr: "", eth_addr: "" };
 }
 
 export const Receiver = {
@@ -43,8 +43,8 @@ export const Receiver = {
     if (message.addr !== "") {
       writer.uint32(18).string(message.addr);
     }
-    if (message.ethAddr !== "") {
-      writer.uint32(26).string(message.ethAddr);
+    if (message.eth_addr !== "") {
+      writer.uint32(26).string(message.eth_addr);
     }
     return writer;
   },
@@ -75,7 +75,7 @@ export const Receiver = {
             break;
           }
 
-          message.ethAddr = reader.string();
+          message.eth_addr = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -90,7 +90,7 @@ export const Receiver = {
     return {
       name: isSet(object.name) ? globalThis.String(object.name) : "",
       addr: isSet(object.addr) ? globalThis.String(object.addr) : "",
-      ethAddr: isSet(object.ethAddr) ? globalThis.String(object.ethAddr) : "",
+      eth_addr: isSet(object.eth_addr) ? globalThis.String(object.eth_addr) : "",
     };
   },
 
@@ -102,8 +102,8 @@ export const Receiver = {
     if (message.addr !== "") {
       obj.addr = message.addr;
     }
-    if (message.ethAddr !== "") {
-      obj.ethAddr = message.ethAddr;
+    if (message.eth_addr !== "") {
+      obj.eth_addr = message.eth_addr;
     }
     return obj;
   },
@@ -115,13 +115,13 @@ export const Receiver = {
     const message = createBaseReceiver();
     message.name = object.name ?? "";
     message.addr = object.addr ?? "";
-    message.ethAddr = object.ethAddr ?? "";
+    message.eth_addr = object.eth_addr ?? "";
     return message;
   },
 };
 
 function createBaseParams(): Params {
-  return { receivers: [], btcConfirmationsDepth: 0, minterAllowList: [], bridgeAddr: "", txoutDustAmount: Long.ZERO };
+  return { receivers: [], btc_confirmations_depth: 0, minter_allow_list: [], bridge_addr: "", txout_dust_amount: "0" };
 }
 
 export const Params = {
@@ -129,17 +129,17 @@ export const Params = {
     for (const v of message.receivers) {
       Receiver.encode(v!, writer.uint32(10).fork()).ldelim();
     }
-    if (message.btcConfirmationsDepth !== 0) {
-      writer.uint32(16).uint32(message.btcConfirmationsDepth);
+    if (message.btc_confirmations_depth !== 0) {
+      writer.uint32(16).uint32(message.btc_confirmations_depth);
     }
-    for (const v of message.minterAllowList) {
+    for (const v of message.minter_allow_list) {
       writer.uint32(26).string(v!);
     }
-    if (message.bridgeAddr !== "") {
-      writer.uint32(34).string(message.bridgeAddr);
+    if (message.bridge_addr !== "") {
+      writer.uint32(34).string(message.bridge_addr);
     }
-    if (!message.txoutDustAmount.equals(Long.ZERO)) {
-      writer.uint32(40).int64(message.txoutDustAmount);
+    if (message.txout_dust_amount !== "0") {
+      writer.uint32(40).int64(message.txout_dust_amount);
     }
     return writer;
   },
@@ -163,28 +163,28 @@ export const Params = {
             break;
           }
 
-          message.btcConfirmationsDepth = reader.uint32();
+          message.btc_confirmations_depth = reader.uint32();
           continue;
         case 3:
           if (tag !== 26) {
             break;
           }
 
-          message.minterAllowList.push(reader.string());
+          message.minter_allow_list.push(reader.string());
           continue;
         case 4:
           if (tag !== 34) {
             break;
           }
 
-          message.bridgeAddr = reader.string();
+          message.bridge_addr = reader.string();
           continue;
         case 5:
           if (tag !== 40) {
             break;
           }
 
-          message.txoutDustAmount = reader.int64() as Long;
+          message.txout_dust_amount = longToString(reader.int64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -200,12 +200,14 @@ export const Params = {
       receivers: globalThis.Array.isArray(object?.receivers)
         ? object.receivers.map((e: any) => Receiver.fromJSON(e))
         : [],
-      btcConfirmationsDepth: isSet(object.btcConfirmationsDepth) ? globalThis.Number(object.btcConfirmationsDepth) : 0,
-      minterAllowList: globalThis.Array.isArray(object?.minterAllowList)
-        ? object.minterAllowList.map((e: any) => globalThis.String(e))
+      btc_confirmations_depth: isSet(object.btc_confirmations_depth)
+        ? globalThis.Number(object.btc_confirmations_depth)
+        : 0,
+      minter_allow_list: globalThis.Array.isArray(object?.minter_allow_list)
+        ? object.minter_allow_list.map((e: any) => globalThis.String(e))
         : [],
-      bridgeAddr: isSet(object.bridgeAddr) ? globalThis.String(object.bridgeAddr) : "",
-      txoutDustAmount: isSet(object.txoutDustAmount) ? Long.fromValue(object.txoutDustAmount) : Long.ZERO,
+      bridge_addr: isSet(object.bridge_addr) ? globalThis.String(object.bridge_addr) : "",
+      txout_dust_amount: isSet(object.txout_dust_amount) ? globalThis.String(object.txout_dust_amount) : "0",
     };
   },
 
@@ -214,17 +216,17 @@ export const Params = {
     if (message.receivers?.length) {
       obj.receivers = message.receivers.map((e) => Receiver.toJSON(e));
     }
-    if (message.btcConfirmationsDepth !== 0) {
-      obj.btcConfirmationsDepth = Math.round(message.btcConfirmationsDepth);
+    if (message.btc_confirmations_depth !== 0) {
+      obj.btc_confirmations_depth = Math.round(message.btc_confirmations_depth);
     }
-    if (message.minterAllowList?.length) {
-      obj.minterAllowList = message.minterAllowList;
+    if (message.minter_allow_list?.length) {
+      obj.minter_allow_list = message.minter_allow_list;
     }
-    if (message.bridgeAddr !== "") {
-      obj.bridgeAddr = message.bridgeAddr;
+    if (message.bridge_addr !== "") {
+      obj.bridge_addr = message.bridge_addr;
     }
-    if (!message.txoutDustAmount.equals(Long.ZERO)) {
-      obj.txoutDustAmount = (message.txoutDustAmount || Long.ZERO).toString();
+    if (message.txout_dust_amount !== "0") {
+      obj.txout_dust_amount = message.txout_dust_amount;
     }
     return obj;
   },
@@ -235,12 +237,10 @@ export const Params = {
   fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
     const message = createBaseParams();
     message.receivers = object.receivers?.map((e) => Receiver.fromPartial(e)) || [];
-    message.btcConfirmationsDepth = object.btcConfirmationsDepth ?? 0;
-    message.minterAllowList = object.minterAllowList?.map((e) => e) || [];
-    message.bridgeAddr = object.bridgeAddr ?? "";
-    message.txoutDustAmount = (object.txoutDustAmount !== undefined && object.txoutDustAmount !== null)
-      ? Long.fromValue(object.txoutDustAmount)
-      : Long.ZERO;
+    message.btc_confirmations_depth = object.btc_confirmations_depth ?? 0;
+    message.minter_allow_list = object.minter_allow_list?.map((e) => e) || [];
+    message.bridge_addr = object.bridge_addr ?? "";
+    message.txout_dust_amount = object.txout_dust_amount ?? "0";
     return message;
   },
 };
@@ -248,7 +248,7 @@ export const Params = {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -256,6 +256,10 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+function longToString(long: Long) {
+  return long.toString();
+}
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

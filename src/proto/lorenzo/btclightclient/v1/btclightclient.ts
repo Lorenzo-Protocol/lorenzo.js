@@ -21,16 +21,16 @@ import _m0 from "protobufjs/minimal";
 export interface BTCHeaderInfo {
   header: Uint8Array;
   hash: Uint8Array;
-  height: Long;
+  height: string;
   work: Uint8Array;
 }
 
 export interface BTCFeeRate {
-  feeRate: Long;
+  fee_rate: string;
 }
 
 function createBaseBTCHeaderInfo(): BTCHeaderInfo {
-  return { header: new Uint8Array(0), hash: new Uint8Array(0), height: Long.UZERO, work: new Uint8Array(0) };
+  return { header: new Uint8Array(0), hash: new Uint8Array(0), height: "0", work: new Uint8Array(0) };
 }
 
 export const BTCHeaderInfo = {
@@ -41,7 +41,7 @@ export const BTCHeaderInfo = {
     if (message.hash.length !== 0) {
       writer.uint32(18).bytes(message.hash);
     }
-    if (!message.height.equals(Long.UZERO)) {
+    if (message.height !== "0") {
       writer.uint32(24).uint64(message.height);
     }
     if (message.work.length !== 0) {
@@ -76,7 +76,7 @@ export const BTCHeaderInfo = {
             break;
           }
 
-          message.height = reader.uint64() as Long;
+          message.height = longToString(reader.uint64() as Long);
           continue;
         case 4:
           if (tag !== 34) {
@@ -98,7 +98,7 @@ export const BTCHeaderInfo = {
     return {
       header: isSet(object.header) ? bytesFromBase64(object.header) : new Uint8Array(0),
       hash: isSet(object.hash) ? bytesFromBase64(object.hash) : new Uint8Array(0),
-      height: isSet(object.height) ? Long.fromValue(object.height) : Long.UZERO,
+      height: isSet(object.height) ? globalThis.String(object.height) : "0",
       work: isSet(object.work) ? bytesFromBase64(object.work) : new Uint8Array(0),
     };
   },
@@ -111,8 +111,8 @@ export const BTCHeaderInfo = {
     if (message.hash.length !== 0) {
       obj.hash = base64FromBytes(message.hash);
     }
-    if (!message.height.equals(Long.UZERO)) {
-      obj.height = (message.height || Long.UZERO).toString();
+    if (message.height !== "0") {
+      obj.height = message.height;
     }
     if (message.work.length !== 0) {
       obj.work = base64FromBytes(message.work);
@@ -127,22 +127,20 @@ export const BTCHeaderInfo = {
     const message = createBaseBTCHeaderInfo();
     message.header = object.header ?? new Uint8Array(0);
     message.hash = object.hash ?? new Uint8Array(0);
-    message.height = (object.height !== undefined && object.height !== null)
-      ? Long.fromValue(object.height)
-      : Long.UZERO;
+    message.height = object.height ?? "0";
     message.work = object.work ?? new Uint8Array(0);
     return message;
   },
 };
 
 function createBaseBTCFeeRate(): BTCFeeRate {
-  return { feeRate: Long.UZERO };
+  return { fee_rate: "0" };
 }
 
 export const BTCFeeRate = {
   encode(message: BTCFeeRate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.feeRate.equals(Long.UZERO)) {
-      writer.uint32(8).uint64(message.feeRate);
+    if (message.fee_rate !== "0") {
+      writer.uint32(8).uint64(message.fee_rate);
     }
     return writer;
   },
@@ -159,7 +157,7 @@ export const BTCFeeRate = {
             break;
           }
 
-          message.feeRate = reader.uint64() as Long;
+          message.fee_rate = longToString(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -171,13 +169,13 @@ export const BTCFeeRate = {
   },
 
   fromJSON(object: any): BTCFeeRate {
-    return { feeRate: isSet(object.feeRate) ? Long.fromValue(object.feeRate) : Long.UZERO };
+    return { fee_rate: isSet(object.fee_rate) ? globalThis.String(object.fee_rate) : "0" };
   },
 
   toJSON(message: BTCFeeRate): unknown {
     const obj: any = {};
-    if (!message.feeRate.equals(Long.UZERO)) {
-      obj.feeRate = (message.feeRate || Long.UZERO).toString();
+    if (message.fee_rate !== "0") {
+      obj.fee_rate = message.fee_rate;
     }
     return obj;
   },
@@ -187,9 +185,7 @@ export const BTCFeeRate = {
   },
   fromPartial<I extends Exact<DeepPartial<BTCFeeRate>, I>>(object: I): BTCFeeRate {
     const message = createBaseBTCFeeRate();
-    message.feeRate = (object.feeRate !== undefined && object.feeRate !== null)
-      ? Long.fromValue(object.feeRate)
-      : Long.UZERO;
+    message.fee_rate = object.fee_rate ?? "0";
     return message;
   },
 };
@@ -222,7 +218,7 @@ function base64FromBytes(arr: Uint8Array): string {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -230,6 +226,10 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+function longToString(long: Long) {
+  return long.toString();
+}
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

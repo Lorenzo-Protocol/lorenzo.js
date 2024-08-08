@@ -5,7 +5,6 @@
 // source: lorenzo/token/v1/events.proto
 
 /* eslint-disable */
-import Long from "long";
 import _m0 from "protobufjs/minimal";
 
 /** EventRegisterCoin is an event emitted when a coin is registered. */
@@ -13,7 +12,7 @@ export interface EventRegisterPair {
   /** sdk coin denomination */
   denom: string;
   /** erc20 contract address */
-  contractAddress: string;
+  contract_address: string;
 }
 
 /**
@@ -24,7 +23,7 @@ export interface EventToggleTokenConversion {
   /** sdk coin denomination */
   denom: string;
   /** erc20 contract address */
-  contractAddress: string;
+  contract_address: string;
 }
 
 /** EventConvertCoin is an event emitted when a coin is converted. */
@@ -38,7 +37,7 @@ export interface EventConvertCoin {
   /** coin denomination */
   denom: string;
   /** erc20 contract address */
-  contractAddress: string;
+  contract_address: string;
 }
 
 /** EventConvertERC20 is an event emitted when an ERC20 is converted. */
@@ -52,11 +51,11 @@ export interface EventConvertERC20 {
   /** coin denomination */
   denom: string;
   /** erc20 contract address */
-  contractAddress: string;
+  contract_address: string;
 }
 
 function createBaseEventRegisterPair(): EventRegisterPair {
-  return { denom: "", contractAddress: "" };
+  return { denom: "", contract_address: "" };
 }
 
 export const EventRegisterPair = {
@@ -64,8 +63,8 @@ export const EventRegisterPair = {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
     }
-    if (message.contractAddress !== "") {
-      writer.uint32(18).string(message.contractAddress);
+    if (message.contract_address !== "") {
+      writer.uint32(18).string(message.contract_address);
     }
     return writer;
   },
@@ -89,7 +88,7 @@ export const EventRegisterPair = {
             break;
           }
 
-          message.contractAddress = reader.string();
+          message.contract_address = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -103,7 +102,7 @@ export const EventRegisterPair = {
   fromJSON(object: any): EventRegisterPair {
     return {
       denom: isSet(object.denom) ? globalThis.String(object.denom) : "",
-      contractAddress: isSet(object.contractAddress) ? globalThis.String(object.contractAddress) : "",
+      contract_address: isSet(object.contract_address) ? globalThis.String(object.contract_address) : "",
     };
   },
 
@@ -112,8 +111,8 @@ export const EventRegisterPair = {
     if (message.denom !== "") {
       obj.denom = message.denom;
     }
-    if (message.contractAddress !== "") {
-      obj.contractAddress = message.contractAddress;
+    if (message.contract_address !== "") {
+      obj.contract_address = message.contract_address;
     }
     return obj;
   },
@@ -124,13 +123,13 @@ export const EventRegisterPair = {
   fromPartial<I extends Exact<DeepPartial<EventRegisterPair>, I>>(object: I): EventRegisterPair {
     const message = createBaseEventRegisterPair();
     message.denom = object.denom ?? "";
-    message.contractAddress = object.contractAddress ?? "";
+    message.contract_address = object.contract_address ?? "";
     return message;
   },
 };
 
 function createBaseEventToggleTokenConversion(): EventToggleTokenConversion {
-  return { denom: "", contractAddress: "" };
+  return { denom: "", contract_address: "" };
 }
 
 export const EventToggleTokenConversion = {
@@ -138,8 +137,8 @@ export const EventToggleTokenConversion = {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
     }
-    if (message.contractAddress !== "") {
-      writer.uint32(18).string(message.contractAddress);
+    if (message.contract_address !== "") {
+      writer.uint32(18).string(message.contract_address);
     }
     return writer;
   },
@@ -163,7 +162,7 @@ export const EventToggleTokenConversion = {
             break;
           }
 
-          message.contractAddress = reader.string();
+          message.contract_address = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -177,7 +176,7 @@ export const EventToggleTokenConversion = {
   fromJSON(object: any): EventToggleTokenConversion {
     return {
       denom: isSet(object.denom) ? globalThis.String(object.denom) : "",
-      contractAddress: isSet(object.contractAddress) ? globalThis.String(object.contractAddress) : "",
+      contract_address: isSet(object.contract_address) ? globalThis.String(object.contract_address) : "",
     };
   },
 
@@ -186,8 +185,8 @@ export const EventToggleTokenConversion = {
     if (message.denom !== "") {
       obj.denom = message.denom;
     }
-    if (message.contractAddress !== "") {
-      obj.contractAddress = message.contractAddress;
+    if (message.contract_address !== "") {
+      obj.contract_address = message.contract_address;
     }
     return obj;
   },
@@ -198,13 +197,13 @@ export const EventToggleTokenConversion = {
   fromPartial<I extends Exact<DeepPartial<EventToggleTokenConversion>, I>>(object: I): EventToggleTokenConversion {
     const message = createBaseEventToggleTokenConversion();
     message.denom = object.denom ?? "";
-    message.contractAddress = object.contractAddress ?? "";
+    message.contract_address = object.contract_address ?? "";
     return message;
   },
 };
 
 function createBaseEventConvertCoin(): EventConvertCoin {
-  return { sender: "", receiver: "", amount: "", denom: "", contractAddress: "" };
+  return { sender: "", receiver: "", amount: "", denom: "", contract_address: "" };
 }
 
 export const EventConvertCoin = {
@@ -221,8 +220,8 @@ export const EventConvertCoin = {
     if (message.denom !== "") {
       writer.uint32(34).string(message.denom);
     }
-    if (message.contractAddress !== "") {
-      writer.uint32(42).string(message.contractAddress);
+    if (message.contract_address !== "") {
+      writer.uint32(42).string(message.contract_address);
     }
     return writer;
   },
@@ -267,7 +266,7 @@ export const EventConvertCoin = {
             break;
           }
 
-          message.contractAddress = reader.string();
+          message.contract_address = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -284,7 +283,7 @@ export const EventConvertCoin = {
       receiver: isSet(object.receiver) ? globalThis.String(object.receiver) : "",
       amount: isSet(object.amount) ? globalThis.String(object.amount) : "",
       denom: isSet(object.denom) ? globalThis.String(object.denom) : "",
-      contractAddress: isSet(object.contractAddress) ? globalThis.String(object.contractAddress) : "",
+      contract_address: isSet(object.contract_address) ? globalThis.String(object.contract_address) : "",
     };
   },
 
@@ -302,8 +301,8 @@ export const EventConvertCoin = {
     if (message.denom !== "") {
       obj.denom = message.denom;
     }
-    if (message.contractAddress !== "") {
-      obj.contractAddress = message.contractAddress;
+    if (message.contract_address !== "") {
+      obj.contract_address = message.contract_address;
     }
     return obj;
   },
@@ -317,13 +316,13 @@ export const EventConvertCoin = {
     message.receiver = object.receiver ?? "";
     message.amount = object.amount ?? "";
     message.denom = object.denom ?? "";
-    message.contractAddress = object.contractAddress ?? "";
+    message.contract_address = object.contract_address ?? "";
     return message;
   },
 };
 
 function createBaseEventConvertERC20(): EventConvertERC20 {
-  return { sender: "", receiver: "", amount: "", denom: "", contractAddress: "" };
+  return { sender: "", receiver: "", amount: "", denom: "", contract_address: "" };
 }
 
 export const EventConvertERC20 = {
@@ -340,8 +339,8 @@ export const EventConvertERC20 = {
     if (message.denom !== "") {
       writer.uint32(34).string(message.denom);
     }
-    if (message.contractAddress !== "") {
-      writer.uint32(42).string(message.contractAddress);
+    if (message.contract_address !== "") {
+      writer.uint32(42).string(message.contract_address);
     }
     return writer;
   },
@@ -386,7 +385,7 @@ export const EventConvertERC20 = {
             break;
           }
 
-          message.contractAddress = reader.string();
+          message.contract_address = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -403,7 +402,7 @@ export const EventConvertERC20 = {
       receiver: isSet(object.receiver) ? globalThis.String(object.receiver) : "",
       amount: isSet(object.amount) ? globalThis.String(object.amount) : "",
       denom: isSet(object.denom) ? globalThis.String(object.denom) : "",
-      contractAddress: isSet(object.contractAddress) ? globalThis.String(object.contractAddress) : "",
+      contract_address: isSet(object.contract_address) ? globalThis.String(object.contract_address) : "",
     };
   },
 
@@ -421,8 +420,8 @@ export const EventConvertERC20 = {
     if (message.denom !== "") {
       obj.denom = message.denom;
     }
-    if (message.contractAddress !== "") {
-      obj.contractAddress = message.contractAddress;
+    if (message.contract_address !== "") {
+      obj.contract_address = message.contract_address;
     }
     return obj;
   },
@@ -436,7 +435,7 @@ export const EventConvertERC20 = {
     message.receiver = object.receiver ?? "";
     message.amount = object.amount ?? "";
     message.denom = object.denom ?? "";
-    message.contractAddress = object.contractAddress ?? "";
+    message.contract_address = object.contract_address ?? "";
     return message;
   },
 };
@@ -444,7 +443,7 @@ export const EventConvertERC20 = {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -452,11 +451,6 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
-
-if (_m0.util.Long !== Long) {
-  _m0.util.Long = Long as any;
-  _m0.configure();
-}
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;

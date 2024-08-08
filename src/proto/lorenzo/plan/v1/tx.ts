@@ -5,8 +5,6 @@
 // source: lorenzo/plan/v1/tx.proto
 
 /* eslint-disable */
-import { grpc } from "@improbable-eng/grpc-web";
-import { BrowserHeaders } from "browser-headers";
 import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { Params } from "./params";
@@ -54,15 +52,15 @@ export interface MsgCreatePlan {
   /** name is the name of the plan */
   name: string;
   /** plan_desc_uri is the URI of the plan description */
-  planDescUri: string;
+  plan_desc_uri: string;
   /** agent_id is the unique identifier of the agent */
-  agentId: Long;
+  agent_id: string;
   /** plan_start_time is the start time of the plan */
-  planStartTime: Long;
+  plan_start_time: string;
   /** period_time is the period time of the plan */
-  periodTime: Long;
+  period_time: string;
   /** yat_contract_address is the address of the yat contract */
-  yatContractAddress: string;
+  yat_contract_address: string;
   /** sender is the address of the allowed sender */
   sender: string;
 }
@@ -70,17 +68,17 @@ export interface MsgCreatePlan {
 /** MsgCreatePlanResponse is the response type for the Msg/CreatePlan RPC method. */
 export interface MsgCreatePlanResponse {
   /** id is the unique identifier of the plan */
-  id: Long;
+  id: string;
 }
 
 /** MsgSetMerkleRoot is the request type for the Msg/SetMerkleRoot RPC method. */
 export interface MsgSetMerkleRoot {
   /** plan_id is the unique identifier of the plan */
-  planId: Long;
+  plan_id: string;
   /** round_id is the unique identifier of the round */
-  roundId: string;
+  round_id: string;
   /** merkle_root is the merkle root of the plan */
-  merkleRoot: string;
+  merkle_root: string;
   /** sender is the address of the allowed sender */
   sender: string;
 }
@@ -95,15 +93,15 @@ export interface MsgSetMerkleRootResponse {
 /** MsgClaims is the request type for the Msg/Claims RPC method. */
 export interface MsgClaims {
   /** plan_id is the unique identifier of the plan */
-  planId: Long;
+  plan_id: string;
   /** receiver is the address of the receiver */
   receiver: string;
   /** round_id is the unique identifier of the round */
-  roundId: string;
+  round_id: string;
   /** amount is the amount of the claim */
   amount: string;
   /** merkle_proof is the merkle proof of the claim */
-  merkleProof: string;
+  merkle_proof: string;
   /** sender is the address of the governance account or module admin */
   sender: string;
 }
@@ -118,7 +116,7 @@ export interface MsgClaimsResponse {
  */
 export interface MsgUpdatePlanStatus {
   /** plan_id is the unique identifier of the plan */
-  planId: Long;
+  plan_id: string;
   /** status is the status of the plan */
   status: PlanStatus;
   /** sender is the address of the allowed sender */
@@ -145,7 +143,7 @@ export interface MsgCreateYAT {
 /** MsgCreateYATResponse is the response type for the Msg/CreateYAT RPC method. */
 export interface MsgCreateYATResponse {
   /** contract_address is the address of the yat contract */
-  contractAddress: string;
+  contract_address: string;
 }
 
 /** MsgSetMinter is the request type for the Msg/SetMinter RPC method. */
@@ -153,7 +151,7 @@ export interface MsgSetMinter {
   /** minter is the address of the minter */
   minter: string;
   /** contract_address is the address of the yat contract */
-  contractAddress: string;
+  contract_address: string;
   /** sender is the address of the allowed sender */
   sender: string;
 }
@@ -167,7 +165,7 @@ export interface MsgRemoveMinter {
   /** minter is the address of the minter */
   minter: string;
   /** contract_address is the address of the yat contract */
-  contractAddress: string;
+  contract_address: string;
   /** sender is the address of the allowed sender */
   sender: string;
 }
@@ -418,11 +416,11 @@ export const MsgUpgradePlanResponse = {
 function createBaseMsgCreatePlan(): MsgCreatePlan {
   return {
     name: "",
-    planDescUri: "",
-    agentId: Long.UZERO,
-    planStartTime: Long.UZERO,
-    periodTime: Long.UZERO,
-    yatContractAddress: "",
+    plan_desc_uri: "",
+    agent_id: "0",
+    plan_start_time: "0",
+    period_time: "0",
+    yat_contract_address: "",
     sender: "",
   };
 }
@@ -432,20 +430,20 @@ export const MsgCreatePlan = {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
-    if (message.planDescUri !== "") {
-      writer.uint32(18).string(message.planDescUri);
+    if (message.plan_desc_uri !== "") {
+      writer.uint32(18).string(message.plan_desc_uri);
     }
-    if (!message.agentId.equals(Long.UZERO)) {
-      writer.uint32(24).uint64(message.agentId);
+    if (message.agent_id !== "0") {
+      writer.uint32(24).uint64(message.agent_id);
     }
-    if (!message.planStartTime.equals(Long.UZERO)) {
-      writer.uint32(32).uint64(message.planStartTime);
+    if (message.plan_start_time !== "0") {
+      writer.uint32(32).uint64(message.plan_start_time);
     }
-    if (!message.periodTime.equals(Long.UZERO)) {
-      writer.uint32(40).uint64(message.periodTime);
+    if (message.period_time !== "0") {
+      writer.uint32(40).uint64(message.period_time);
     }
-    if (message.yatContractAddress !== "") {
-      writer.uint32(50).string(message.yatContractAddress);
+    if (message.yat_contract_address !== "") {
+      writer.uint32(50).string(message.yat_contract_address);
     }
     if (message.sender !== "") {
       writer.uint32(58).string(message.sender);
@@ -472,35 +470,35 @@ export const MsgCreatePlan = {
             break;
           }
 
-          message.planDescUri = reader.string();
+          message.plan_desc_uri = reader.string();
           continue;
         case 3:
           if (tag !== 24) {
             break;
           }
 
-          message.agentId = reader.uint64() as Long;
+          message.agent_id = longToString(reader.uint64() as Long);
           continue;
         case 4:
           if (tag !== 32) {
             break;
           }
 
-          message.planStartTime = reader.uint64() as Long;
+          message.plan_start_time = longToString(reader.uint64() as Long);
           continue;
         case 5:
           if (tag !== 40) {
             break;
           }
 
-          message.periodTime = reader.uint64() as Long;
+          message.period_time = longToString(reader.uint64() as Long);
           continue;
         case 6:
           if (tag !== 50) {
             break;
           }
 
-          message.yatContractAddress = reader.string();
+          message.yat_contract_address = reader.string();
           continue;
         case 7:
           if (tag !== 58) {
@@ -521,11 +519,11 @@ export const MsgCreatePlan = {
   fromJSON(object: any): MsgCreatePlan {
     return {
       name: isSet(object.name) ? globalThis.String(object.name) : "",
-      planDescUri: isSet(object.planDescUri) ? globalThis.String(object.planDescUri) : "",
-      agentId: isSet(object.agentId) ? Long.fromValue(object.agentId) : Long.UZERO,
-      planStartTime: isSet(object.planStartTime) ? Long.fromValue(object.planStartTime) : Long.UZERO,
-      periodTime: isSet(object.periodTime) ? Long.fromValue(object.periodTime) : Long.UZERO,
-      yatContractAddress: isSet(object.yatContractAddress) ? globalThis.String(object.yatContractAddress) : "",
+      plan_desc_uri: isSet(object.plan_desc_uri) ? globalThis.String(object.plan_desc_uri) : "",
+      agent_id: isSet(object.agent_id) ? globalThis.String(object.agent_id) : "0",
+      plan_start_time: isSet(object.plan_start_time) ? globalThis.String(object.plan_start_time) : "0",
+      period_time: isSet(object.period_time) ? globalThis.String(object.period_time) : "0",
+      yat_contract_address: isSet(object.yat_contract_address) ? globalThis.String(object.yat_contract_address) : "",
       sender: isSet(object.sender) ? globalThis.String(object.sender) : "",
     };
   },
@@ -535,20 +533,20 @@ export const MsgCreatePlan = {
     if (message.name !== "") {
       obj.name = message.name;
     }
-    if (message.planDescUri !== "") {
-      obj.planDescUri = message.planDescUri;
+    if (message.plan_desc_uri !== "") {
+      obj.plan_desc_uri = message.plan_desc_uri;
     }
-    if (!message.agentId.equals(Long.UZERO)) {
-      obj.agentId = (message.agentId || Long.UZERO).toString();
+    if (message.agent_id !== "0") {
+      obj.agent_id = message.agent_id;
     }
-    if (!message.planStartTime.equals(Long.UZERO)) {
-      obj.planStartTime = (message.planStartTime || Long.UZERO).toString();
+    if (message.plan_start_time !== "0") {
+      obj.plan_start_time = message.plan_start_time;
     }
-    if (!message.periodTime.equals(Long.UZERO)) {
-      obj.periodTime = (message.periodTime || Long.UZERO).toString();
+    if (message.period_time !== "0") {
+      obj.period_time = message.period_time;
     }
-    if (message.yatContractAddress !== "") {
-      obj.yatContractAddress = message.yatContractAddress;
+    if (message.yat_contract_address !== "") {
+      obj.yat_contract_address = message.yat_contract_address;
     }
     if (message.sender !== "") {
       obj.sender = message.sender;
@@ -562,29 +560,23 @@ export const MsgCreatePlan = {
   fromPartial<I extends Exact<DeepPartial<MsgCreatePlan>, I>>(object: I): MsgCreatePlan {
     const message = createBaseMsgCreatePlan();
     message.name = object.name ?? "";
-    message.planDescUri = object.planDescUri ?? "";
-    message.agentId = (object.agentId !== undefined && object.agentId !== null)
-      ? Long.fromValue(object.agentId)
-      : Long.UZERO;
-    message.planStartTime = (object.planStartTime !== undefined && object.planStartTime !== null)
-      ? Long.fromValue(object.planStartTime)
-      : Long.UZERO;
-    message.periodTime = (object.periodTime !== undefined && object.periodTime !== null)
-      ? Long.fromValue(object.periodTime)
-      : Long.UZERO;
-    message.yatContractAddress = object.yatContractAddress ?? "";
+    message.plan_desc_uri = object.plan_desc_uri ?? "";
+    message.agent_id = object.agent_id ?? "0";
+    message.plan_start_time = object.plan_start_time ?? "0";
+    message.period_time = object.period_time ?? "0";
+    message.yat_contract_address = object.yat_contract_address ?? "";
     message.sender = object.sender ?? "";
     return message;
   },
 };
 
 function createBaseMsgCreatePlanResponse(): MsgCreatePlanResponse {
-  return { id: Long.UZERO };
+  return { id: "0" };
 }
 
 export const MsgCreatePlanResponse = {
   encode(message: MsgCreatePlanResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.equals(Long.UZERO)) {
+    if (message.id !== "0") {
       writer.uint32(8).uint64(message.id);
     }
     return writer;
@@ -602,7 +594,7 @@ export const MsgCreatePlanResponse = {
             break;
           }
 
-          message.id = reader.uint64() as Long;
+          message.id = longToString(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -614,13 +606,13 @@ export const MsgCreatePlanResponse = {
   },
 
   fromJSON(object: any): MsgCreatePlanResponse {
-    return { id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO };
+    return { id: isSet(object.id) ? globalThis.String(object.id) : "0" };
   },
 
   toJSON(message: MsgCreatePlanResponse): unknown {
     const obj: any = {};
-    if (!message.id.equals(Long.UZERO)) {
-      obj.id = (message.id || Long.UZERO).toString();
+    if (message.id !== "0") {
+      obj.id = message.id;
     }
     return obj;
   },
@@ -630,25 +622,25 @@ export const MsgCreatePlanResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<MsgCreatePlanResponse>, I>>(object: I): MsgCreatePlanResponse {
     const message = createBaseMsgCreatePlanResponse();
-    message.id = (object.id !== undefined && object.id !== null) ? Long.fromValue(object.id) : Long.UZERO;
+    message.id = object.id ?? "0";
     return message;
   },
 };
 
 function createBaseMsgSetMerkleRoot(): MsgSetMerkleRoot {
-  return { planId: Long.UZERO, roundId: "", merkleRoot: "", sender: "" };
+  return { plan_id: "0", round_id: "", merkle_root: "", sender: "" };
 }
 
 export const MsgSetMerkleRoot = {
   encode(message: MsgSetMerkleRoot, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.planId.equals(Long.UZERO)) {
-      writer.uint32(8).uint64(message.planId);
+    if (message.plan_id !== "0") {
+      writer.uint32(8).uint64(message.plan_id);
     }
-    if (message.roundId !== "") {
-      writer.uint32(18).string(message.roundId);
+    if (message.round_id !== "") {
+      writer.uint32(18).string(message.round_id);
     }
-    if (message.merkleRoot !== "") {
-      writer.uint32(26).string(message.merkleRoot);
+    if (message.merkle_root !== "") {
+      writer.uint32(26).string(message.merkle_root);
     }
     if (message.sender !== "") {
       writer.uint32(34).string(message.sender);
@@ -668,21 +660,21 @@ export const MsgSetMerkleRoot = {
             break;
           }
 
-          message.planId = reader.uint64() as Long;
+          message.plan_id = longToString(reader.uint64() as Long);
           continue;
         case 2:
           if (tag !== 18) {
             break;
           }
 
-          message.roundId = reader.string();
+          message.round_id = reader.string();
           continue;
         case 3:
           if (tag !== 26) {
             break;
           }
 
-          message.merkleRoot = reader.string();
+          message.merkle_root = reader.string();
           continue;
         case 4:
           if (tag !== 34) {
@@ -702,23 +694,23 @@ export const MsgSetMerkleRoot = {
 
   fromJSON(object: any): MsgSetMerkleRoot {
     return {
-      planId: isSet(object.planId) ? Long.fromValue(object.planId) : Long.UZERO,
-      roundId: isSet(object.roundId) ? globalThis.String(object.roundId) : "",
-      merkleRoot: isSet(object.merkleRoot) ? globalThis.String(object.merkleRoot) : "",
+      plan_id: isSet(object.plan_id) ? globalThis.String(object.plan_id) : "0",
+      round_id: isSet(object.round_id) ? globalThis.String(object.round_id) : "",
+      merkle_root: isSet(object.merkle_root) ? globalThis.String(object.merkle_root) : "",
       sender: isSet(object.sender) ? globalThis.String(object.sender) : "",
     };
   },
 
   toJSON(message: MsgSetMerkleRoot): unknown {
     const obj: any = {};
-    if (!message.planId.equals(Long.UZERO)) {
-      obj.planId = (message.planId || Long.UZERO).toString();
+    if (message.plan_id !== "0") {
+      obj.plan_id = message.plan_id;
     }
-    if (message.roundId !== "") {
-      obj.roundId = message.roundId;
+    if (message.round_id !== "") {
+      obj.round_id = message.round_id;
     }
-    if (message.merkleRoot !== "") {
-      obj.merkleRoot = message.merkleRoot;
+    if (message.merkle_root !== "") {
+      obj.merkle_root = message.merkle_root;
     }
     if (message.sender !== "") {
       obj.sender = message.sender;
@@ -731,11 +723,9 @@ export const MsgSetMerkleRoot = {
   },
   fromPartial<I extends Exact<DeepPartial<MsgSetMerkleRoot>, I>>(object: I): MsgSetMerkleRoot {
     const message = createBaseMsgSetMerkleRoot();
-    message.planId = (object.planId !== undefined && object.planId !== null)
-      ? Long.fromValue(object.planId)
-      : Long.UZERO;
-    message.roundId = object.roundId ?? "";
-    message.merkleRoot = object.merkleRoot ?? "";
+    message.plan_id = object.plan_id ?? "0";
+    message.round_id = object.round_id ?? "";
+    message.merkle_root = object.merkle_root ?? "";
     message.sender = object.sender ?? "";
     return message;
   },
@@ -785,25 +775,25 @@ export const MsgSetMerkleRootResponse = {
 };
 
 function createBaseMsgClaims(): MsgClaims {
-  return { planId: Long.UZERO, receiver: "", roundId: "", amount: "", merkleProof: "", sender: "" };
+  return { plan_id: "0", receiver: "", round_id: "", amount: "", merkle_proof: "", sender: "" };
 }
 
 export const MsgClaims = {
   encode(message: MsgClaims, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.planId.equals(Long.UZERO)) {
-      writer.uint32(8).uint64(message.planId);
+    if (message.plan_id !== "0") {
+      writer.uint32(8).uint64(message.plan_id);
     }
     if (message.receiver !== "") {
       writer.uint32(18).string(message.receiver);
     }
-    if (message.roundId !== "") {
-      writer.uint32(26).string(message.roundId);
+    if (message.round_id !== "") {
+      writer.uint32(26).string(message.round_id);
     }
     if (message.amount !== "") {
       writer.uint32(34).string(message.amount);
     }
-    if (message.merkleProof !== "") {
-      writer.uint32(42).string(message.merkleProof);
+    if (message.merkle_proof !== "") {
+      writer.uint32(42).string(message.merkle_proof);
     }
     if (message.sender !== "") {
       writer.uint32(50).string(message.sender);
@@ -823,7 +813,7 @@ export const MsgClaims = {
             break;
           }
 
-          message.planId = reader.uint64() as Long;
+          message.plan_id = longToString(reader.uint64() as Long);
           continue;
         case 2:
           if (tag !== 18) {
@@ -837,7 +827,7 @@ export const MsgClaims = {
             break;
           }
 
-          message.roundId = reader.string();
+          message.round_id = reader.string();
           continue;
         case 4:
           if (tag !== 34) {
@@ -851,7 +841,7 @@ export const MsgClaims = {
             break;
           }
 
-          message.merkleProof = reader.string();
+          message.merkle_proof = reader.string();
           continue;
         case 6:
           if (tag !== 50) {
@@ -871,31 +861,31 @@ export const MsgClaims = {
 
   fromJSON(object: any): MsgClaims {
     return {
-      planId: isSet(object.planId) ? Long.fromValue(object.planId) : Long.UZERO,
+      plan_id: isSet(object.plan_id) ? globalThis.String(object.plan_id) : "0",
       receiver: isSet(object.receiver) ? globalThis.String(object.receiver) : "",
-      roundId: isSet(object.roundId) ? globalThis.String(object.roundId) : "",
+      round_id: isSet(object.round_id) ? globalThis.String(object.round_id) : "",
       amount: isSet(object.amount) ? globalThis.String(object.amount) : "",
-      merkleProof: isSet(object.merkleProof) ? globalThis.String(object.merkleProof) : "",
+      merkle_proof: isSet(object.merkle_proof) ? globalThis.String(object.merkle_proof) : "",
       sender: isSet(object.sender) ? globalThis.String(object.sender) : "",
     };
   },
 
   toJSON(message: MsgClaims): unknown {
     const obj: any = {};
-    if (!message.planId.equals(Long.UZERO)) {
-      obj.planId = (message.planId || Long.UZERO).toString();
+    if (message.plan_id !== "0") {
+      obj.plan_id = message.plan_id;
     }
     if (message.receiver !== "") {
       obj.receiver = message.receiver;
     }
-    if (message.roundId !== "") {
-      obj.roundId = message.roundId;
+    if (message.round_id !== "") {
+      obj.round_id = message.round_id;
     }
     if (message.amount !== "") {
       obj.amount = message.amount;
     }
-    if (message.merkleProof !== "") {
-      obj.merkleProof = message.merkleProof;
+    if (message.merkle_proof !== "") {
+      obj.merkle_proof = message.merkle_proof;
     }
     if (message.sender !== "") {
       obj.sender = message.sender;
@@ -908,13 +898,11 @@ export const MsgClaims = {
   },
   fromPartial<I extends Exact<DeepPartial<MsgClaims>, I>>(object: I): MsgClaims {
     const message = createBaseMsgClaims();
-    message.planId = (object.planId !== undefined && object.planId !== null)
-      ? Long.fromValue(object.planId)
-      : Long.UZERO;
+    message.plan_id = object.plan_id ?? "0";
     message.receiver = object.receiver ?? "";
-    message.roundId = object.roundId ?? "";
+    message.round_id = object.round_id ?? "";
     message.amount = object.amount ?? "";
-    message.merkleProof = object.merkleProof ?? "";
+    message.merkle_proof = object.merkle_proof ?? "";
     message.sender = object.sender ?? "";
     return message;
   },
@@ -964,13 +952,13 @@ export const MsgClaimsResponse = {
 };
 
 function createBaseMsgUpdatePlanStatus(): MsgUpdatePlanStatus {
-  return { planId: Long.UZERO, status: 0, sender: "" };
+  return { plan_id: "0", status: 0, sender: "" };
 }
 
 export const MsgUpdatePlanStatus = {
   encode(message: MsgUpdatePlanStatus, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.planId.equals(Long.UZERO)) {
-      writer.uint32(8).uint64(message.planId);
+    if (message.plan_id !== "0") {
+      writer.uint32(8).uint64(message.plan_id);
     }
     if (message.status !== 0) {
       writer.uint32(16).int32(message.status);
@@ -993,7 +981,7 @@ export const MsgUpdatePlanStatus = {
             break;
           }
 
-          message.planId = reader.uint64() as Long;
+          message.plan_id = longToString(reader.uint64() as Long);
           continue;
         case 2:
           if (tag !== 16) {
@@ -1020,7 +1008,7 @@ export const MsgUpdatePlanStatus = {
 
   fromJSON(object: any): MsgUpdatePlanStatus {
     return {
-      planId: isSet(object.planId) ? Long.fromValue(object.planId) : Long.UZERO,
+      plan_id: isSet(object.plan_id) ? globalThis.String(object.plan_id) : "0",
       status: isSet(object.status) ? planStatusFromJSON(object.status) : 0,
       sender: isSet(object.sender) ? globalThis.String(object.sender) : "",
     };
@@ -1028,8 +1016,8 @@ export const MsgUpdatePlanStatus = {
 
   toJSON(message: MsgUpdatePlanStatus): unknown {
     const obj: any = {};
-    if (!message.planId.equals(Long.UZERO)) {
-      obj.planId = (message.planId || Long.UZERO).toString();
+    if (message.plan_id !== "0") {
+      obj.plan_id = message.plan_id;
     }
     if (message.status !== 0) {
       obj.status = planStatusToJSON(message.status);
@@ -1045,9 +1033,7 @@ export const MsgUpdatePlanStatus = {
   },
   fromPartial<I extends Exact<DeepPartial<MsgUpdatePlanStatus>, I>>(object: I): MsgUpdatePlanStatus {
     const message = createBaseMsgUpdatePlanStatus();
-    message.planId = (object.planId !== undefined && object.planId !== null)
-      ? Long.fromValue(object.planId)
-      : Long.UZERO;
+    message.plan_id = object.plan_id ?? "0";
     message.status = object.status ?? 0;
     message.sender = object.sender ?? "";
     return message;
@@ -1187,13 +1173,13 @@ export const MsgCreateYAT = {
 };
 
 function createBaseMsgCreateYATResponse(): MsgCreateYATResponse {
-  return { contractAddress: "" };
+  return { contract_address: "" };
 }
 
 export const MsgCreateYATResponse = {
   encode(message: MsgCreateYATResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.contractAddress !== "") {
-      writer.uint32(10).string(message.contractAddress);
+    if (message.contract_address !== "") {
+      writer.uint32(10).string(message.contract_address);
     }
     return writer;
   },
@@ -1210,7 +1196,7 @@ export const MsgCreateYATResponse = {
             break;
           }
 
-          message.contractAddress = reader.string();
+          message.contract_address = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -1222,13 +1208,13 @@ export const MsgCreateYATResponse = {
   },
 
   fromJSON(object: any): MsgCreateYATResponse {
-    return { contractAddress: isSet(object.contractAddress) ? globalThis.String(object.contractAddress) : "" };
+    return { contract_address: isSet(object.contract_address) ? globalThis.String(object.contract_address) : "" };
   },
 
   toJSON(message: MsgCreateYATResponse): unknown {
     const obj: any = {};
-    if (message.contractAddress !== "") {
-      obj.contractAddress = message.contractAddress;
+    if (message.contract_address !== "") {
+      obj.contract_address = message.contract_address;
     }
     return obj;
   },
@@ -1238,13 +1224,13 @@ export const MsgCreateYATResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<MsgCreateYATResponse>, I>>(object: I): MsgCreateYATResponse {
     const message = createBaseMsgCreateYATResponse();
-    message.contractAddress = object.contractAddress ?? "";
+    message.contract_address = object.contract_address ?? "";
     return message;
   },
 };
 
 function createBaseMsgSetMinter(): MsgSetMinter {
-  return { minter: "", contractAddress: "", sender: "" };
+  return { minter: "", contract_address: "", sender: "" };
 }
 
 export const MsgSetMinter = {
@@ -1252,8 +1238,8 @@ export const MsgSetMinter = {
     if (message.minter !== "") {
       writer.uint32(10).string(message.minter);
     }
-    if (message.contractAddress !== "") {
-      writer.uint32(18).string(message.contractAddress);
+    if (message.contract_address !== "") {
+      writer.uint32(18).string(message.contract_address);
     }
     if (message.sender !== "") {
       writer.uint32(26).string(message.sender);
@@ -1280,7 +1266,7 @@ export const MsgSetMinter = {
             break;
           }
 
-          message.contractAddress = reader.string();
+          message.contract_address = reader.string();
           continue;
         case 3:
           if (tag !== 26) {
@@ -1301,7 +1287,7 @@ export const MsgSetMinter = {
   fromJSON(object: any): MsgSetMinter {
     return {
       minter: isSet(object.minter) ? globalThis.String(object.minter) : "",
-      contractAddress: isSet(object.contractAddress) ? globalThis.String(object.contractAddress) : "",
+      contract_address: isSet(object.contract_address) ? globalThis.String(object.contract_address) : "",
       sender: isSet(object.sender) ? globalThis.String(object.sender) : "",
     };
   },
@@ -1311,8 +1297,8 @@ export const MsgSetMinter = {
     if (message.minter !== "") {
       obj.minter = message.minter;
     }
-    if (message.contractAddress !== "") {
-      obj.contractAddress = message.contractAddress;
+    if (message.contract_address !== "") {
+      obj.contract_address = message.contract_address;
     }
     if (message.sender !== "") {
       obj.sender = message.sender;
@@ -1326,7 +1312,7 @@ export const MsgSetMinter = {
   fromPartial<I extends Exact<DeepPartial<MsgSetMinter>, I>>(object: I): MsgSetMinter {
     const message = createBaseMsgSetMinter();
     message.minter = object.minter ?? "";
-    message.contractAddress = object.contractAddress ?? "";
+    message.contract_address = object.contract_address ?? "";
     message.sender = object.sender ?? "";
     return message;
   },
@@ -1376,7 +1362,7 @@ export const MsgSetMinterResponse = {
 };
 
 function createBaseMsgRemoveMinter(): MsgRemoveMinter {
-  return { minter: "", contractAddress: "", sender: "" };
+  return { minter: "", contract_address: "", sender: "" };
 }
 
 export const MsgRemoveMinter = {
@@ -1384,8 +1370,8 @@ export const MsgRemoveMinter = {
     if (message.minter !== "") {
       writer.uint32(10).string(message.minter);
     }
-    if (message.contractAddress !== "") {
-      writer.uint32(18).string(message.contractAddress);
+    if (message.contract_address !== "") {
+      writer.uint32(18).string(message.contract_address);
     }
     if (message.sender !== "") {
       writer.uint32(26).string(message.sender);
@@ -1412,7 +1398,7 @@ export const MsgRemoveMinter = {
             break;
           }
 
-          message.contractAddress = reader.string();
+          message.contract_address = reader.string();
           continue;
         case 3:
           if (tag !== 26) {
@@ -1433,7 +1419,7 @@ export const MsgRemoveMinter = {
   fromJSON(object: any): MsgRemoveMinter {
     return {
       minter: isSet(object.minter) ? globalThis.String(object.minter) : "",
-      contractAddress: isSet(object.contractAddress) ? globalThis.String(object.contractAddress) : "",
+      contract_address: isSet(object.contract_address) ? globalThis.String(object.contract_address) : "",
       sender: isSet(object.sender) ? globalThis.String(object.sender) : "",
     };
   },
@@ -1443,8 +1429,8 @@ export const MsgRemoveMinter = {
     if (message.minter !== "") {
       obj.minter = message.minter;
     }
-    if (message.contractAddress !== "") {
-      obj.contractAddress = message.contractAddress;
+    if (message.contract_address !== "") {
+      obj.contract_address = message.contract_address;
     }
     if (message.sender !== "") {
       obj.sender = message.sender;
@@ -1458,7 +1444,7 @@ export const MsgRemoveMinter = {
   fromPartial<I extends Exact<DeepPartial<MsgRemoveMinter>, I>>(object: I): MsgRemoveMinter {
     const message = createBaseMsgRemoveMinter();
     message.minter = object.minter ?? "";
-    message.contractAddress = object.contractAddress ?? "";
+    message.contract_address = object.contract_address ?? "";
     message.sender = object.sender ?? "";
     return message;
   },
@@ -1510,32 +1496,31 @@ export const MsgRemoveMinterResponse = {
 /** Msg defines the Msg service. */
 export interface Msg {
   /** UpdateParams defines a method for updating the plan parameters. */
-  UpdateParams(request: DeepPartial<MsgUpdateParams>, metadata?: grpc.Metadata): Promise<MsgUpdateParamsResponse>;
+  UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse>;
   /** UpgradePlan defines a governance operation for upgrading an Plan contract */
-  UpgradePlan(request: DeepPartial<MsgUpgradePlan>, metadata?: grpc.Metadata): Promise<MsgUpgradePlanResponse>;
+  UpgradePlan(request: MsgUpgradePlan): Promise<MsgUpgradePlanResponse>;
   /** CreatePlan defines a method for creating a new plan. */
-  CreatePlan(request: DeepPartial<MsgCreatePlan>, metadata?: grpc.Metadata): Promise<MsgCreatePlanResponse>;
+  CreatePlan(request: MsgCreatePlan): Promise<MsgCreatePlanResponse>;
   /** SetMerkleRoot defines a method for setting the merkle root of the plan. */
-  SetMerkleRoot(request: DeepPartial<MsgSetMerkleRoot>, metadata?: grpc.Metadata): Promise<MsgSetMerkleRootResponse>;
+  SetMerkleRoot(request: MsgSetMerkleRoot): Promise<MsgSetMerkleRootResponse>;
   /** CreateClaim defines a method for claims rewards to sender. */
-  Claims(request: DeepPartial<MsgClaims>, metadata?: grpc.Metadata): Promise<MsgClaimsResponse>;
+  Claims(request: MsgClaims): Promise<MsgClaimsResponse>;
   /** UpdatePlanStatus defines a method for updating the plan status. */
-  UpdatePlanStatus(
-    request: DeepPartial<MsgUpdatePlanStatus>,
-    metadata?: grpc.Metadata,
-  ): Promise<MsgUpdatePlanStatusResponse>;
+  UpdatePlanStatus(request: MsgUpdatePlanStatus): Promise<MsgUpdatePlanStatusResponse>;
   /** CreateYAT defines a method for creating a new YAT contract. */
-  CreateYAT(request: DeepPartial<MsgCreateYAT>, metadata?: grpc.Metadata): Promise<MsgCreateYATResponse>;
+  CreateYAT(request: MsgCreateYAT): Promise<MsgCreateYATResponse>;
   /** SetMinter defines a method for setting minter of the YAT contract. */
-  SetMinter(request: DeepPartial<MsgSetMinter>, metadata?: grpc.Metadata): Promise<MsgSetMinterResponse>;
+  SetMinter(request: MsgSetMinter): Promise<MsgSetMinterResponse>;
   /** RemoveMinter defines a method for removing minter of the YAT contract. */
-  RemoveMinter(request: DeepPartial<MsgRemoveMinter>, metadata?: grpc.Metadata): Promise<MsgRemoveMinterResponse>;
+  RemoveMinter(request: MsgRemoveMinter): Promise<MsgRemoveMinterResponse>;
 }
 
+export const MsgServiceName = "lorenzo.plan.v1.Msg";
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
-
-  constructor(rpc: Rpc) {
+  private readonly service: string;
+  constructor(rpc: Rpc, opts?: { service?: string }) {
+    this.service = opts?.service || MsgServiceName;
     this.rpc = rpc;
     this.UpdateParams = this.UpdateParams.bind(this);
     this.UpgradePlan = this.UpgradePlan.bind(this);
@@ -1547,328 +1532,69 @@ export class MsgClientImpl implements Msg {
     this.SetMinter = this.SetMinter.bind(this);
     this.RemoveMinter = this.RemoveMinter.bind(this);
   }
-
-  UpdateParams(request: DeepPartial<MsgUpdateParams>, metadata?: grpc.Metadata): Promise<MsgUpdateParamsResponse> {
-    return this.rpc.unary(MsgUpdateParamsDesc, MsgUpdateParams.fromPartial(request), metadata);
+  UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse> {
+    const data = MsgUpdateParams.encode(request).finish();
+    const promise = this.rpc.request(this.service, "UpdateParams", data);
+    return promise.then((data) => MsgUpdateParamsResponse.decode(_m0.Reader.create(data)));
   }
 
-  UpgradePlan(request: DeepPartial<MsgUpgradePlan>, metadata?: grpc.Metadata): Promise<MsgUpgradePlanResponse> {
-    return this.rpc.unary(MsgUpgradePlanDesc, MsgUpgradePlan.fromPartial(request), metadata);
+  UpgradePlan(request: MsgUpgradePlan): Promise<MsgUpgradePlanResponse> {
+    const data = MsgUpgradePlan.encode(request).finish();
+    const promise = this.rpc.request(this.service, "UpgradePlan", data);
+    return promise.then((data) => MsgUpgradePlanResponse.decode(_m0.Reader.create(data)));
   }
 
-  CreatePlan(request: DeepPartial<MsgCreatePlan>, metadata?: grpc.Metadata): Promise<MsgCreatePlanResponse> {
-    return this.rpc.unary(MsgCreatePlanDesc, MsgCreatePlan.fromPartial(request), metadata);
+  CreatePlan(request: MsgCreatePlan): Promise<MsgCreatePlanResponse> {
+    const data = MsgCreatePlan.encode(request).finish();
+    const promise = this.rpc.request(this.service, "CreatePlan", data);
+    return promise.then((data) => MsgCreatePlanResponse.decode(_m0.Reader.create(data)));
   }
 
-  SetMerkleRoot(request: DeepPartial<MsgSetMerkleRoot>, metadata?: grpc.Metadata): Promise<MsgSetMerkleRootResponse> {
-    return this.rpc.unary(MsgSetMerkleRootDesc, MsgSetMerkleRoot.fromPartial(request), metadata);
+  SetMerkleRoot(request: MsgSetMerkleRoot): Promise<MsgSetMerkleRootResponse> {
+    const data = MsgSetMerkleRoot.encode(request).finish();
+    const promise = this.rpc.request(this.service, "SetMerkleRoot", data);
+    return promise.then((data) => MsgSetMerkleRootResponse.decode(_m0.Reader.create(data)));
   }
 
-  Claims(request: DeepPartial<MsgClaims>, metadata?: grpc.Metadata): Promise<MsgClaimsResponse> {
-    return this.rpc.unary(MsgClaimsDesc, MsgClaims.fromPartial(request), metadata);
+  Claims(request: MsgClaims): Promise<MsgClaimsResponse> {
+    const data = MsgClaims.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Claims", data);
+    return promise.then((data) => MsgClaimsResponse.decode(_m0.Reader.create(data)));
   }
 
-  UpdatePlanStatus(
-    request: DeepPartial<MsgUpdatePlanStatus>,
-    metadata?: grpc.Metadata,
-  ): Promise<MsgUpdatePlanStatusResponse> {
-    return this.rpc.unary(MsgUpdatePlanStatusDesc, MsgUpdatePlanStatus.fromPartial(request), metadata);
+  UpdatePlanStatus(request: MsgUpdatePlanStatus): Promise<MsgUpdatePlanStatusResponse> {
+    const data = MsgUpdatePlanStatus.encode(request).finish();
+    const promise = this.rpc.request(this.service, "UpdatePlanStatus", data);
+    return promise.then((data) => MsgUpdatePlanStatusResponse.decode(_m0.Reader.create(data)));
   }
 
-  CreateYAT(request: DeepPartial<MsgCreateYAT>, metadata?: grpc.Metadata): Promise<MsgCreateYATResponse> {
-    return this.rpc.unary(MsgCreateYATDesc, MsgCreateYAT.fromPartial(request), metadata);
+  CreateYAT(request: MsgCreateYAT): Promise<MsgCreateYATResponse> {
+    const data = MsgCreateYAT.encode(request).finish();
+    const promise = this.rpc.request(this.service, "CreateYAT", data);
+    return promise.then((data) => MsgCreateYATResponse.decode(_m0.Reader.create(data)));
   }
 
-  SetMinter(request: DeepPartial<MsgSetMinter>, metadata?: grpc.Metadata): Promise<MsgSetMinterResponse> {
-    return this.rpc.unary(MsgSetMinterDesc, MsgSetMinter.fromPartial(request), metadata);
+  SetMinter(request: MsgSetMinter): Promise<MsgSetMinterResponse> {
+    const data = MsgSetMinter.encode(request).finish();
+    const promise = this.rpc.request(this.service, "SetMinter", data);
+    return promise.then((data) => MsgSetMinterResponse.decode(_m0.Reader.create(data)));
   }
 
-  RemoveMinter(request: DeepPartial<MsgRemoveMinter>, metadata?: grpc.Metadata): Promise<MsgRemoveMinterResponse> {
-    return this.rpc.unary(MsgRemoveMinterDesc, MsgRemoveMinter.fromPartial(request), metadata);
+  RemoveMinter(request: MsgRemoveMinter): Promise<MsgRemoveMinterResponse> {
+    const data = MsgRemoveMinter.encode(request).finish();
+    const promise = this.rpc.request(this.service, "RemoveMinter", data);
+    return promise.then((data) => MsgRemoveMinterResponse.decode(_m0.Reader.create(data)));
   }
 }
-
-export const MsgDesc = { serviceName: "lorenzo.plan.v1.Msg" };
-
-export const MsgUpdateParamsDesc: UnaryMethodDefinitionish = {
-  methodName: "UpdateParams",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgUpdateParams.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgUpdateParamsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgUpgradePlanDesc: UnaryMethodDefinitionish = {
-  methodName: "UpgradePlan",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgUpgradePlan.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgUpgradePlanResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgCreatePlanDesc: UnaryMethodDefinitionish = {
-  methodName: "CreatePlan",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgCreatePlan.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgCreatePlanResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgSetMerkleRootDesc: UnaryMethodDefinitionish = {
-  methodName: "SetMerkleRoot",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgSetMerkleRoot.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgSetMerkleRootResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgClaimsDesc: UnaryMethodDefinitionish = {
-  methodName: "Claims",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgClaims.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgClaimsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgUpdatePlanStatusDesc: UnaryMethodDefinitionish = {
-  methodName: "UpdatePlanStatus",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgUpdatePlanStatus.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgUpdatePlanStatusResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgCreateYATDesc: UnaryMethodDefinitionish = {
-  methodName: "CreateYAT",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgCreateYAT.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgCreateYATResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgSetMinterDesc: UnaryMethodDefinitionish = {
-  methodName: "SetMinter",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgSetMinter.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgSetMinterResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgRemoveMinterDesc: UnaryMethodDefinitionish = {
-  methodName: "RemoveMinter",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgRemoveMinter.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgRemoveMinterResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-interface UnaryMethodDefinitionishR extends grpc.UnaryMethodDefinition<any, any> {
-  requestStream: any;
-  responseStream: any;
-}
-
-type UnaryMethodDefinitionish = UnaryMethodDefinitionishR;
 
 interface Rpc {
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any>;
-}
-
-export class GrpcWebImpl {
-  private host: string;
-  private options: {
-    transport?: grpc.TransportFactory;
-
-    debug?: boolean;
-    metadata?: grpc.Metadata;
-    upStreamRetryCodes?: number[];
-  };
-
-  constructor(
-    host: string,
-    options: {
-      transport?: grpc.TransportFactory;
-
-      debug?: boolean;
-      metadata?: grpc.Metadata;
-      upStreamRetryCodes?: number[];
-    },
-  ) {
-    this.host = host;
-    this.options = options;
-  }
-
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    _request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any> {
-    const request = { ..._request, ...methodDesc.requestType };
-    const maybeCombinedMetadata = metadata && this.options.metadata
-      ? new BrowserHeaders({ ...this.options?.metadata.headersMap, ...metadata?.headersMap })
-      : metadata ?? this.options.metadata;
-    return new Promise((resolve, reject) => {
-      grpc.unary(methodDesc, {
-        request,
-        host: this.host,
-        metadata: maybeCombinedMetadata ?? {},
-        ...(this.options.transport !== undefined ? { transport: this.options.transport } : {}),
-        debug: this.options.debug ?? false,
-        onEnd: function (response) {
-          if (response.status === grpc.Code.OK) {
-            resolve(response.message!.toObject());
-          } else {
-            const err = new GrpcWebError(response.statusMessage, response.status, response.trailers);
-            reject(err);
-          }
-        },
-      });
-    });
-  }
+  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -1877,6 +1603,10 @@ type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
+function longToString(long: Long) {
+  return long.toString();
+}
+
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;
   _m0.configure();
@@ -1884,10 +1614,4 @@ if (_m0.util.Long !== Long) {
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
-}
-
-export class GrpcWebError extends globalThis.Error {
-  constructor(message: string, public code: grpc.Code, public metadata: grpc.Metadata) {
-    super(message);
-  }
 }

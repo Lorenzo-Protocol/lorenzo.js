@@ -5,9 +5,6 @@
 // source: lorenzo/btcstaking/v1/query.proto
 
 /* eslint-disable */
-import { grpc } from "@improbable-eng/grpc-web";
-import { BrowserHeaders } from "browser-headers";
-import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { Params } from "./params";
 import { BTCStakingRecord } from "./staking_record";
@@ -20,12 +17,12 @@ export interface QueryParamsResponse {
 }
 
 export interface StakingRecordDisplay {
-  txId: string;
-  receiverAddress: string;
+  tx_id: string;
+  receiver_address: string;
   amount: string;
-  agentName: string;
-  agentBtcAddr: string;
-  chainId: number;
+  agent_name: string;
+  agent_btc_addr: string;
+  chain_id: number;
 }
 
 export interface QueryStakingRecordRequest {
@@ -139,28 +136,28 @@ export const QueryParamsResponse = {
 };
 
 function createBaseStakingRecordDisplay(): StakingRecordDisplay {
-  return { txId: "", receiverAddress: "", amount: "", agentName: "", agentBtcAddr: "", chainId: 0 };
+  return { tx_id: "", receiver_address: "", amount: "", agent_name: "", agent_btc_addr: "", chain_id: 0 };
 }
 
 export const StakingRecordDisplay = {
   encode(message: StakingRecordDisplay, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.txId !== "") {
-      writer.uint32(10).string(message.txId);
+    if (message.tx_id !== "") {
+      writer.uint32(10).string(message.tx_id);
     }
-    if (message.receiverAddress !== "") {
-      writer.uint32(18).string(message.receiverAddress);
+    if (message.receiver_address !== "") {
+      writer.uint32(18).string(message.receiver_address);
     }
     if (message.amount !== "") {
       writer.uint32(26).string(message.amount);
     }
-    if (message.agentName !== "") {
-      writer.uint32(34).string(message.agentName);
+    if (message.agent_name !== "") {
+      writer.uint32(34).string(message.agent_name);
     }
-    if (message.agentBtcAddr !== "") {
-      writer.uint32(42).string(message.agentBtcAddr);
+    if (message.agent_btc_addr !== "") {
+      writer.uint32(42).string(message.agent_btc_addr);
     }
-    if (message.chainId !== 0) {
-      writer.uint32(48).uint32(message.chainId);
+    if (message.chain_id !== 0) {
+      writer.uint32(48).uint32(message.chain_id);
     }
     return writer;
   },
@@ -177,14 +174,14 @@ export const StakingRecordDisplay = {
             break;
           }
 
-          message.txId = reader.string();
+          message.tx_id = reader.string();
           continue;
         case 2:
           if (tag !== 18) {
             break;
           }
 
-          message.receiverAddress = reader.string();
+          message.receiver_address = reader.string();
           continue;
         case 3:
           if (tag !== 26) {
@@ -198,21 +195,21 @@ export const StakingRecordDisplay = {
             break;
           }
 
-          message.agentName = reader.string();
+          message.agent_name = reader.string();
           continue;
         case 5:
           if (tag !== 42) {
             break;
           }
 
-          message.agentBtcAddr = reader.string();
+          message.agent_btc_addr = reader.string();
           continue;
         case 6:
           if (tag !== 48) {
             break;
           }
 
-          message.chainId = reader.uint32();
+          message.chain_id = reader.uint32();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -225,34 +222,34 @@ export const StakingRecordDisplay = {
 
   fromJSON(object: any): StakingRecordDisplay {
     return {
-      txId: isSet(object.txId) ? globalThis.String(object.txId) : "",
-      receiverAddress: isSet(object.receiverAddress) ? globalThis.String(object.receiverAddress) : "",
+      tx_id: isSet(object.tx_id) ? globalThis.String(object.tx_id) : "",
+      receiver_address: isSet(object.receiver_address) ? globalThis.String(object.receiver_address) : "",
       amount: isSet(object.amount) ? globalThis.String(object.amount) : "",
-      agentName: isSet(object.agentName) ? globalThis.String(object.agentName) : "",
-      agentBtcAddr: isSet(object.agentBtcAddr) ? globalThis.String(object.agentBtcAddr) : "",
-      chainId: isSet(object.chainId) ? globalThis.Number(object.chainId) : 0,
+      agent_name: isSet(object.agent_name) ? globalThis.String(object.agent_name) : "",
+      agent_btc_addr: isSet(object.agent_btc_addr) ? globalThis.String(object.agent_btc_addr) : "",
+      chain_id: isSet(object.chain_id) ? globalThis.Number(object.chain_id) : 0,
     };
   },
 
   toJSON(message: StakingRecordDisplay): unknown {
     const obj: any = {};
-    if (message.txId !== "") {
-      obj.txId = message.txId;
+    if (message.tx_id !== "") {
+      obj.tx_id = message.tx_id;
     }
-    if (message.receiverAddress !== "") {
-      obj.receiverAddress = message.receiverAddress;
+    if (message.receiver_address !== "") {
+      obj.receiver_address = message.receiver_address;
     }
     if (message.amount !== "") {
       obj.amount = message.amount;
     }
-    if (message.agentName !== "") {
-      obj.agentName = message.agentName;
+    if (message.agent_name !== "") {
+      obj.agent_name = message.agent_name;
     }
-    if (message.agentBtcAddr !== "") {
-      obj.agentBtcAddr = message.agentBtcAddr;
+    if (message.agent_btc_addr !== "") {
+      obj.agent_btc_addr = message.agent_btc_addr;
     }
-    if (message.chainId !== 0) {
-      obj.chainId = Math.round(message.chainId);
+    if (message.chain_id !== 0) {
+      obj.chain_id = Math.round(message.chain_id);
     }
     return obj;
   },
@@ -262,12 +259,12 @@ export const StakingRecordDisplay = {
   },
   fromPartial<I extends Exact<DeepPartial<StakingRecordDisplay>, I>>(object: I): StakingRecordDisplay {
     const message = createBaseStakingRecordDisplay();
-    message.txId = object.txId ?? "";
-    message.receiverAddress = object.receiverAddress ?? "";
+    message.tx_id = object.tx_id ?? "";
+    message.receiver_address = object.receiver_address ?? "";
     message.amount = object.amount ?? "";
-    message.agentName = object.agentName ?? "";
-    message.agentBtcAddr = object.agentBtcAddr ?? "";
-    message.chainId = object.chainId ?? 0;
+    message.agent_name = object.agent_name ?? "";
+    message.agent_btc_addr = object.agent_btc_addr ?? "";
+    message.chain_id = object.chain_id ?? 0;
     return message;
   },
 };
@@ -389,148 +386,35 @@ export const QueryStakingRecordResponse = {
 };
 
 export interface Query {
-  Params(request: DeepPartial<QueryParamsRequest>, metadata?: grpc.Metadata): Promise<QueryParamsResponse>;
-  StakingRecord(
-    request: DeepPartial<QueryStakingRecordRequest>,
-    metadata?: grpc.Metadata,
-  ): Promise<QueryStakingRecordResponse>;
+  Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
+  StakingRecord(request: QueryStakingRecordRequest): Promise<QueryStakingRecordResponse>;
 }
 
+export const QueryServiceName = "lorenzo.btcstaking.v1.Query";
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
-
-  constructor(rpc: Rpc) {
+  private readonly service: string;
+  constructor(rpc: Rpc, opts?: { service?: string }) {
+    this.service = opts?.service || QueryServiceName;
     this.rpc = rpc;
     this.Params = this.Params.bind(this);
     this.StakingRecord = this.StakingRecord.bind(this);
   }
-
-  Params(request: DeepPartial<QueryParamsRequest>, metadata?: grpc.Metadata): Promise<QueryParamsResponse> {
-    return this.rpc.unary(QueryParamsDesc, QueryParamsRequest.fromPartial(request), metadata);
+  Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
+    const data = QueryParamsRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Params", data);
+    return promise.then((data) => QueryParamsResponse.decode(_m0.Reader.create(data)));
   }
 
-  StakingRecord(
-    request: DeepPartial<QueryStakingRecordRequest>,
-    metadata?: grpc.Metadata,
-  ): Promise<QueryStakingRecordResponse> {
-    return this.rpc.unary(QueryStakingRecordDesc, QueryStakingRecordRequest.fromPartial(request), metadata);
+  StakingRecord(request: QueryStakingRecordRequest): Promise<QueryStakingRecordResponse> {
+    const data = QueryStakingRecordRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "StakingRecord", data);
+    return promise.then((data) => QueryStakingRecordResponse.decode(_m0.Reader.create(data)));
   }
 }
-
-export const QueryDesc = { serviceName: "lorenzo.btcstaking.v1.Query" };
-
-export const QueryParamsDesc: UnaryMethodDefinitionish = {
-  methodName: "Params",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryParamsRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryParamsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryStakingRecordDesc: UnaryMethodDefinitionish = {
-  methodName: "StakingRecord",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryStakingRecordRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryStakingRecordResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-interface UnaryMethodDefinitionishR extends grpc.UnaryMethodDefinition<any, any> {
-  requestStream: any;
-  responseStream: any;
-}
-
-type UnaryMethodDefinitionish = UnaryMethodDefinitionishR;
 
 interface Rpc {
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any>;
-}
-
-export class GrpcWebImpl {
-  private host: string;
-  private options: {
-    transport?: grpc.TransportFactory;
-
-    debug?: boolean;
-    metadata?: grpc.Metadata;
-    upStreamRetryCodes?: number[];
-  };
-
-  constructor(
-    host: string,
-    options: {
-      transport?: grpc.TransportFactory;
-
-      debug?: boolean;
-      metadata?: grpc.Metadata;
-      upStreamRetryCodes?: number[];
-    },
-  ) {
-    this.host = host;
-    this.options = options;
-  }
-
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    _request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any> {
-    const request = { ..._request, ...methodDesc.requestType };
-    const maybeCombinedMetadata = metadata && this.options.metadata
-      ? new BrowserHeaders({ ...this.options?.metadata.headersMap, ...metadata?.headersMap })
-      : metadata ?? this.options.metadata;
-    return new Promise((resolve, reject) => {
-      grpc.unary(methodDesc, {
-        request,
-        host: this.host,
-        metadata: maybeCombinedMetadata ?? {},
-        ...(this.options.transport !== undefined ? { transport: this.options.transport } : {}),
-        debug: this.options.debug ?? false,
-        onEnd: function (response) {
-          if (response.status === grpc.Code.OK) {
-            resolve(response.message!.toObject());
-          } else {
-            const err = new GrpcWebError(response.statusMessage, response.status, response.trailers);
-            reject(err);
-          }
-        },
-      });
-    });
-  }
+  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
 }
 
 function bytesFromBase64(b64: string): Uint8Array {
@@ -561,7 +445,7 @@ function base64FromBytes(arr: Uint8Array): string {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -570,17 +454,6 @@ type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
-if (_m0.util.Long !== Long) {
-  _m0.util.Long = Long as any;
-  _m0.configure();
-}
-
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
-}
-
-export class GrpcWebError extends globalThis.Error {
-  constructor(message: string, public code: grpc.Code, public metadata: grpc.Metadata) {
-    super(message);
-  }
 }

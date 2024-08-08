@@ -5,9 +5,6 @@
 // source: lorenzo/token/v1/tx.proto
 
 /* eslint-disable */
-import { grpc } from "@improbable-eng/grpc-web";
-import { BrowserHeaders } from "browser-headers";
-import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { Metadata } from "../../../cosmos/bank/v1beta1/bank";
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
@@ -35,7 +32,7 @@ export interface MsgRegisterERC20 {
   /** authority is the address that can update the parameters */
   authority: string;
   /** metadata slice of erc20 token contract addresses */
-  contractAddresses: string[];
+  contract_addresses: string[];
 }
 
 export interface MsgRegisterERC20Response {
@@ -73,7 +70,7 @@ export interface MsgConvertCoinResponse {
 /** MsgConvertERC20 converts an ERC20 token to a coin */
 export interface MsgConvertERC20 {
   /** contract address of the ERC20 token */
-  contractAddress: string;
+  contract_address: string;
   /** amount of tokens to be converted */
   amount: string;
   /** receiver of the coin */
@@ -214,7 +211,7 @@ export const MsgRegisterCoinResponse = {
 };
 
 function createBaseMsgRegisterERC20(): MsgRegisterERC20 {
-  return { authority: "", contractAddresses: [] };
+  return { authority: "", contract_addresses: [] };
 }
 
 export const MsgRegisterERC20 = {
@@ -222,7 +219,7 @@ export const MsgRegisterERC20 = {
     if (message.authority !== "") {
       writer.uint32(10).string(message.authority);
     }
-    for (const v of message.contractAddresses) {
+    for (const v of message.contract_addresses) {
       writer.uint32(18).string(v!);
     }
     return writer;
@@ -247,7 +244,7 @@ export const MsgRegisterERC20 = {
             break;
           }
 
-          message.contractAddresses.push(reader.string());
+          message.contract_addresses.push(reader.string());
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -261,8 +258,8 @@ export const MsgRegisterERC20 = {
   fromJSON(object: any): MsgRegisterERC20 {
     return {
       authority: isSet(object.authority) ? globalThis.String(object.authority) : "",
-      contractAddresses: globalThis.Array.isArray(object?.contractAddresses)
-        ? object.contractAddresses.map((e: any) => globalThis.String(e))
+      contract_addresses: globalThis.Array.isArray(object?.contract_addresses)
+        ? object.contract_addresses.map((e: any) => globalThis.String(e))
         : [],
     };
   },
@@ -272,8 +269,8 @@ export const MsgRegisterERC20 = {
     if (message.authority !== "") {
       obj.authority = message.authority;
     }
-    if (message.contractAddresses?.length) {
-      obj.contractAddresses = message.contractAddresses;
+    if (message.contract_addresses?.length) {
+      obj.contract_addresses = message.contract_addresses;
     }
     return obj;
   },
@@ -284,7 +281,7 @@ export const MsgRegisterERC20 = {
   fromPartial<I extends Exact<DeepPartial<MsgRegisterERC20>, I>>(object: I): MsgRegisterERC20 {
     const message = createBaseMsgRegisterERC20();
     message.authority = object.authority ?? "";
-    message.contractAddresses = object.contractAddresses?.map((e) => e) || [];
+    message.contract_addresses = object.contract_addresses?.map((e) => e) || [];
     return message;
   },
 };
@@ -582,13 +579,13 @@ export const MsgConvertCoinResponse = {
 };
 
 function createBaseMsgConvertERC20(): MsgConvertERC20 {
-  return { contractAddress: "", amount: "", receiver: "", sender: "" };
+  return { contract_address: "", amount: "", receiver: "", sender: "" };
 }
 
 export const MsgConvertERC20 = {
   encode(message: MsgConvertERC20, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.contractAddress !== "") {
-      writer.uint32(10).string(message.contractAddress);
+    if (message.contract_address !== "") {
+      writer.uint32(10).string(message.contract_address);
     }
     if (message.amount !== "") {
       writer.uint32(18).string(message.amount);
@@ -614,7 +611,7 @@ export const MsgConvertERC20 = {
             break;
           }
 
-          message.contractAddress = reader.string();
+          message.contract_address = reader.string();
           continue;
         case 2:
           if (tag !== 18) {
@@ -648,7 +645,7 @@ export const MsgConvertERC20 = {
 
   fromJSON(object: any): MsgConvertERC20 {
     return {
-      contractAddress: isSet(object.contractAddress) ? globalThis.String(object.contractAddress) : "",
+      contract_address: isSet(object.contract_address) ? globalThis.String(object.contract_address) : "",
       amount: isSet(object.amount) ? globalThis.String(object.amount) : "",
       receiver: isSet(object.receiver) ? globalThis.String(object.receiver) : "",
       sender: isSet(object.sender) ? globalThis.String(object.sender) : "",
@@ -657,8 +654,8 @@ export const MsgConvertERC20 = {
 
   toJSON(message: MsgConvertERC20): unknown {
     const obj: any = {};
-    if (message.contractAddress !== "") {
-      obj.contractAddress = message.contractAddress;
+    if (message.contract_address !== "") {
+      obj.contract_address = message.contract_address;
     }
     if (message.amount !== "") {
       obj.amount = message.amount;
@@ -677,7 +674,7 @@ export const MsgConvertERC20 = {
   },
   fromPartial<I extends Exact<DeepPartial<MsgConvertERC20>, I>>(object: I): MsgConvertERC20 {
     const message = createBaseMsgConvertERC20();
-    message.contractAddress = object.contractAddress ?? "";
+    message.contract_address = object.contract_address ?? "";
     message.amount = object.amount ?? "";
     message.receiver = object.receiver ?? "";
     message.sender = object.sender ?? "";
@@ -849,26 +846,25 @@ export const MsgUpdateParamsResponse = {
 
 export interface Msg {
   /** RegisterCoin registers a token pair for existing coin */
-  RegisterCoin(request: DeepPartial<MsgRegisterCoin>, metadata?: grpc.Metadata): Promise<MsgRegisterCoinResponse>;
+  RegisterCoin(request: MsgRegisterCoin): Promise<MsgRegisterCoinResponse>;
   /** RegisterERC20 registers a token pair for existing erc20 contract */
-  RegisterERC20(request: DeepPartial<MsgRegisterERC20>, metadata?: grpc.Metadata): Promise<MsgRegisterERC20Response>;
+  RegisterERC20(request: MsgRegisterERC20): Promise<MsgRegisterERC20Response>;
   /** ToggleConversion toggles the conversion for a token pair */
-  ToggleConversion(
-    request: DeepPartial<MsgToggleConversion>,
-    metadata?: grpc.Metadata,
-  ): Promise<MsgToggleConversionResponse>;
+  ToggleConversion(request: MsgToggleConversion): Promise<MsgToggleConversionResponse>;
   /** ConvertCoin converts a coin to an ERC20 token */
-  ConvertCoin(request: DeepPartial<MsgConvertCoin>, metadata?: grpc.Metadata): Promise<MsgConvertCoinResponse>;
+  ConvertCoin(request: MsgConvertCoin): Promise<MsgConvertCoinResponse>;
   /** ConvertERC20 converts an ERC20 token to a coin */
-  ConvertERC20(request: DeepPartial<MsgConvertERC20>, metadata?: grpc.Metadata): Promise<MsgConvertERC20Response>;
+  ConvertERC20(request: MsgConvertERC20): Promise<MsgConvertERC20Response>;
   /** UpdateParams updates the convert module parameters */
-  UpdateParams(request: DeepPartial<MsgUpdateParams>, metadata?: grpc.Metadata): Promise<MsgUpdateParamsResponse>;
+  UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse>;
 }
 
+export const MsgServiceName = "lorenzo.token.v1.Msg";
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
-
-  constructor(rpc: Rpc) {
+  private readonly service: string;
+  constructor(rpc: Rpc, opts?: { service?: string }) {
+    this.service = opts?.service || MsgServiceName;
     this.rpc = rpc;
     this.RegisterCoin = this.RegisterCoin.bind(this);
     this.RegisterERC20 = this.RegisterERC20.bind(this);
@@ -877,247 +873,51 @@ export class MsgClientImpl implements Msg {
     this.ConvertERC20 = this.ConvertERC20.bind(this);
     this.UpdateParams = this.UpdateParams.bind(this);
   }
-
-  RegisterCoin(request: DeepPartial<MsgRegisterCoin>, metadata?: grpc.Metadata): Promise<MsgRegisterCoinResponse> {
-    return this.rpc.unary(MsgRegisterCoinDesc, MsgRegisterCoin.fromPartial(request), metadata);
+  RegisterCoin(request: MsgRegisterCoin): Promise<MsgRegisterCoinResponse> {
+    const data = MsgRegisterCoin.encode(request).finish();
+    const promise = this.rpc.request(this.service, "RegisterCoin", data);
+    return promise.then((data) => MsgRegisterCoinResponse.decode(_m0.Reader.create(data)));
   }
 
-  RegisterERC20(request: DeepPartial<MsgRegisterERC20>, metadata?: grpc.Metadata): Promise<MsgRegisterERC20Response> {
-    return this.rpc.unary(MsgRegisterERC20Desc, MsgRegisterERC20.fromPartial(request), metadata);
+  RegisterERC20(request: MsgRegisterERC20): Promise<MsgRegisterERC20Response> {
+    const data = MsgRegisterERC20.encode(request).finish();
+    const promise = this.rpc.request(this.service, "RegisterERC20", data);
+    return promise.then((data) => MsgRegisterERC20Response.decode(_m0.Reader.create(data)));
   }
 
-  ToggleConversion(
-    request: DeepPartial<MsgToggleConversion>,
-    metadata?: grpc.Metadata,
-  ): Promise<MsgToggleConversionResponse> {
-    return this.rpc.unary(MsgToggleConversionDesc, MsgToggleConversion.fromPartial(request), metadata);
+  ToggleConversion(request: MsgToggleConversion): Promise<MsgToggleConversionResponse> {
+    const data = MsgToggleConversion.encode(request).finish();
+    const promise = this.rpc.request(this.service, "ToggleConversion", data);
+    return promise.then((data) => MsgToggleConversionResponse.decode(_m0.Reader.create(data)));
   }
 
-  ConvertCoin(request: DeepPartial<MsgConvertCoin>, metadata?: grpc.Metadata): Promise<MsgConvertCoinResponse> {
-    return this.rpc.unary(MsgConvertCoinDesc, MsgConvertCoin.fromPartial(request), metadata);
+  ConvertCoin(request: MsgConvertCoin): Promise<MsgConvertCoinResponse> {
+    const data = MsgConvertCoin.encode(request).finish();
+    const promise = this.rpc.request(this.service, "ConvertCoin", data);
+    return promise.then((data) => MsgConvertCoinResponse.decode(_m0.Reader.create(data)));
   }
 
-  ConvertERC20(request: DeepPartial<MsgConvertERC20>, metadata?: grpc.Metadata): Promise<MsgConvertERC20Response> {
-    return this.rpc.unary(MsgConvertERC20Desc, MsgConvertERC20.fromPartial(request), metadata);
+  ConvertERC20(request: MsgConvertERC20): Promise<MsgConvertERC20Response> {
+    const data = MsgConvertERC20.encode(request).finish();
+    const promise = this.rpc.request(this.service, "ConvertERC20", data);
+    return promise.then((data) => MsgConvertERC20Response.decode(_m0.Reader.create(data)));
   }
 
-  UpdateParams(request: DeepPartial<MsgUpdateParams>, metadata?: grpc.Metadata): Promise<MsgUpdateParamsResponse> {
-    return this.rpc.unary(MsgUpdateParamsDesc, MsgUpdateParams.fromPartial(request), metadata);
+  UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse> {
+    const data = MsgUpdateParams.encode(request).finish();
+    const promise = this.rpc.request(this.service, "UpdateParams", data);
+    return promise.then((data) => MsgUpdateParamsResponse.decode(_m0.Reader.create(data)));
   }
 }
-
-export const MsgDesc = { serviceName: "lorenzo.token.v1.Msg" };
-
-export const MsgRegisterCoinDesc: UnaryMethodDefinitionish = {
-  methodName: "RegisterCoin",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgRegisterCoin.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgRegisterCoinResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgRegisterERC20Desc: UnaryMethodDefinitionish = {
-  methodName: "RegisterERC20",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgRegisterERC20.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgRegisterERC20Response.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgToggleConversionDesc: UnaryMethodDefinitionish = {
-  methodName: "ToggleConversion",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgToggleConversion.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgToggleConversionResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgConvertCoinDesc: UnaryMethodDefinitionish = {
-  methodName: "ConvertCoin",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgConvertCoin.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgConvertCoinResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgConvertERC20Desc: UnaryMethodDefinitionish = {
-  methodName: "ConvertERC20",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgConvertERC20.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgConvertERC20Response.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgUpdateParamsDesc: UnaryMethodDefinitionish = {
-  methodName: "UpdateParams",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgUpdateParams.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgUpdateParamsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-interface UnaryMethodDefinitionishR extends grpc.UnaryMethodDefinition<any, any> {
-  requestStream: any;
-  responseStream: any;
-}
-
-type UnaryMethodDefinitionish = UnaryMethodDefinitionishR;
 
 interface Rpc {
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any>;
-}
-
-export class GrpcWebImpl {
-  private host: string;
-  private options: {
-    transport?: grpc.TransportFactory;
-
-    debug?: boolean;
-    metadata?: grpc.Metadata;
-    upStreamRetryCodes?: number[];
-  };
-
-  constructor(
-    host: string,
-    options: {
-      transport?: grpc.TransportFactory;
-
-      debug?: boolean;
-      metadata?: grpc.Metadata;
-      upStreamRetryCodes?: number[];
-    },
-  ) {
-    this.host = host;
-    this.options = options;
-  }
-
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    _request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any> {
-    const request = { ..._request, ...methodDesc.requestType };
-    const maybeCombinedMetadata = metadata && this.options.metadata
-      ? new BrowserHeaders({ ...this.options?.metadata.headersMap, ...metadata?.headersMap })
-      : metadata ?? this.options.metadata;
-    return new Promise((resolve, reject) => {
-      grpc.unary(methodDesc, {
-        request,
-        host: this.host,
-        metadata: maybeCombinedMetadata ?? {},
-        ...(this.options.transport !== undefined ? { transport: this.options.transport } : {}),
-        debug: this.options.debug ?? false,
-        onEnd: function (response) {
-          if (response.status === grpc.Code.OK) {
-            resolve(response.message!.toObject());
-          } else {
-            const err = new GrpcWebError(response.statusMessage, response.status, response.trailers);
-            reject(err);
-          }
-        },
-      });
-    });
-  }
+  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -1126,17 +926,6 @@ type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
-if (_m0.util.Long !== Long) {
-  _m0.util.Long = Long as any;
-  _m0.configure();
-}
-
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
-}
-
-export class GrpcWebError extends globalThis.Error {
-  constructor(message: string, public code: grpc.Code, public metadata: grpc.Metadata) {
-    super(message);
-  }
 }

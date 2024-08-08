@@ -5,8 +5,6 @@
 // source: lorenzo/btclightclient/v1/tx.proto
 
 /* eslint-disable */
-import { grpc } from "@improbable-eng/grpc-web";
-import { BrowserHeaders } from "browser-headers";
 import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { Params } from "./params";
@@ -51,7 +49,7 @@ export interface MsgUpdateParamsResponse {
 export interface MsgUpdateFeeRate {
   signer: string;
   /** sat/vbyte * 1000 */
-  feeRate: Long;
+  fee_rate: string;
 }
 
 export interface MsgUpdateFeeRateResponse {
@@ -294,7 +292,7 @@ export const MsgUpdateParamsResponse = {
 };
 
 function createBaseMsgUpdateFeeRate(): MsgUpdateFeeRate {
-  return { signer: "", feeRate: Long.UZERO };
+  return { signer: "", fee_rate: "0" };
 }
 
 export const MsgUpdateFeeRate = {
@@ -302,8 +300,8 @@ export const MsgUpdateFeeRate = {
     if (message.signer !== "") {
       writer.uint32(10).string(message.signer);
     }
-    if (!message.feeRate.equals(Long.UZERO)) {
-      writer.uint32(16).uint64(message.feeRate);
+    if (message.fee_rate !== "0") {
+      writer.uint32(16).uint64(message.fee_rate);
     }
     return writer;
   },
@@ -327,7 +325,7 @@ export const MsgUpdateFeeRate = {
             break;
           }
 
-          message.feeRate = reader.uint64() as Long;
+          message.fee_rate = longToString(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -341,7 +339,7 @@ export const MsgUpdateFeeRate = {
   fromJSON(object: any): MsgUpdateFeeRate {
     return {
       signer: isSet(object.signer) ? globalThis.String(object.signer) : "",
-      feeRate: isSet(object.feeRate) ? Long.fromValue(object.feeRate) : Long.UZERO,
+      fee_rate: isSet(object.fee_rate) ? globalThis.String(object.fee_rate) : "0",
     };
   },
 
@@ -350,8 +348,8 @@ export const MsgUpdateFeeRate = {
     if (message.signer !== "") {
       obj.signer = message.signer;
     }
-    if (!message.feeRate.equals(Long.UZERO)) {
-      obj.feeRate = (message.feeRate || Long.UZERO).toString();
+    if (message.fee_rate !== "0") {
+      obj.fee_rate = message.fee_rate;
     }
     return obj;
   },
@@ -362,9 +360,7 @@ export const MsgUpdateFeeRate = {
   fromPartial<I extends Exact<DeepPartial<MsgUpdateFeeRate>, I>>(object: I): MsgUpdateFeeRate {
     const message = createBaseMsgUpdateFeeRate();
     message.signer = object.signer ?? "";
-    message.feeRate = (object.feeRate !== undefined && object.feeRate !== null)
-      ? Long.fromValue(object.feeRate)
-      : Long.UZERO;
+    message.fee_rate = object.fee_rate ?? "0";
     return message;
   },
 };
@@ -415,175 +411,47 @@ export const MsgUpdateFeeRateResponse = {
 /** Msg defines the Msg service. */
 export interface Msg {
   /** InsertHeaders adds a batch of headers to the BTC light client chain */
-  InsertHeaders(request: DeepPartial<MsgInsertHeaders>, metadata?: grpc.Metadata): Promise<MsgInsertHeadersResponse>;
+  InsertHeaders(request: MsgInsertHeaders): Promise<MsgInsertHeadersResponse>;
   /**
    * UpdateParams defines a method for updating btc light client module
    * parameters.
    */
-  UpdateParams(request: DeepPartial<MsgUpdateParams>, metadata?: grpc.Metadata): Promise<MsgUpdateParamsResponse>;
-  UpdateFeeRate(request: DeepPartial<MsgUpdateFeeRate>, metadata?: grpc.Metadata): Promise<MsgUpdateFeeRateResponse>;
+  UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse>;
+  UpdateFeeRate(request: MsgUpdateFeeRate): Promise<MsgUpdateFeeRateResponse>;
 }
 
+export const MsgServiceName = "lorenzo.btclightclient.v1.Msg";
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
-
-  constructor(rpc: Rpc) {
+  private readonly service: string;
+  constructor(rpc: Rpc, opts?: { service?: string }) {
+    this.service = opts?.service || MsgServiceName;
     this.rpc = rpc;
     this.InsertHeaders = this.InsertHeaders.bind(this);
     this.UpdateParams = this.UpdateParams.bind(this);
     this.UpdateFeeRate = this.UpdateFeeRate.bind(this);
   }
-
-  InsertHeaders(request: DeepPartial<MsgInsertHeaders>, metadata?: grpc.Metadata): Promise<MsgInsertHeadersResponse> {
-    return this.rpc.unary(MsgInsertHeadersDesc, MsgInsertHeaders.fromPartial(request), metadata);
+  InsertHeaders(request: MsgInsertHeaders): Promise<MsgInsertHeadersResponse> {
+    const data = MsgInsertHeaders.encode(request).finish();
+    const promise = this.rpc.request(this.service, "InsertHeaders", data);
+    return promise.then((data) => MsgInsertHeadersResponse.decode(_m0.Reader.create(data)));
   }
 
-  UpdateParams(request: DeepPartial<MsgUpdateParams>, metadata?: grpc.Metadata): Promise<MsgUpdateParamsResponse> {
-    return this.rpc.unary(MsgUpdateParamsDesc, MsgUpdateParams.fromPartial(request), metadata);
+  UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse> {
+    const data = MsgUpdateParams.encode(request).finish();
+    const promise = this.rpc.request(this.service, "UpdateParams", data);
+    return promise.then((data) => MsgUpdateParamsResponse.decode(_m0.Reader.create(data)));
   }
 
-  UpdateFeeRate(request: DeepPartial<MsgUpdateFeeRate>, metadata?: grpc.Metadata): Promise<MsgUpdateFeeRateResponse> {
-    return this.rpc.unary(MsgUpdateFeeRateDesc, MsgUpdateFeeRate.fromPartial(request), metadata);
+  UpdateFeeRate(request: MsgUpdateFeeRate): Promise<MsgUpdateFeeRateResponse> {
+    const data = MsgUpdateFeeRate.encode(request).finish();
+    const promise = this.rpc.request(this.service, "UpdateFeeRate", data);
+    return promise.then((data) => MsgUpdateFeeRateResponse.decode(_m0.Reader.create(data)));
   }
 }
-
-export const MsgDesc = { serviceName: "lorenzo.btclightclient.v1.Msg" };
-
-export const MsgInsertHeadersDesc: UnaryMethodDefinitionish = {
-  methodName: "InsertHeaders",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgInsertHeaders.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgInsertHeadersResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgUpdateParamsDesc: UnaryMethodDefinitionish = {
-  methodName: "UpdateParams",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgUpdateParams.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgUpdateParamsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgUpdateFeeRateDesc: UnaryMethodDefinitionish = {
-  methodName: "UpdateFeeRate",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgUpdateFeeRate.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgUpdateFeeRateResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-interface UnaryMethodDefinitionishR extends grpc.UnaryMethodDefinition<any, any> {
-  requestStream: any;
-  responseStream: any;
-}
-
-type UnaryMethodDefinitionish = UnaryMethodDefinitionishR;
 
 interface Rpc {
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any>;
-}
-
-export class GrpcWebImpl {
-  private host: string;
-  private options: {
-    transport?: grpc.TransportFactory;
-
-    debug?: boolean;
-    metadata?: grpc.Metadata;
-    upStreamRetryCodes?: number[];
-  };
-
-  constructor(
-    host: string,
-    options: {
-      transport?: grpc.TransportFactory;
-
-      debug?: boolean;
-      metadata?: grpc.Metadata;
-      upStreamRetryCodes?: number[];
-    },
-  ) {
-    this.host = host;
-    this.options = options;
-  }
-
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    _request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any> {
-    const request = { ..._request, ...methodDesc.requestType };
-    const maybeCombinedMetadata = metadata && this.options.metadata
-      ? new BrowserHeaders({ ...this.options?.metadata.headersMap, ...metadata?.headersMap })
-      : metadata ?? this.options.metadata;
-    return new Promise((resolve, reject) => {
-      grpc.unary(methodDesc, {
-        request,
-        host: this.host,
-        metadata: maybeCombinedMetadata ?? {},
-        ...(this.options.transport !== undefined ? { transport: this.options.transport } : {}),
-        debug: this.options.debug ?? false,
-        onEnd: function (response) {
-          if (response.status === grpc.Code.OK) {
-            resolve(response.message!.toObject());
-          } else {
-            const err = new GrpcWebError(response.statusMessage, response.status, response.trailers);
-            reject(err);
-          }
-        },
-      });
-    });
-  }
+  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
 }
 
 function bytesFromBase64(b64: string): Uint8Array {
@@ -614,7 +482,7 @@ function base64FromBytes(arr: Uint8Array): string {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -623,6 +491,10 @@ type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
+function longToString(long: Long) {
+  return long.toString();
+}
+
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;
   _m0.configure();
@@ -630,10 +502,4 @@ if (_m0.util.Long !== Long) {
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
-}
-
-export class GrpcWebError extends globalThis.Error {
-  constructor(message: string, public code: grpc.Code, public metadata: grpc.Metadata) {
-    super(message);
-  }
 }

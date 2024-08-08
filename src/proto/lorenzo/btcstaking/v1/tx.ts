@@ -5,8 +5,6 @@
 // source: lorenzo/btcstaking/v1/tx.proto
 
 /* eslint-disable */
-import { grpc } from "@improbable-eng/grpc-web";
-import { BrowserHeaders } from "browser-headers";
 import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { Params, Receiver } from "./params";
@@ -42,12 +40,12 @@ export interface TransactionInfo {
 
 export interface MsgCreateBTCStaking {
   signer: string;
-  stakingTx?:
+  staking_tx?:
     | TransactionInfo
     | undefined;
   /** deprecated */
   receiver: string;
-  agentId: Long;
+  agent_id: string;
 }
 
 export interface MsgCreateBTCStakingResponse {
@@ -55,7 +53,7 @@ export interface MsgCreateBTCStakingResponse {
 
 export interface MsgBurnRequest {
   signer: string;
-  btcTargetAddress: string;
+  btc_target_address: string;
   amount: string;
 }
 
@@ -252,7 +250,7 @@ export const TransactionInfo = {
 };
 
 function createBaseMsgCreateBTCStaking(): MsgCreateBTCStaking {
-  return { signer: "", stakingTx: undefined, receiver: "", agentId: Long.UZERO };
+  return { signer: "", staking_tx: undefined, receiver: "", agent_id: "0" };
 }
 
 export const MsgCreateBTCStaking = {
@@ -260,14 +258,14 @@ export const MsgCreateBTCStaking = {
     if (message.signer !== "") {
       writer.uint32(10).string(message.signer);
     }
-    if (message.stakingTx !== undefined) {
-      TransactionInfo.encode(message.stakingTx, writer.uint32(18).fork()).ldelim();
+    if (message.staking_tx !== undefined) {
+      TransactionInfo.encode(message.staking_tx, writer.uint32(18).fork()).ldelim();
     }
     if (message.receiver !== "") {
       writer.uint32(26).string(message.receiver);
     }
-    if (!message.agentId.equals(Long.UZERO)) {
-      writer.uint32(32).uint64(message.agentId);
+    if (message.agent_id !== "0") {
+      writer.uint32(32).uint64(message.agent_id);
     }
     return writer;
   },
@@ -291,7 +289,7 @@ export const MsgCreateBTCStaking = {
             break;
           }
 
-          message.stakingTx = TransactionInfo.decode(reader, reader.uint32());
+          message.staking_tx = TransactionInfo.decode(reader, reader.uint32());
           continue;
         case 3:
           if (tag !== 26) {
@@ -305,7 +303,7 @@ export const MsgCreateBTCStaking = {
             break;
           }
 
-          message.agentId = reader.uint64() as Long;
+          message.agent_id = longToString(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -319,9 +317,9 @@ export const MsgCreateBTCStaking = {
   fromJSON(object: any): MsgCreateBTCStaking {
     return {
       signer: isSet(object.signer) ? globalThis.String(object.signer) : "",
-      stakingTx: isSet(object.stakingTx) ? TransactionInfo.fromJSON(object.stakingTx) : undefined,
+      staking_tx: isSet(object.staking_tx) ? TransactionInfo.fromJSON(object.staking_tx) : undefined,
       receiver: isSet(object.receiver) ? globalThis.String(object.receiver) : "",
-      agentId: isSet(object.agentId) ? Long.fromValue(object.agentId) : Long.UZERO,
+      agent_id: isSet(object.agent_id) ? globalThis.String(object.agent_id) : "0",
     };
   },
 
@@ -330,14 +328,14 @@ export const MsgCreateBTCStaking = {
     if (message.signer !== "") {
       obj.signer = message.signer;
     }
-    if (message.stakingTx !== undefined) {
-      obj.stakingTx = TransactionInfo.toJSON(message.stakingTx);
+    if (message.staking_tx !== undefined) {
+      obj.staking_tx = TransactionInfo.toJSON(message.staking_tx);
     }
     if (message.receiver !== "") {
       obj.receiver = message.receiver;
     }
-    if (!message.agentId.equals(Long.UZERO)) {
-      obj.agentId = (message.agentId || Long.UZERO).toString();
+    if (message.agent_id !== "0") {
+      obj.agent_id = message.agent_id;
     }
     return obj;
   },
@@ -348,13 +346,11 @@ export const MsgCreateBTCStaking = {
   fromPartial<I extends Exact<DeepPartial<MsgCreateBTCStaking>, I>>(object: I): MsgCreateBTCStaking {
     const message = createBaseMsgCreateBTCStaking();
     message.signer = object.signer ?? "";
-    message.stakingTx = (object.stakingTx !== undefined && object.stakingTx !== null)
-      ? TransactionInfo.fromPartial(object.stakingTx)
+    message.staking_tx = (object.staking_tx !== undefined && object.staking_tx !== null)
+      ? TransactionInfo.fromPartial(object.staking_tx)
       : undefined;
     message.receiver = object.receiver ?? "";
-    message.agentId = (object.agentId !== undefined && object.agentId !== null)
-      ? Long.fromValue(object.agentId)
-      : Long.UZERO;
+    message.agent_id = object.agent_id ?? "0";
     return message;
   },
 };
@@ -403,7 +399,7 @@ export const MsgCreateBTCStakingResponse = {
 };
 
 function createBaseMsgBurnRequest(): MsgBurnRequest {
-  return { signer: "", btcTargetAddress: "", amount: "" };
+  return { signer: "", btc_target_address: "", amount: "" };
 }
 
 export const MsgBurnRequest = {
@@ -411,8 +407,8 @@ export const MsgBurnRequest = {
     if (message.signer !== "") {
       writer.uint32(10).string(message.signer);
     }
-    if (message.btcTargetAddress !== "") {
-      writer.uint32(18).string(message.btcTargetAddress);
+    if (message.btc_target_address !== "") {
+      writer.uint32(18).string(message.btc_target_address);
     }
     if (message.amount !== "") {
       writer.uint32(26).string(message.amount);
@@ -439,7 +435,7 @@ export const MsgBurnRequest = {
             break;
           }
 
-          message.btcTargetAddress = reader.string();
+          message.btc_target_address = reader.string();
           continue;
         case 3:
           if (tag !== 26) {
@@ -460,7 +456,7 @@ export const MsgBurnRequest = {
   fromJSON(object: any): MsgBurnRequest {
     return {
       signer: isSet(object.signer) ? globalThis.String(object.signer) : "",
-      btcTargetAddress: isSet(object.btcTargetAddress) ? globalThis.String(object.btcTargetAddress) : "",
+      btc_target_address: isSet(object.btc_target_address) ? globalThis.String(object.btc_target_address) : "",
       amount: isSet(object.amount) ? globalThis.String(object.amount) : "",
     };
   },
@@ -470,8 +466,8 @@ export const MsgBurnRequest = {
     if (message.signer !== "") {
       obj.signer = message.signer;
     }
-    if (message.btcTargetAddress !== "") {
-      obj.btcTargetAddress = message.btcTargetAddress;
+    if (message.btc_target_address !== "") {
+      obj.btc_target_address = message.btc_target_address;
     }
     if (message.amount !== "") {
       obj.amount = message.amount;
@@ -485,7 +481,7 @@ export const MsgBurnRequest = {
   fromPartial<I extends Exact<DeepPartial<MsgBurnRequest>, I>>(object: I): MsgBurnRequest {
     const message = createBaseMsgBurnRequest();
     message.signer = object.signer ?? "";
-    message.btcTargetAddress = object.btcTargetAddress ?? "";
+    message.btc_target_address = object.btc_target_address ?? "";
     message.amount = object.amount ?? "";
     return message;
   },
@@ -891,20 +887,19 @@ export const MsgUpdateParamsResponse = {
 
 /** Msg defines the Msg service. */
 export interface Msg {
-  CreateBTCStaking(
-    request: DeepPartial<MsgCreateBTCStaking>,
-    metadata?: grpc.Metadata,
-  ): Promise<MsgCreateBTCStakingResponse>;
-  Burn(request: DeepPartial<MsgBurnRequest>, metadata?: grpc.Metadata): Promise<MsgBurnResponse>;
-  AddReceiver(request: DeepPartial<MsgAddReceiver>, metadata?: grpc.Metadata): Promise<MsgAddReceiverResponse>;
-  RemoveReceiver(request: DeepPartial<MsgRemoveReceiver>, metadata?: grpc.Metadata): Promise<MsgRemoveReceiverResponse>;
-  UpdateParams(request: DeepPartial<MsgUpdateParams>, metadata?: grpc.Metadata): Promise<MsgUpdateParamsResponse>;
+  CreateBTCStaking(request: MsgCreateBTCStaking): Promise<MsgCreateBTCStakingResponse>;
+  Burn(request: MsgBurnRequest): Promise<MsgBurnResponse>;
+  AddReceiver(request: MsgAddReceiver): Promise<MsgAddReceiverResponse>;
+  RemoveReceiver(request: MsgRemoveReceiver): Promise<MsgRemoveReceiverResponse>;
+  UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse>;
 }
 
+export const MsgServiceName = "lorenzo.btcstaking.v1.Msg";
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
-
-  constructor(rpc: Rpc) {
+  private readonly service: string;
+  constructor(rpc: Rpc, opts?: { service?: string }) {
+    this.service = opts?.service || MsgServiceName;
     this.rpc = rpc;
     this.CreateBTCStaking = this.CreateBTCStaking.bind(this);
     this.Burn = this.Burn.bind(this);
@@ -912,217 +907,39 @@ export class MsgClientImpl implements Msg {
     this.RemoveReceiver = this.RemoveReceiver.bind(this);
     this.UpdateParams = this.UpdateParams.bind(this);
   }
-
-  CreateBTCStaking(
-    request: DeepPartial<MsgCreateBTCStaking>,
-    metadata?: grpc.Metadata,
-  ): Promise<MsgCreateBTCStakingResponse> {
-    return this.rpc.unary(MsgCreateBTCStakingDesc, MsgCreateBTCStaking.fromPartial(request), metadata);
+  CreateBTCStaking(request: MsgCreateBTCStaking): Promise<MsgCreateBTCStakingResponse> {
+    const data = MsgCreateBTCStaking.encode(request).finish();
+    const promise = this.rpc.request(this.service, "CreateBTCStaking", data);
+    return promise.then((data) => MsgCreateBTCStakingResponse.decode(_m0.Reader.create(data)));
   }
 
-  Burn(request: DeepPartial<MsgBurnRequest>, metadata?: grpc.Metadata): Promise<MsgBurnResponse> {
-    return this.rpc.unary(MsgBurnDesc, MsgBurnRequest.fromPartial(request), metadata);
+  Burn(request: MsgBurnRequest): Promise<MsgBurnResponse> {
+    const data = MsgBurnRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Burn", data);
+    return promise.then((data) => MsgBurnResponse.decode(_m0.Reader.create(data)));
   }
 
-  AddReceiver(request: DeepPartial<MsgAddReceiver>, metadata?: grpc.Metadata): Promise<MsgAddReceiverResponse> {
-    return this.rpc.unary(MsgAddReceiverDesc, MsgAddReceiver.fromPartial(request), metadata);
+  AddReceiver(request: MsgAddReceiver): Promise<MsgAddReceiverResponse> {
+    const data = MsgAddReceiver.encode(request).finish();
+    const promise = this.rpc.request(this.service, "AddReceiver", data);
+    return promise.then((data) => MsgAddReceiverResponse.decode(_m0.Reader.create(data)));
   }
 
-  RemoveReceiver(
-    request: DeepPartial<MsgRemoveReceiver>,
-    metadata?: grpc.Metadata,
-  ): Promise<MsgRemoveReceiverResponse> {
-    return this.rpc.unary(MsgRemoveReceiverDesc, MsgRemoveReceiver.fromPartial(request), metadata);
+  RemoveReceiver(request: MsgRemoveReceiver): Promise<MsgRemoveReceiverResponse> {
+    const data = MsgRemoveReceiver.encode(request).finish();
+    const promise = this.rpc.request(this.service, "RemoveReceiver", data);
+    return promise.then((data) => MsgRemoveReceiverResponse.decode(_m0.Reader.create(data)));
   }
 
-  UpdateParams(request: DeepPartial<MsgUpdateParams>, metadata?: grpc.Metadata): Promise<MsgUpdateParamsResponse> {
-    return this.rpc.unary(MsgUpdateParamsDesc, MsgUpdateParams.fromPartial(request), metadata);
+  UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse> {
+    const data = MsgUpdateParams.encode(request).finish();
+    const promise = this.rpc.request(this.service, "UpdateParams", data);
+    return promise.then((data) => MsgUpdateParamsResponse.decode(_m0.Reader.create(data)));
   }
 }
-
-export const MsgDesc = { serviceName: "lorenzo.btcstaking.v1.Msg" };
-
-export const MsgCreateBTCStakingDesc: UnaryMethodDefinitionish = {
-  methodName: "CreateBTCStaking",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgCreateBTCStaking.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgCreateBTCStakingResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgBurnDesc: UnaryMethodDefinitionish = {
-  methodName: "Burn",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgBurnRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgBurnResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgAddReceiverDesc: UnaryMethodDefinitionish = {
-  methodName: "AddReceiver",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgAddReceiver.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgAddReceiverResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgRemoveReceiverDesc: UnaryMethodDefinitionish = {
-  methodName: "RemoveReceiver",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgRemoveReceiver.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgRemoveReceiverResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const MsgUpdateParamsDesc: UnaryMethodDefinitionish = {
-  methodName: "UpdateParams",
-  service: MsgDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return MsgUpdateParams.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = MsgUpdateParamsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-interface UnaryMethodDefinitionishR extends grpc.UnaryMethodDefinition<any, any> {
-  requestStream: any;
-  responseStream: any;
-}
-
-type UnaryMethodDefinitionish = UnaryMethodDefinitionishR;
 
 interface Rpc {
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any>;
-}
-
-export class GrpcWebImpl {
-  private host: string;
-  private options: {
-    transport?: grpc.TransportFactory;
-
-    debug?: boolean;
-    metadata?: grpc.Metadata;
-    upStreamRetryCodes?: number[];
-  };
-
-  constructor(
-    host: string,
-    options: {
-      transport?: grpc.TransportFactory;
-
-      debug?: boolean;
-      metadata?: grpc.Metadata;
-      upStreamRetryCodes?: number[];
-    },
-  ) {
-    this.host = host;
-    this.options = options;
-  }
-
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    _request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any> {
-    const request = { ..._request, ...methodDesc.requestType };
-    const maybeCombinedMetadata = metadata && this.options.metadata
-      ? new BrowserHeaders({ ...this.options?.metadata.headersMap, ...metadata?.headersMap })
-      : metadata ?? this.options.metadata;
-    return new Promise((resolve, reject) => {
-      grpc.unary(methodDesc, {
-        request,
-        host: this.host,
-        metadata: maybeCombinedMetadata ?? {},
-        ...(this.options.transport !== undefined ? { transport: this.options.transport } : {}),
-        debug: this.options.debug ?? false,
-        onEnd: function (response) {
-          if (response.status === grpc.Code.OK) {
-            resolve(response.message!.toObject());
-          } else {
-            const err = new GrpcWebError(response.statusMessage, response.status, response.trailers);
-            reject(err);
-          }
-        },
-      });
-    });
-  }
+  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
 }
 
 function bytesFromBase64(b64: string): Uint8Array {
@@ -1153,7 +970,7 @@ function base64FromBytes(arr: Uint8Array): string {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -1162,6 +979,10 @@ type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
+function longToString(long: Long) {
+  return long.toString();
+}
+
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;
   _m0.configure();
@@ -1169,10 +990,4 @@ if (_m0.util.Long !== Long) {
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
-}
-
-export class GrpcWebError extends globalThis.Error {
-  constructor(message: string, public code: grpc.Code, public metadata: grpc.Metadata) {
-    super(message);
-  }
 }

@@ -5,9 +5,6 @@
 // source: lorenzo/token/v1/query.proto
 
 /* eslint-disable */
-import { grpc } from "@improbable-eng/grpc-web";
-import { BrowserHeaders } from "browser-headers";
-import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { PageRequest, PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
@@ -21,7 +18,7 @@ export interface QueryTokenPairsRequest {
 
 /** QueryTokenPairsResponse is the response type for the Query/TokenPairs RPC */
 export interface QueryTokenPairsResponse {
-  tokenPairs: TokenPair[];
+  token_pairs: TokenPair[];
   pagination?: PageResponse | undefined;
 }
 
@@ -33,7 +30,7 @@ export interface QueryTokenPairRequest {
 
 /** QueryTokenPairResponse is the response type for the Query/TokenPair RPC */
 export interface QueryTokenPairResponse {
-  tokenPair?: TokenPair | undefined;
+  token_pair?: TokenPair | undefined;
 }
 
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
@@ -48,7 +45,7 @@ export interface QueryParamsResponse {
 /** QueryBalancesRequest is the request type for the Query/Balances RPC */
 export interface QueryBalanceRequest {
   /** account address can be bech32 or hex address */
-  accountAddress: string;
+  account_address: string;
   /** token can be either coin denom or erc20 contract address. */
   token: string;
 }
@@ -56,8 +53,8 @@ export interface QueryBalanceRequest {
 /** QueryBalancesResponse is the response type for the Query/Balances RPC */
 export interface QueryBalanceResponse {
   coin?: Coin | undefined;
-  erc20Address: string;
-  erc20TokenAmount: string;
+  erc20_address: string;
+  erc20_token_amount: string;
 }
 
 function createBaseQueryTokenPairsRequest(): QueryTokenPairsRequest {
@@ -120,12 +117,12 @@ export const QueryTokenPairsRequest = {
 };
 
 function createBaseQueryTokenPairsResponse(): QueryTokenPairsResponse {
-  return { tokenPairs: [], pagination: undefined };
+  return { token_pairs: [], pagination: undefined };
 }
 
 export const QueryTokenPairsResponse = {
   encode(message: QueryTokenPairsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    for (const v of message.tokenPairs) {
+    for (const v of message.token_pairs) {
       TokenPair.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     if (message.pagination !== undefined) {
@@ -146,7 +143,7 @@ export const QueryTokenPairsResponse = {
             break;
           }
 
-          message.tokenPairs.push(TokenPair.decode(reader, reader.uint32()));
+          message.token_pairs.push(TokenPair.decode(reader, reader.uint32()));
           continue;
         case 2:
           if (tag !== 18) {
@@ -166,8 +163,8 @@ export const QueryTokenPairsResponse = {
 
   fromJSON(object: any): QueryTokenPairsResponse {
     return {
-      tokenPairs: globalThis.Array.isArray(object?.tokenPairs)
-        ? object.tokenPairs.map((e: any) => TokenPair.fromJSON(e))
+      token_pairs: globalThis.Array.isArray(object?.token_pairs)
+        ? object.token_pairs.map((e: any) => TokenPair.fromJSON(e))
         : [],
       pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
     };
@@ -175,8 +172,8 @@ export const QueryTokenPairsResponse = {
 
   toJSON(message: QueryTokenPairsResponse): unknown {
     const obj: any = {};
-    if (message.tokenPairs?.length) {
-      obj.tokenPairs = message.tokenPairs.map((e) => TokenPair.toJSON(e));
+    if (message.token_pairs?.length) {
+      obj.token_pairs = message.token_pairs.map((e) => TokenPair.toJSON(e));
     }
     if (message.pagination !== undefined) {
       obj.pagination = PageResponse.toJSON(message.pagination);
@@ -189,7 +186,7 @@ export const QueryTokenPairsResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryTokenPairsResponse>, I>>(object: I): QueryTokenPairsResponse {
     const message = createBaseQueryTokenPairsResponse();
-    message.tokenPairs = object.tokenPairs?.map((e) => TokenPair.fromPartial(e)) || [];
+    message.token_pairs = object.token_pairs?.map((e) => TokenPair.fromPartial(e)) || [];
     message.pagination = (object.pagination !== undefined && object.pagination !== null)
       ? PageResponse.fromPartial(object.pagination)
       : undefined;
@@ -255,13 +252,13 @@ export const QueryTokenPairRequest = {
 };
 
 function createBaseQueryTokenPairResponse(): QueryTokenPairResponse {
-  return { tokenPair: undefined };
+  return { token_pair: undefined };
 }
 
 export const QueryTokenPairResponse = {
   encode(message: QueryTokenPairResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.tokenPair !== undefined) {
-      TokenPair.encode(message.tokenPair, writer.uint32(10).fork()).ldelim();
+    if (message.token_pair !== undefined) {
+      TokenPair.encode(message.token_pair, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
@@ -278,7 +275,7 @@ export const QueryTokenPairResponse = {
             break;
           }
 
-          message.tokenPair = TokenPair.decode(reader, reader.uint32());
+          message.token_pair = TokenPair.decode(reader, reader.uint32());
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -290,13 +287,13 @@ export const QueryTokenPairResponse = {
   },
 
   fromJSON(object: any): QueryTokenPairResponse {
-    return { tokenPair: isSet(object.tokenPair) ? TokenPair.fromJSON(object.tokenPair) : undefined };
+    return { token_pair: isSet(object.token_pair) ? TokenPair.fromJSON(object.token_pair) : undefined };
   },
 
   toJSON(message: QueryTokenPairResponse): unknown {
     const obj: any = {};
-    if (message.tokenPair !== undefined) {
-      obj.tokenPair = TokenPair.toJSON(message.tokenPair);
+    if (message.token_pair !== undefined) {
+      obj.token_pair = TokenPair.toJSON(message.token_pair);
     }
     return obj;
   },
@@ -306,8 +303,8 @@ export const QueryTokenPairResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryTokenPairResponse>, I>>(object: I): QueryTokenPairResponse {
     const message = createBaseQueryTokenPairResponse();
-    message.tokenPair = (object.tokenPair !== undefined && object.tokenPair !== null)
-      ? TokenPair.fromPartial(object.tokenPair)
+    message.token_pair = (object.token_pair !== undefined && object.token_pair !== null)
+      ? TokenPair.fromPartial(object.token_pair)
       : undefined;
     return message;
   },
@@ -416,13 +413,13 @@ export const QueryParamsResponse = {
 };
 
 function createBaseQueryBalanceRequest(): QueryBalanceRequest {
-  return { accountAddress: "", token: "" };
+  return { account_address: "", token: "" };
 }
 
 export const QueryBalanceRequest = {
   encode(message: QueryBalanceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.accountAddress !== "") {
-      writer.uint32(10).string(message.accountAddress);
+    if (message.account_address !== "") {
+      writer.uint32(10).string(message.account_address);
     }
     if (message.token !== "") {
       writer.uint32(18).string(message.token);
@@ -442,7 +439,7 @@ export const QueryBalanceRequest = {
             break;
           }
 
-          message.accountAddress = reader.string();
+          message.account_address = reader.string();
           continue;
         case 2:
           if (tag !== 18) {
@@ -462,15 +459,15 @@ export const QueryBalanceRequest = {
 
   fromJSON(object: any): QueryBalanceRequest {
     return {
-      accountAddress: isSet(object.accountAddress) ? globalThis.String(object.accountAddress) : "",
+      account_address: isSet(object.account_address) ? globalThis.String(object.account_address) : "",
       token: isSet(object.token) ? globalThis.String(object.token) : "",
     };
   },
 
   toJSON(message: QueryBalanceRequest): unknown {
     const obj: any = {};
-    if (message.accountAddress !== "") {
-      obj.accountAddress = message.accountAddress;
+    if (message.account_address !== "") {
+      obj.account_address = message.account_address;
     }
     if (message.token !== "") {
       obj.token = message.token;
@@ -483,14 +480,14 @@ export const QueryBalanceRequest = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryBalanceRequest>, I>>(object: I): QueryBalanceRequest {
     const message = createBaseQueryBalanceRequest();
-    message.accountAddress = object.accountAddress ?? "";
+    message.account_address = object.account_address ?? "";
     message.token = object.token ?? "";
     return message;
   },
 };
 
 function createBaseQueryBalanceResponse(): QueryBalanceResponse {
-  return { coin: undefined, erc20Address: "", erc20TokenAmount: "" };
+  return { coin: undefined, erc20_address: "", erc20_token_amount: "" };
 }
 
 export const QueryBalanceResponse = {
@@ -498,11 +495,11 @@ export const QueryBalanceResponse = {
     if (message.coin !== undefined) {
       Coin.encode(message.coin, writer.uint32(10).fork()).ldelim();
     }
-    if (message.erc20Address !== "") {
-      writer.uint32(18).string(message.erc20Address);
+    if (message.erc20_address !== "") {
+      writer.uint32(18).string(message.erc20_address);
     }
-    if (message.erc20TokenAmount !== "") {
-      writer.uint32(26).string(message.erc20TokenAmount);
+    if (message.erc20_token_amount !== "") {
+      writer.uint32(26).string(message.erc20_token_amount);
     }
     return writer;
   },
@@ -526,14 +523,14 @@ export const QueryBalanceResponse = {
             break;
           }
 
-          message.erc20Address = reader.string();
+          message.erc20_address = reader.string();
           continue;
         case 3:
           if (tag !== 26) {
             break;
           }
 
-          message.erc20TokenAmount = reader.string();
+          message.erc20_token_amount = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -547,8 +544,8 @@ export const QueryBalanceResponse = {
   fromJSON(object: any): QueryBalanceResponse {
     return {
       coin: isSet(object.coin) ? Coin.fromJSON(object.coin) : undefined,
-      erc20Address: isSet(object.erc20Address) ? globalThis.String(object.erc20Address) : "",
-      erc20TokenAmount: isSet(object.erc20TokenAmount) ? globalThis.String(object.erc20TokenAmount) : "",
+      erc20_address: isSet(object.erc20_address) ? globalThis.String(object.erc20_address) : "",
+      erc20_token_amount: isSet(object.erc20_token_amount) ? globalThis.String(object.erc20_token_amount) : "",
     };
   },
 
@@ -557,11 +554,11 @@ export const QueryBalanceResponse = {
     if (message.coin !== undefined) {
       obj.coin = Coin.toJSON(message.coin);
     }
-    if (message.erc20Address !== "") {
-      obj.erc20Address = message.erc20Address;
+    if (message.erc20_address !== "") {
+      obj.erc20_address = message.erc20_address;
     }
-    if (message.erc20TokenAmount !== "") {
-      obj.erc20TokenAmount = message.erc20TokenAmount;
+    if (message.erc20_token_amount !== "") {
+      obj.erc20_token_amount = message.erc20_token_amount;
     }
     return obj;
   },
@@ -572,217 +569,68 @@ export const QueryBalanceResponse = {
   fromPartial<I extends Exact<DeepPartial<QueryBalanceResponse>, I>>(object: I): QueryBalanceResponse {
     const message = createBaseQueryBalanceResponse();
     message.coin = (object.coin !== undefined && object.coin !== null) ? Coin.fromPartial(object.coin) : undefined;
-    message.erc20Address = object.erc20Address ?? "";
-    message.erc20TokenAmount = object.erc20TokenAmount ?? "";
+    message.erc20_address = object.erc20_address ?? "";
+    message.erc20_token_amount = object.erc20_token_amount ?? "";
     return message;
   },
 };
 
 export interface Query {
   /** TokenPairs retrieves registered token pairs */
-  TokenPairs(request: DeepPartial<QueryTokenPairsRequest>, metadata?: grpc.Metadata): Promise<QueryTokenPairsResponse>;
+  TokenPairs(request: QueryTokenPairsRequest): Promise<QueryTokenPairsResponse>;
   /** TokenPair retrieves a registered token pair */
-  TokenPair(request: DeepPartial<QueryTokenPairRequest>, metadata?: grpc.Metadata): Promise<QueryTokenPairResponse>;
+  TokenPair(request: QueryTokenPairRequest): Promise<QueryTokenPairResponse>;
   /** Params retrieves the convert module params */
-  Params(request: DeepPartial<QueryParamsRequest>, metadata?: grpc.Metadata): Promise<QueryParamsResponse>;
+  Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
   /** Balance queries the balances of an account under a specific token. */
-  Balance(request: DeepPartial<QueryBalanceRequest>, metadata?: grpc.Metadata): Promise<QueryBalanceResponse>;
+  Balance(request: QueryBalanceRequest): Promise<QueryBalanceResponse>;
 }
 
+export const QueryServiceName = "lorenzo.token.v1.Query";
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
-
-  constructor(rpc: Rpc) {
+  private readonly service: string;
+  constructor(rpc: Rpc, opts?: { service?: string }) {
+    this.service = opts?.service || QueryServiceName;
     this.rpc = rpc;
     this.TokenPairs = this.TokenPairs.bind(this);
     this.TokenPair = this.TokenPair.bind(this);
     this.Params = this.Params.bind(this);
     this.Balance = this.Balance.bind(this);
   }
-
-  TokenPairs(request: DeepPartial<QueryTokenPairsRequest>, metadata?: grpc.Metadata): Promise<QueryTokenPairsResponse> {
-    return this.rpc.unary(QueryTokenPairsDesc, QueryTokenPairsRequest.fromPartial(request), metadata);
+  TokenPairs(request: QueryTokenPairsRequest): Promise<QueryTokenPairsResponse> {
+    const data = QueryTokenPairsRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "TokenPairs", data);
+    return promise.then((data) => QueryTokenPairsResponse.decode(_m0.Reader.create(data)));
   }
 
-  TokenPair(request: DeepPartial<QueryTokenPairRequest>, metadata?: grpc.Metadata): Promise<QueryTokenPairResponse> {
-    return this.rpc.unary(QueryTokenPairDesc, QueryTokenPairRequest.fromPartial(request), metadata);
+  TokenPair(request: QueryTokenPairRequest): Promise<QueryTokenPairResponse> {
+    const data = QueryTokenPairRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "TokenPair", data);
+    return promise.then((data) => QueryTokenPairResponse.decode(_m0.Reader.create(data)));
   }
 
-  Params(request: DeepPartial<QueryParamsRequest>, metadata?: grpc.Metadata): Promise<QueryParamsResponse> {
-    return this.rpc.unary(QueryParamsDesc, QueryParamsRequest.fromPartial(request), metadata);
+  Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
+    const data = QueryParamsRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Params", data);
+    return promise.then((data) => QueryParamsResponse.decode(_m0.Reader.create(data)));
   }
 
-  Balance(request: DeepPartial<QueryBalanceRequest>, metadata?: grpc.Metadata): Promise<QueryBalanceResponse> {
-    return this.rpc.unary(QueryBalanceDesc, QueryBalanceRequest.fromPartial(request), metadata);
+  Balance(request: QueryBalanceRequest): Promise<QueryBalanceResponse> {
+    const data = QueryBalanceRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Balance", data);
+    return promise.then((data) => QueryBalanceResponse.decode(_m0.Reader.create(data)));
   }
 }
-
-export const QueryDesc = { serviceName: "lorenzo.token.v1.Query" };
-
-export const QueryTokenPairsDesc: UnaryMethodDefinitionish = {
-  methodName: "TokenPairs",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryTokenPairsRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryTokenPairsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryTokenPairDesc: UnaryMethodDefinitionish = {
-  methodName: "TokenPair",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryTokenPairRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryTokenPairResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryParamsDesc: UnaryMethodDefinitionish = {
-  methodName: "Params",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryParamsRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryParamsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryBalanceDesc: UnaryMethodDefinitionish = {
-  methodName: "Balance",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryBalanceRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryBalanceResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-interface UnaryMethodDefinitionishR extends grpc.UnaryMethodDefinition<any, any> {
-  requestStream: any;
-  responseStream: any;
-}
-
-type UnaryMethodDefinitionish = UnaryMethodDefinitionishR;
 
 interface Rpc {
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any>;
-}
-
-export class GrpcWebImpl {
-  private host: string;
-  private options: {
-    transport?: grpc.TransportFactory;
-
-    debug?: boolean;
-    metadata?: grpc.Metadata;
-    upStreamRetryCodes?: number[];
-  };
-
-  constructor(
-    host: string,
-    options: {
-      transport?: grpc.TransportFactory;
-
-      debug?: boolean;
-      metadata?: grpc.Metadata;
-      upStreamRetryCodes?: number[];
-    },
-  ) {
-    this.host = host;
-    this.options = options;
-  }
-
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    _request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any> {
-    const request = { ..._request, ...methodDesc.requestType };
-    const maybeCombinedMetadata = metadata && this.options.metadata
-      ? new BrowserHeaders({ ...this.options?.metadata.headersMap, ...metadata?.headersMap })
-      : metadata ?? this.options.metadata;
-    return new Promise((resolve, reject) => {
-      grpc.unary(methodDesc, {
-        request,
-        host: this.host,
-        metadata: maybeCombinedMetadata ?? {},
-        ...(this.options.transport !== undefined ? { transport: this.options.transport } : {}),
-        debug: this.options.debug ?? false,
-        onEnd: function (response) {
-          if (response.status === grpc.Code.OK) {
-            resolve(response.message!.toObject());
-          } else {
-            const err = new GrpcWebError(response.statusMessage, response.status, response.trailers);
-            reject(err);
-          }
-        },
-      });
-    });
-  }
+  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -791,17 +639,6 @@ type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
-if (_m0.util.Long !== Long) {
-  _m0.util.Long = Long as any;
-  _m0.configure();
-}
-
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
-}
-
-export class GrpcWebError extends globalThis.Error {
-  constructor(message: string, public code: grpc.Code, public metadata: grpc.Metadata) {
-    super(message);
-  }
 }

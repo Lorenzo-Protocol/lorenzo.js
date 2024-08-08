@@ -43,56 +43,56 @@ export function planStatusToJSON(object: PlanStatus): string {
 
 /** Plan defines the details of a project */
 export interface Plan {
-  id: Long;
+  id: string;
   name: string;
-  planDescUri: string;
-  agentId: Long;
-  planStartTime: Long;
-  periodTime: Long;
-  yatContractAddress: string;
-  contractAddress: string;
+  plan_desc_uri: string;
+  agent_id: string;
+  plan_start_time: string;
+  period_time: string;
+  yat_contract_address: string;
+  contract_address: string;
   enabled: PlanStatus;
 }
 
 function createBasePlan(): Plan {
   return {
-    id: Long.UZERO,
+    id: "0",
     name: "",
-    planDescUri: "",
-    agentId: Long.UZERO,
-    planStartTime: Long.UZERO,
-    periodTime: Long.UZERO,
-    yatContractAddress: "",
-    contractAddress: "",
+    plan_desc_uri: "",
+    agent_id: "0",
+    plan_start_time: "0",
+    period_time: "0",
+    yat_contract_address: "",
+    contract_address: "",
     enabled: 0,
   };
 }
 
 export const Plan = {
   encode(message: Plan, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.equals(Long.UZERO)) {
+    if (message.id !== "0") {
       writer.uint32(8).uint64(message.id);
     }
     if (message.name !== "") {
       writer.uint32(18).string(message.name);
     }
-    if (message.planDescUri !== "") {
-      writer.uint32(26).string(message.planDescUri);
+    if (message.plan_desc_uri !== "") {
+      writer.uint32(26).string(message.plan_desc_uri);
     }
-    if (!message.agentId.equals(Long.UZERO)) {
-      writer.uint32(32).uint64(message.agentId);
+    if (message.agent_id !== "0") {
+      writer.uint32(32).uint64(message.agent_id);
     }
-    if (!message.planStartTime.equals(Long.UZERO)) {
-      writer.uint32(40).uint64(message.planStartTime);
+    if (message.plan_start_time !== "0") {
+      writer.uint32(40).uint64(message.plan_start_time);
     }
-    if (!message.periodTime.equals(Long.UZERO)) {
-      writer.uint32(48).uint64(message.periodTime);
+    if (message.period_time !== "0") {
+      writer.uint32(48).uint64(message.period_time);
     }
-    if (message.yatContractAddress !== "") {
-      writer.uint32(58).string(message.yatContractAddress);
+    if (message.yat_contract_address !== "") {
+      writer.uint32(58).string(message.yat_contract_address);
     }
-    if (message.contractAddress !== "") {
-      writer.uint32(66).string(message.contractAddress);
+    if (message.contract_address !== "") {
+      writer.uint32(66).string(message.contract_address);
     }
     if (message.enabled !== 0) {
       writer.uint32(72).int32(message.enabled);
@@ -112,7 +112,7 @@ export const Plan = {
             break;
           }
 
-          message.id = reader.uint64() as Long;
+          message.id = longToString(reader.uint64() as Long);
           continue;
         case 2:
           if (tag !== 18) {
@@ -126,42 +126,42 @@ export const Plan = {
             break;
           }
 
-          message.planDescUri = reader.string();
+          message.plan_desc_uri = reader.string();
           continue;
         case 4:
           if (tag !== 32) {
             break;
           }
 
-          message.agentId = reader.uint64() as Long;
+          message.agent_id = longToString(reader.uint64() as Long);
           continue;
         case 5:
           if (tag !== 40) {
             break;
           }
 
-          message.planStartTime = reader.uint64() as Long;
+          message.plan_start_time = longToString(reader.uint64() as Long);
           continue;
         case 6:
           if (tag !== 48) {
             break;
           }
 
-          message.periodTime = reader.uint64() as Long;
+          message.period_time = longToString(reader.uint64() as Long);
           continue;
         case 7:
           if (tag !== 58) {
             break;
           }
 
-          message.yatContractAddress = reader.string();
+          message.yat_contract_address = reader.string();
           continue;
         case 8:
           if (tag !== 66) {
             break;
           }
 
-          message.contractAddress = reader.string();
+          message.contract_address = reader.string();
           continue;
         case 9:
           if (tag !== 72) {
@@ -181,43 +181,43 @@ export const Plan = {
 
   fromJSON(object: any): Plan {
     return {
-      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      id: isSet(object.id) ? globalThis.String(object.id) : "0",
       name: isSet(object.name) ? globalThis.String(object.name) : "",
-      planDescUri: isSet(object.planDescUri) ? globalThis.String(object.planDescUri) : "",
-      agentId: isSet(object.agentId) ? Long.fromValue(object.agentId) : Long.UZERO,
-      planStartTime: isSet(object.planStartTime) ? Long.fromValue(object.planStartTime) : Long.UZERO,
-      periodTime: isSet(object.periodTime) ? Long.fromValue(object.periodTime) : Long.UZERO,
-      yatContractAddress: isSet(object.yatContractAddress) ? globalThis.String(object.yatContractAddress) : "",
-      contractAddress: isSet(object.contractAddress) ? globalThis.String(object.contractAddress) : "",
+      plan_desc_uri: isSet(object.plan_desc_uri) ? globalThis.String(object.plan_desc_uri) : "",
+      agent_id: isSet(object.agent_id) ? globalThis.String(object.agent_id) : "0",
+      plan_start_time: isSet(object.plan_start_time) ? globalThis.String(object.plan_start_time) : "0",
+      period_time: isSet(object.period_time) ? globalThis.String(object.period_time) : "0",
+      yat_contract_address: isSet(object.yat_contract_address) ? globalThis.String(object.yat_contract_address) : "",
+      contract_address: isSet(object.contract_address) ? globalThis.String(object.contract_address) : "",
       enabled: isSet(object.enabled) ? planStatusFromJSON(object.enabled) : 0,
     };
   },
 
   toJSON(message: Plan): unknown {
     const obj: any = {};
-    if (!message.id.equals(Long.UZERO)) {
-      obj.id = (message.id || Long.UZERO).toString();
+    if (message.id !== "0") {
+      obj.id = message.id;
     }
     if (message.name !== "") {
       obj.name = message.name;
     }
-    if (message.planDescUri !== "") {
-      obj.planDescUri = message.planDescUri;
+    if (message.plan_desc_uri !== "") {
+      obj.plan_desc_uri = message.plan_desc_uri;
     }
-    if (!message.agentId.equals(Long.UZERO)) {
-      obj.agentId = (message.agentId || Long.UZERO).toString();
+    if (message.agent_id !== "0") {
+      obj.agent_id = message.agent_id;
     }
-    if (!message.planStartTime.equals(Long.UZERO)) {
-      obj.planStartTime = (message.planStartTime || Long.UZERO).toString();
+    if (message.plan_start_time !== "0") {
+      obj.plan_start_time = message.plan_start_time;
     }
-    if (!message.periodTime.equals(Long.UZERO)) {
-      obj.periodTime = (message.periodTime || Long.UZERO).toString();
+    if (message.period_time !== "0") {
+      obj.period_time = message.period_time;
     }
-    if (message.yatContractAddress !== "") {
-      obj.yatContractAddress = message.yatContractAddress;
+    if (message.yat_contract_address !== "") {
+      obj.yat_contract_address = message.yat_contract_address;
     }
-    if (message.contractAddress !== "") {
-      obj.contractAddress = message.contractAddress;
+    if (message.contract_address !== "") {
+      obj.contract_address = message.contract_address;
     }
     if (message.enabled !== 0) {
       obj.enabled = planStatusToJSON(message.enabled);
@@ -230,20 +230,14 @@ export const Plan = {
   },
   fromPartial<I extends Exact<DeepPartial<Plan>, I>>(object: I): Plan {
     const message = createBasePlan();
-    message.id = (object.id !== undefined && object.id !== null) ? Long.fromValue(object.id) : Long.UZERO;
+    message.id = object.id ?? "0";
     message.name = object.name ?? "";
-    message.planDescUri = object.planDescUri ?? "";
-    message.agentId = (object.agentId !== undefined && object.agentId !== null)
-      ? Long.fromValue(object.agentId)
-      : Long.UZERO;
-    message.planStartTime = (object.planStartTime !== undefined && object.planStartTime !== null)
-      ? Long.fromValue(object.planStartTime)
-      : Long.UZERO;
-    message.periodTime = (object.periodTime !== undefined && object.periodTime !== null)
-      ? Long.fromValue(object.periodTime)
-      : Long.UZERO;
-    message.yatContractAddress = object.yatContractAddress ?? "";
-    message.contractAddress = object.contractAddress ?? "";
+    message.plan_desc_uri = object.plan_desc_uri ?? "";
+    message.agent_id = object.agent_id ?? "0";
+    message.plan_start_time = object.plan_start_time ?? "0";
+    message.period_time = object.period_time ?? "0";
+    message.yat_contract_address = object.yat_contract_address ?? "";
+    message.contract_address = object.contract_address ?? "";
     message.enabled = object.enabled ?? 0;
     return message;
   },
@@ -252,7 +246,7 @@ export const Plan = {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -260,6 +254,10 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+function longToString(long: Long) {
+  return long.toString();
+}
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

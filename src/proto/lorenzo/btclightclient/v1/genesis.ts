@@ -5,7 +5,6 @@
 // source: lorenzo/btclightclient/v1/genesis.proto
 
 /* eslint-disable */
-import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { BTCHeaderInfo } from "./btclightclient";
 import { Params } from "./params";
@@ -13,11 +12,11 @@ import { Params } from "./params";
 /** GenesisState defines the btclightclient module's genesis state. */
 export interface GenesisState {
   params?: Params | undefined;
-  baseBtcHeader?: BTCHeaderInfo | undefined;
+  base_btc_header?: BTCHeaderInfo | undefined;
 }
 
 function createBaseGenesisState(): GenesisState {
-  return { params: undefined, baseBtcHeader: undefined };
+  return { params: undefined, base_btc_header: undefined };
 }
 
 export const GenesisState = {
@@ -25,8 +24,8 @@ export const GenesisState = {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
-    if (message.baseBtcHeader !== undefined) {
-      BTCHeaderInfo.encode(message.baseBtcHeader, writer.uint32(18).fork()).ldelim();
+    if (message.base_btc_header !== undefined) {
+      BTCHeaderInfo.encode(message.base_btc_header, writer.uint32(18).fork()).ldelim();
     }
     return writer;
   },
@@ -50,7 +49,7 @@ export const GenesisState = {
             break;
           }
 
-          message.baseBtcHeader = BTCHeaderInfo.decode(reader, reader.uint32());
+          message.base_btc_header = BTCHeaderInfo.decode(reader, reader.uint32());
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -64,7 +63,7 @@ export const GenesisState = {
   fromJSON(object: any): GenesisState {
     return {
       params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-      baseBtcHeader: isSet(object.baseBtcHeader) ? BTCHeaderInfo.fromJSON(object.baseBtcHeader) : undefined,
+      base_btc_header: isSet(object.base_btc_header) ? BTCHeaderInfo.fromJSON(object.base_btc_header) : undefined,
     };
   },
 
@@ -73,8 +72,8 @@ export const GenesisState = {
     if (message.params !== undefined) {
       obj.params = Params.toJSON(message.params);
     }
-    if (message.baseBtcHeader !== undefined) {
-      obj.baseBtcHeader = BTCHeaderInfo.toJSON(message.baseBtcHeader);
+    if (message.base_btc_header !== undefined) {
+      obj.base_btc_header = BTCHeaderInfo.toJSON(message.base_btc_header);
     }
     return obj;
   },
@@ -87,8 +86,8 @@ export const GenesisState = {
     message.params = (object.params !== undefined && object.params !== null)
       ? Params.fromPartial(object.params)
       : undefined;
-    message.baseBtcHeader = (object.baseBtcHeader !== undefined && object.baseBtcHeader !== null)
-      ? BTCHeaderInfo.fromPartial(object.baseBtcHeader)
+    message.base_btc_header = (object.base_btc_header !== undefined && object.base_btc_header !== null)
+      ? BTCHeaderInfo.fromPartial(object.base_btc_header)
       : undefined;
     return message;
   },
@@ -97,7 +96,7 @@ export const GenesisState = {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -105,11 +104,6 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
-
-if (_m0.util.Long !== Long) {
-  _m0.util.Long = Long as any;
-  _m0.configure();
-}
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;

@@ -5,8 +5,6 @@
 // source: lorenzo/btclightclient/v1/query.proto
 
 /* eslint-disable */
-import { grpc } from "@improbable-eng/grpc-web";
-import { BrowserHeaders } from "browser-headers";
 import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { PageRequest, PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
@@ -117,14 +115,14 @@ export interface QueryHeaderDepthRequest {
  * RPC it contains depth of the block in main chain
  */
 export interface QueryHeaderDepthResponse {
-  depth: Long;
+  depth: string;
 }
 
 export interface QueryFeeRateRequest {
 }
 
 export interface QueryFeeRateResponse {
-  feeRate: Long;
+  fee_rate: string;
 }
 
 function createBaseQueryParamsRequest(): QueryParamsRequest {
@@ -991,12 +989,12 @@ export const QueryHeaderDepthRequest = {
 };
 
 function createBaseQueryHeaderDepthResponse(): QueryHeaderDepthResponse {
-  return { depth: Long.UZERO };
+  return { depth: "0" };
 }
 
 export const QueryHeaderDepthResponse = {
   encode(message: QueryHeaderDepthResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.depth.equals(Long.UZERO)) {
+    if (message.depth !== "0") {
       writer.uint32(8).uint64(message.depth);
     }
     return writer;
@@ -1014,7 +1012,7 @@ export const QueryHeaderDepthResponse = {
             break;
           }
 
-          message.depth = reader.uint64() as Long;
+          message.depth = longToString(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -1026,13 +1024,13 @@ export const QueryHeaderDepthResponse = {
   },
 
   fromJSON(object: any): QueryHeaderDepthResponse {
-    return { depth: isSet(object.depth) ? Long.fromValue(object.depth) : Long.UZERO };
+    return { depth: isSet(object.depth) ? globalThis.String(object.depth) : "0" };
   },
 
   toJSON(message: QueryHeaderDepthResponse): unknown {
     const obj: any = {};
-    if (!message.depth.equals(Long.UZERO)) {
-      obj.depth = (message.depth || Long.UZERO).toString();
+    if (message.depth !== "0") {
+      obj.depth = message.depth;
     }
     return obj;
   },
@@ -1042,7 +1040,7 @@ export const QueryHeaderDepthResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryHeaderDepthResponse>, I>>(object: I): QueryHeaderDepthResponse {
     const message = createBaseQueryHeaderDepthResponse();
-    message.depth = (object.depth !== undefined && object.depth !== null) ? Long.fromValue(object.depth) : Long.UZERO;
+    message.depth = object.depth ?? "0";
     return message;
   },
 };
@@ -1091,13 +1089,13 @@ export const QueryFeeRateRequest = {
 };
 
 function createBaseQueryFeeRateResponse(): QueryFeeRateResponse {
-  return { feeRate: Long.UZERO };
+  return { fee_rate: "0" };
 }
 
 export const QueryFeeRateResponse = {
   encode(message: QueryFeeRateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.feeRate.equals(Long.UZERO)) {
-      writer.uint32(8).uint64(message.feeRate);
+    if (message.fee_rate !== "0") {
+      writer.uint32(8).uint64(message.fee_rate);
     }
     return writer;
   },
@@ -1114,7 +1112,7 @@ export const QueryFeeRateResponse = {
             break;
           }
 
-          message.feeRate = reader.uint64() as Long;
+          message.fee_rate = longToString(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -1126,13 +1124,13 @@ export const QueryFeeRateResponse = {
   },
 
   fromJSON(object: any): QueryFeeRateResponse {
-    return { feeRate: isSet(object.feeRate) ? Long.fromValue(object.feeRate) : Long.UZERO };
+    return { fee_rate: isSet(object.fee_rate) ? globalThis.String(object.fee_rate) : "0" };
   },
 
   toJSON(message: QueryFeeRateResponse): unknown {
     const obj: any = {};
-    if (!message.feeRate.equals(Long.UZERO)) {
-      obj.feeRate = (message.feeRate || Long.UZERO).toString();
+    if (message.fee_rate !== "0") {
+      obj.fee_rate = message.fee_rate;
     }
     return obj;
   },
@@ -1142,9 +1140,7 @@ export const QueryFeeRateResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryFeeRateResponse>, I>>(object: I): QueryFeeRateResponse {
     const message = createBaseQueryFeeRateResponse();
-    message.feeRate = (object.feeRate !== undefined && object.feeRate !== null)
-      ? Long.fromValue(object.feeRate)
-      : Long.UZERO;
+    message.fee_rate = object.fee_rate ?? "0";
     return message;
   },
 };
@@ -1152,45 +1148,41 @@ export const QueryFeeRateResponse = {
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Params queries the parameters of the module. */
-  Params(request: DeepPartial<QueryParamsRequest>, metadata?: grpc.Metadata): Promise<QueryParamsResponse>;
+  Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
   /** Hashes retrieves the hashes maintained by the module. */
-  Hashes(request: DeepPartial<QueryHashesRequest>, metadata?: grpc.Metadata): Promise<QueryHashesResponse>;
+  Hashes(request: QueryHashesRequest): Promise<QueryHashesResponse>;
   /** Contains checks whether a hash is maintained by the module. */
-  Contains(request: DeepPartial<QueryContainsRequest>, metadata?: grpc.Metadata): Promise<QueryContainsResponse>;
+  Contains(request: QueryContainsRequest): Promise<QueryContainsResponse>;
   /**
    * ContainsBytes is a temporary method that
    * checks whether a hash is maintained by the module.
    * See discussion at https://github.com/Lorenzo-Protocol/lorenzo/v2/pull/132
    * for more details.
    */
-  ContainsBytes(
-    request: DeepPartial<QueryContainsBytesRequest>,
-    metadata?: grpc.Metadata,
-  ): Promise<QueryContainsBytesResponse>;
+  ContainsBytes(request: QueryContainsBytesRequest): Promise<QueryContainsBytesResponse>;
   /** MainChain returns the canonical chain */
-  MainChain(request: DeepPartial<QueryMainChainRequest>, metadata?: grpc.Metadata): Promise<QueryMainChainResponse>;
+  MainChain(request: QueryMainChainRequest): Promise<QueryMainChainResponse>;
   /** Tip return best header on canonical chain */
-  Tip(request: DeepPartial<QueryTipRequest>, metadata?: grpc.Metadata): Promise<QueryTipResponse>;
+  Tip(request: QueryTipRequest): Promise<QueryTipResponse>;
   /**
    * BaseHeader returns the base BTC header of the chain. This header is defined
    * on genesis.
    */
-  BaseHeader(request: DeepPartial<QueryBaseHeaderRequest>, metadata?: grpc.Metadata): Promise<QueryBaseHeaderResponse>;
+  BaseHeader(request: QueryBaseHeaderRequest): Promise<QueryBaseHeaderResponse>;
   /**
    * HeaderDepth returns the depth of the header in main chain or error if the
    * block is not found or it exists on fork
    */
-  HeaderDepth(
-    request: DeepPartial<QueryHeaderDepthRequest>,
-    metadata?: grpc.Metadata,
-  ): Promise<QueryHeaderDepthResponse>;
-  FeeRate(request: DeepPartial<QueryFeeRateRequest>, metadata?: grpc.Metadata): Promise<QueryFeeRateResponse>;
+  HeaderDepth(request: QueryHeaderDepthRequest): Promise<QueryHeaderDepthResponse>;
+  FeeRate(request: QueryFeeRateRequest): Promise<QueryFeeRateResponse>;
 }
 
+export const QueryServiceName = "lorenzo.btclightclient.v1.Query";
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
-
-  constructor(rpc: Rpc) {
+  private readonly service: string;
+  constructor(rpc: Rpc, opts?: { service?: string }) {
+    this.service = opts?.service || QueryServiceName;
     this.rpc = rpc;
     this.Params = this.Params.bind(this);
     this.Hashes = this.Hashes.bind(this);
@@ -1202,325 +1194,63 @@ export class QueryClientImpl implements Query {
     this.HeaderDepth = this.HeaderDepth.bind(this);
     this.FeeRate = this.FeeRate.bind(this);
   }
-
-  Params(request: DeepPartial<QueryParamsRequest>, metadata?: grpc.Metadata): Promise<QueryParamsResponse> {
-    return this.rpc.unary(QueryParamsDesc, QueryParamsRequest.fromPartial(request), metadata);
+  Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
+    const data = QueryParamsRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Params", data);
+    return promise.then((data) => QueryParamsResponse.decode(_m0.Reader.create(data)));
   }
 
-  Hashes(request: DeepPartial<QueryHashesRequest>, metadata?: grpc.Metadata): Promise<QueryHashesResponse> {
-    return this.rpc.unary(QueryHashesDesc, QueryHashesRequest.fromPartial(request), metadata);
+  Hashes(request: QueryHashesRequest): Promise<QueryHashesResponse> {
+    const data = QueryHashesRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Hashes", data);
+    return promise.then((data) => QueryHashesResponse.decode(_m0.Reader.create(data)));
   }
 
-  Contains(request: DeepPartial<QueryContainsRequest>, metadata?: grpc.Metadata): Promise<QueryContainsResponse> {
-    return this.rpc.unary(QueryContainsDesc, QueryContainsRequest.fromPartial(request), metadata);
+  Contains(request: QueryContainsRequest): Promise<QueryContainsResponse> {
+    const data = QueryContainsRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Contains", data);
+    return promise.then((data) => QueryContainsResponse.decode(_m0.Reader.create(data)));
   }
 
-  ContainsBytes(
-    request: DeepPartial<QueryContainsBytesRequest>,
-    metadata?: grpc.Metadata,
-  ): Promise<QueryContainsBytesResponse> {
-    return this.rpc.unary(QueryContainsBytesDesc, QueryContainsBytesRequest.fromPartial(request), metadata);
+  ContainsBytes(request: QueryContainsBytesRequest): Promise<QueryContainsBytesResponse> {
+    const data = QueryContainsBytesRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "ContainsBytes", data);
+    return promise.then((data) => QueryContainsBytesResponse.decode(_m0.Reader.create(data)));
   }
 
-  MainChain(request: DeepPartial<QueryMainChainRequest>, metadata?: grpc.Metadata): Promise<QueryMainChainResponse> {
-    return this.rpc.unary(QueryMainChainDesc, QueryMainChainRequest.fromPartial(request), metadata);
+  MainChain(request: QueryMainChainRequest): Promise<QueryMainChainResponse> {
+    const data = QueryMainChainRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "MainChain", data);
+    return promise.then((data) => QueryMainChainResponse.decode(_m0.Reader.create(data)));
   }
 
-  Tip(request: DeepPartial<QueryTipRequest>, metadata?: grpc.Metadata): Promise<QueryTipResponse> {
-    return this.rpc.unary(QueryTipDesc, QueryTipRequest.fromPartial(request), metadata);
+  Tip(request: QueryTipRequest): Promise<QueryTipResponse> {
+    const data = QueryTipRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Tip", data);
+    return promise.then((data) => QueryTipResponse.decode(_m0.Reader.create(data)));
   }
 
-  BaseHeader(request: DeepPartial<QueryBaseHeaderRequest>, metadata?: grpc.Metadata): Promise<QueryBaseHeaderResponse> {
-    return this.rpc.unary(QueryBaseHeaderDesc, QueryBaseHeaderRequest.fromPartial(request), metadata);
+  BaseHeader(request: QueryBaseHeaderRequest): Promise<QueryBaseHeaderResponse> {
+    const data = QueryBaseHeaderRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "BaseHeader", data);
+    return promise.then((data) => QueryBaseHeaderResponse.decode(_m0.Reader.create(data)));
   }
 
-  HeaderDepth(
-    request: DeepPartial<QueryHeaderDepthRequest>,
-    metadata?: grpc.Metadata,
-  ): Promise<QueryHeaderDepthResponse> {
-    return this.rpc.unary(QueryHeaderDepthDesc, QueryHeaderDepthRequest.fromPartial(request), metadata);
+  HeaderDepth(request: QueryHeaderDepthRequest): Promise<QueryHeaderDepthResponse> {
+    const data = QueryHeaderDepthRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "HeaderDepth", data);
+    return promise.then((data) => QueryHeaderDepthResponse.decode(_m0.Reader.create(data)));
   }
 
-  FeeRate(request: DeepPartial<QueryFeeRateRequest>, metadata?: grpc.Metadata): Promise<QueryFeeRateResponse> {
-    return this.rpc.unary(QueryFeeRateDesc, QueryFeeRateRequest.fromPartial(request), metadata);
+  FeeRate(request: QueryFeeRateRequest): Promise<QueryFeeRateResponse> {
+    const data = QueryFeeRateRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "FeeRate", data);
+    return promise.then((data) => QueryFeeRateResponse.decode(_m0.Reader.create(data)));
   }
 }
-
-export const QueryDesc = { serviceName: "lorenzo.btclightclient.v1.Query" };
-
-export const QueryParamsDesc: UnaryMethodDefinitionish = {
-  methodName: "Params",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryParamsRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryParamsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryHashesDesc: UnaryMethodDefinitionish = {
-  methodName: "Hashes",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryHashesRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryHashesResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryContainsDesc: UnaryMethodDefinitionish = {
-  methodName: "Contains",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryContainsRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryContainsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryContainsBytesDesc: UnaryMethodDefinitionish = {
-  methodName: "ContainsBytes",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryContainsBytesRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryContainsBytesResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryMainChainDesc: UnaryMethodDefinitionish = {
-  methodName: "MainChain",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryMainChainRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryMainChainResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryTipDesc: UnaryMethodDefinitionish = {
-  methodName: "Tip",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryTipRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryTipResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryBaseHeaderDesc: UnaryMethodDefinitionish = {
-  methodName: "BaseHeader",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryBaseHeaderRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryBaseHeaderResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryHeaderDepthDesc: UnaryMethodDefinitionish = {
-  methodName: "HeaderDepth",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryHeaderDepthRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryHeaderDepthResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryFeeRateDesc: UnaryMethodDefinitionish = {
-  methodName: "FeeRate",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryFeeRateRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryFeeRateResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-interface UnaryMethodDefinitionishR extends grpc.UnaryMethodDefinition<any, any> {
-  requestStream: any;
-  responseStream: any;
-}
-
-type UnaryMethodDefinitionish = UnaryMethodDefinitionishR;
 
 interface Rpc {
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any>;
-}
-
-export class GrpcWebImpl {
-  private host: string;
-  private options: {
-    transport?: grpc.TransportFactory;
-
-    debug?: boolean;
-    metadata?: grpc.Metadata;
-    upStreamRetryCodes?: number[];
-  };
-
-  constructor(
-    host: string,
-    options: {
-      transport?: grpc.TransportFactory;
-
-      debug?: boolean;
-      metadata?: grpc.Metadata;
-      upStreamRetryCodes?: number[];
-    },
-  ) {
-    this.host = host;
-    this.options = options;
-  }
-
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    _request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any> {
-    const request = { ..._request, ...methodDesc.requestType };
-    const maybeCombinedMetadata = metadata && this.options.metadata
-      ? new BrowserHeaders({ ...this.options?.metadata.headersMap, ...metadata?.headersMap })
-      : metadata ?? this.options.metadata;
-    return new Promise((resolve, reject) => {
-      grpc.unary(methodDesc, {
-        request,
-        host: this.host,
-        metadata: maybeCombinedMetadata ?? {},
-        ...(this.options.transport !== undefined ? { transport: this.options.transport } : {}),
-        debug: this.options.debug ?? false,
-        onEnd: function (response) {
-          if (response.status === grpc.Code.OK) {
-            resolve(response.message!.toObject());
-          } else {
-            const err = new GrpcWebError(response.statusMessage, response.status, response.trailers);
-            reject(err);
-          }
-        },
-      });
-    });
-  }
+  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
 }
 
 function bytesFromBase64(b64: string): Uint8Array {
@@ -1551,7 +1281,7 @@ function base64FromBytes(arr: Uint8Array): string {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -1560,6 +1290,10 @@ type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
+function longToString(long: Long) {
+  return long.toString();
+}
+
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;
   _m0.configure();
@@ -1567,10 +1301,4 @@ if (_m0.util.Long !== Long) {
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
-}
-
-export class GrpcWebError extends globalThis.Error {
-  constructor(message: string, public code: grpc.Code, public metadata: grpc.Metadata) {
-    super(message);
-  }
 }

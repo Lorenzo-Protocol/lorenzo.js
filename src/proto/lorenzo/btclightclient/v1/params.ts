@@ -5,7 +5,6 @@
 // source: lorenzo/btclightclient/v1/params.proto
 
 /* eslint-disable */
-import Long from "long";
 import _m0 from "protobufjs/minimal";
 
 /** Params defines the parameters for the module. */
@@ -14,16 +13,16 @@ export interface Params {
    * List of addresses which are allowed to insert headers to btc light client
    * if the list is empty, any address can insert headers
    */
-  insertHeadersAllowList: string[];
+  insert_headers_allow_list: string[];
 }
 
 function createBaseParams(): Params {
-  return { insertHeadersAllowList: [] };
+  return { insert_headers_allow_list: [] };
 }
 
 export const Params = {
   encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    for (const v of message.insertHeadersAllowList) {
+    for (const v of message.insert_headers_allow_list) {
       writer.uint32(10).string(v!);
     }
     return writer;
@@ -41,7 +40,7 @@ export const Params = {
             break;
           }
 
-          message.insertHeadersAllowList.push(reader.string());
+          message.insert_headers_allow_list.push(reader.string());
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -54,16 +53,16 @@ export const Params = {
 
   fromJSON(object: any): Params {
     return {
-      insertHeadersAllowList: globalThis.Array.isArray(object?.insertHeadersAllowList)
-        ? object.insertHeadersAllowList.map((e: any) => globalThis.String(e))
+      insert_headers_allow_list: globalThis.Array.isArray(object?.insert_headers_allow_list)
+        ? object.insert_headers_allow_list.map((e: any) => globalThis.String(e))
         : [],
     };
   },
 
   toJSON(message: Params): unknown {
     const obj: any = {};
-    if (message.insertHeadersAllowList?.length) {
-      obj.insertHeadersAllowList = message.insertHeadersAllowList;
+    if (message.insert_headers_allow_list?.length) {
+      obj.insert_headers_allow_list = message.insert_headers_allow_list;
     }
     return obj;
   },
@@ -73,7 +72,7 @@ export const Params = {
   },
   fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
     const message = createBaseParams();
-    message.insertHeadersAllowList = object.insertHeadersAllowList?.map((e) => e) || [];
+    message.insert_headers_allow_list = object.insert_headers_allow_list?.map((e) => e) || [];
     return message;
   },
 };
@@ -81,7 +80,7 @@ export const Params = {
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -89,8 +88,3 @@ type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
-
-if (_m0.util.Long !== Long) {
-  _m0.util.Long = Long as any;
-  _m0.configure();
-}

@@ -4,7 +4,7 @@ plugins:
     out: ../src/proto
     opt: 
       - esModuleInterop=true
-      - forceLong=long
+      - forceLong=string
       - useOptionals=messages
       - exportCommonSymbols=false
-      - outputClientImpl=grpc-web
+      - snakeToCamel=false

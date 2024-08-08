@@ -5,8 +5,6 @@
 // source: lorenzo/agent/v1/query.proto
 
 /* eslint-disable */
-import { grpc } from "@improbable-eng/grpc-web";
-import { BrowserHeaders } from "browser-headers";
 import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { PageRequest, PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
@@ -38,7 +36,7 @@ export interface QueryAgentsResponse {
 /** QueryAgentRequest is the request type for the Query/Agent RPC method. */
 export interface QueryAgentRequest {
   /** id is the unique identifier of the agent */
-  id: Long;
+  id: string;
 }
 
 /** QueryAgentResponse is the response type for the Query/Agent RPC method. */
@@ -285,12 +283,12 @@ export const QueryAgentsResponse = {
 };
 
 function createBaseQueryAgentRequest(): QueryAgentRequest {
-  return { id: Long.UZERO };
+  return { id: "0" };
 }
 
 export const QueryAgentRequest = {
   encode(message: QueryAgentRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.equals(Long.UZERO)) {
+    if (message.id !== "0") {
       writer.uint32(8).uint64(message.id);
     }
     return writer;
@@ -308,7 +306,7 @@ export const QueryAgentRequest = {
             break;
           }
 
-          message.id = reader.uint64() as Long;
+          message.id = longToString(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -320,13 +318,13 @@ export const QueryAgentRequest = {
   },
 
   fromJSON(object: any): QueryAgentRequest {
-    return { id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO };
+    return { id: isSet(object.id) ? globalThis.String(object.id) : "0" };
   },
 
   toJSON(message: QueryAgentRequest): unknown {
     const obj: any = {};
-    if (!message.id.equals(Long.UZERO)) {
-      obj.id = (message.id || Long.UZERO).toString();
+    if (message.id !== "0") {
+      obj.id = message.id;
     }
     return obj;
   },
@@ -336,7 +334,7 @@ export const QueryAgentRequest = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryAgentRequest>, I>>(object: I): QueryAgentRequest {
     const message = createBaseQueryAgentRequest();
-    message.id = (object.id !== undefined && object.id !== null) ? Long.fromValue(object.id) : Long.UZERO;
+    message.id = object.id ?? "0";
     return message;
   },
 };
@@ -401,179 +399,51 @@ export const QueryAgentResponse = {
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Params queries the parameters of the module. */
-  Params(request: DeepPartial<QueryParamsRequest>, metadata?: grpc.Metadata): Promise<QueryParamsResponse>;
+  Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
   /** Agent queries all agents */
-  Agents(request: DeepPartial<QueryAgentsRequest>, metadata?: grpc.Metadata): Promise<QueryAgentsResponse>;
+  Agents(request: QueryAgentsRequest): Promise<QueryAgentsResponse>;
   /** Agent queries the agent of the specified escrow_address */
-  Agent(request: DeepPartial<QueryAgentRequest>, metadata?: grpc.Metadata): Promise<QueryAgentResponse>;
+  Agent(request: QueryAgentRequest): Promise<QueryAgentResponse>;
 }
 
+export const QueryServiceName = "lorenzo.agent.v1.Query";
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
-
-  constructor(rpc: Rpc) {
+  private readonly service: string;
+  constructor(rpc: Rpc, opts?: { service?: string }) {
+    this.service = opts?.service || QueryServiceName;
     this.rpc = rpc;
     this.Params = this.Params.bind(this);
     this.Agents = this.Agents.bind(this);
     this.Agent = this.Agent.bind(this);
   }
-
-  Params(request: DeepPartial<QueryParamsRequest>, metadata?: grpc.Metadata): Promise<QueryParamsResponse> {
-    return this.rpc.unary(QueryParamsDesc, QueryParamsRequest.fromPartial(request), metadata);
+  Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
+    const data = QueryParamsRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Params", data);
+    return promise.then((data) => QueryParamsResponse.decode(_m0.Reader.create(data)));
   }
 
-  Agents(request: DeepPartial<QueryAgentsRequest>, metadata?: grpc.Metadata): Promise<QueryAgentsResponse> {
-    return this.rpc.unary(QueryAgentsDesc, QueryAgentsRequest.fromPartial(request), metadata);
+  Agents(request: QueryAgentsRequest): Promise<QueryAgentsResponse> {
+    const data = QueryAgentsRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Agents", data);
+    return promise.then((data) => QueryAgentsResponse.decode(_m0.Reader.create(data)));
   }
 
-  Agent(request: DeepPartial<QueryAgentRequest>, metadata?: grpc.Metadata): Promise<QueryAgentResponse> {
-    return this.rpc.unary(QueryAgentDesc, QueryAgentRequest.fromPartial(request), metadata);
+  Agent(request: QueryAgentRequest): Promise<QueryAgentResponse> {
+    const data = QueryAgentRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Agent", data);
+    return promise.then((data) => QueryAgentResponse.decode(_m0.Reader.create(data)));
   }
 }
-
-export const QueryDesc = { serviceName: "lorenzo.agent.v1.Query" };
-
-export const QueryParamsDesc: UnaryMethodDefinitionish = {
-  methodName: "Params",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryParamsRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryParamsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryAgentsDesc: UnaryMethodDefinitionish = {
-  methodName: "Agents",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryAgentsRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryAgentsResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-export const QueryAgentDesc: UnaryMethodDefinitionish = {
-  methodName: "Agent",
-  service: QueryDesc,
-  requestStream: false,
-  responseStream: false,
-  requestType: {
-    serializeBinary() {
-      return QueryAgentRequest.encode(this).finish();
-    },
-  } as any,
-  responseType: {
-    deserializeBinary(data: Uint8Array) {
-      const value = QueryAgentResponse.decode(data);
-      return {
-        ...value,
-        toObject() {
-          return value;
-        },
-      };
-    },
-  } as any,
-};
-
-interface UnaryMethodDefinitionishR extends grpc.UnaryMethodDefinition<any, any> {
-  requestStream: any;
-  responseStream: any;
-}
-
-type UnaryMethodDefinitionish = UnaryMethodDefinitionishR;
 
 interface Rpc {
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any>;
-}
-
-export class GrpcWebImpl {
-  private host: string;
-  private options: {
-    transport?: grpc.TransportFactory;
-
-    debug?: boolean;
-    metadata?: grpc.Metadata;
-    upStreamRetryCodes?: number[];
-  };
-
-  constructor(
-    host: string,
-    options: {
-      transport?: grpc.TransportFactory;
-
-      debug?: boolean;
-      metadata?: grpc.Metadata;
-      upStreamRetryCodes?: number[];
-    },
-  ) {
-    this.host = host;
-    this.options = options;
-  }
-
-  unary<T extends UnaryMethodDefinitionish>(
-    methodDesc: T,
-    _request: any,
-    metadata: grpc.Metadata | undefined,
-  ): Promise<any> {
-    const request = { ..._request, ...methodDesc.requestType };
-    const maybeCombinedMetadata = metadata && this.options.metadata
-      ? new BrowserHeaders({ ...this.options?.metadata.headersMap, ...metadata?.headersMap })
-      : metadata ?? this.options.metadata;
-    return new Promise((resolve, reject) => {
-      grpc.unary(methodDesc, {
-        request,
-        host: this.host,
-        metadata: maybeCombinedMetadata ?? {},
-        ...(this.options.transport !== undefined ? { transport: this.options.transport } : {}),
-        debug: this.options.debug ?? false,
-        onEnd: function (response) {
-          if (response.status === grpc.Code.OK) {
-            resolve(response.message!.toObject());
-          } else {
-            const err = new GrpcWebError(response.statusMessage, response.status, response.trailers);
-            reject(err);
-          }
-        },
-      });
-    });
-  }
+  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
@@ -582,6 +452,10 @@ type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
+function longToString(long: Long) {
+  return long.toString();
+}
+
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;
   _m0.configure();
@@ -589,10 +463,4 @@ if (_m0.util.Long !== Long) {
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
-}
-
-export class GrpcWebError extends globalThis.Error {
-  constructor(message: string, public code: grpc.Code, public metadata: grpc.Metadata) {
-    super(message);
-  }
 }
