@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { MsgUpdateParams, MsgUpgradePlan, MsgCreatePlan, MsgSetMerkleRoot, MsgClaims, MsgUpdatePlanStatus, MsgCreateYAT, MsgSetMinter, MsgRemoveMinter } from "./tx";
 export const AminoConverter = {
   "/lorenzo.plan.v1.MsgUpdateParams": {

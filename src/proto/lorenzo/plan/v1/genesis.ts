@@ -1,6 +1,8 @@
+//@ts-nocheck
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
 import { Plan, PlanAmino, PlanSDKType } from "./plan";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /** GenesisState defines the agent module's genesis state. */
 export interface GenesisState {
   /** params defines all the parameters of the module. */
@@ -42,6 +44,15 @@ function createBaseGenesisState(): GenesisState {
 }
 export const GenesisState = {
   typeUrl: "/lorenzo.plan.v1.GenesisState",
+  is(o: any): o is GenesisState {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.is(o.params) && typeof o.nextNumber === "bigint" && Array.isArray(o.plans) && (!o.plans.length || Plan.is(o.plans[0])));
+  },
+  isSDK(o: any): o is GenesisStateSDKType {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.isSDK(o.params) && typeof o.next_number === "bigint" && Array.isArray(o.plans) && (!o.plans.length || Plan.isSDK(o.plans[0])));
+  },
+  isAmino(o: any): o is GenesisStateAmino {
+    return o && (o.$typeUrl === GenesisState.typeUrl || Params.isAmino(o.params) && typeof o.next_number === "bigint" && Array.isArray(o.plans) && (!o.plans.length || Plan.isAmino(o.plans[0])));
+  },
   encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -140,3 +151,4 @@ export const GenesisState = {
     };
   }
 };
+GlobalDecoderRegistry.register(GenesisState.typeUrl, GenesisState);

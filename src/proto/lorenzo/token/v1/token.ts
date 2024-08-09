@@ -1,5 +1,7 @@
-import { BinaryReader, BinaryWriter } from "../../../binary";
+//@ts-nocheck
 import { isSet } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /**
  * Source defines the source type of token asset, if source is:
  * - module: token origin is sdk module;
@@ -93,6 +95,15 @@ function createBaseTokenPair(): TokenPair {
 }
 export const TokenPair = {
   typeUrl: "/lorenzo.token.v1.TokenPair",
+  is(o: any): o is TokenPair {
+    return o && (o.$typeUrl === TokenPair.typeUrl || typeof o.contractAddress === "string" && typeof o.denom === "string" && typeof o.enabled === "boolean" && isSet(o.source));
+  },
+  isSDK(o: any): o is TokenPairSDKType {
+    return o && (o.$typeUrl === TokenPair.typeUrl || typeof o.contract_address === "string" && typeof o.denom === "string" && typeof o.enabled === "boolean" && isSet(o.source));
+  },
+  isAmino(o: any): o is TokenPairAmino {
+    return o && (o.$typeUrl === TokenPair.typeUrl || typeof o.contract_address === "string" && typeof o.denom === "string" && typeof o.enabled === "boolean" && isSet(o.source));
+  },
   encode(message: TokenPair, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contractAddress !== "") {
       writer.uint32(10).string(message.contractAddress);
@@ -198,3 +209,4 @@ export const TokenPair = {
     };
   }
 };
+GlobalDecoderRegistry.register(TokenPair.typeUrl, TokenPair);

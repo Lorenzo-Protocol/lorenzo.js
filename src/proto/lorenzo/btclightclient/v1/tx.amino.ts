@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { MsgInsertHeaders, MsgUpdateParams, MsgUpdateFeeRate } from "./tx";
 export const AminoConverter = {
   "/lorenzo.btclightclient.v1.MsgInsertHeaders": {

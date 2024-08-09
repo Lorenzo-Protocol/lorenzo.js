@@ -11,6 +11,15 @@ telescope({
     outPath,
 
     options: {
+        env: "v-next",
+        tsDisable: {
+            disableAll: true
+        },
+        interfaces: {
+            enabled: true,
+            useUnionTypes: true,
+            useGlobalDecoderRegistry: true
+        },
         prototypes: {
             addTypeUrlToDecoders: true,
             addTypeUrlToObjects: true,

@@ -1,5 +1,7 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { bytesFromBase64, base64FromBytes } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
 export interface BTCStakingRecord {
   txHash: Uint8Array;
   amount: bigint;
@@ -48,6 +50,15 @@ function createBaseBTCStakingRecord(): BTCStakingRecord {
 }
 export const BTCStakingRecord = {
   typeUrl: "/lorenzo.btcstaking.v1.BTCStakingRecord",
+  is(o: any): o is BTCStakingRecord {
+    return o && (o.$typeUrl === BTCStakingRecord.typeUrl || (o.txHash instanceof Uint8Array || typeof o.txHash === "string") && typeof o.amount === "bigint" && (o.receiverAddr instanceof Uint8Array || typeof o.receiverAddr === "string") && typeof o.agentName === "string" && typeof o.agentBtcAddr === "string" && typeof o.chainId === "number" && typeof o.mintYatResult === "string");
+  },
+  isSDK(o: any): o is BTCStakingRecordSDKType {
+    return o && (o.$typeUrl === BTCStakingRecord.typeUrl || (o.tx_hash instanceof Uint8Array || typeof o.tx_hash === "string") && typeof o.amount === "bigint" && (o.receiver_addr instanceof Uint8Array || typeof o.receiver_addr === "string") && typeof o.agent_name === "string" && typeof o.agent_btc_addr === "string" && typeof o.chain_id === "number" && typeof o.mint_yat_result === "string");
+  },
+  isAmino(o: any): o is BTCStakingRecordAmino {
+    return o && (o.$typeUrl === BTCStakingRecord.typeUrl || (o.tx_hash instanceof Uint8Array || typeof o.tx_hash === "string") && typeof o.amount === "bigint" && (o.receiver_addr instanceof Uint8Array || typeof o.receiver_addr === "string") && typeof o.agent_name === "string" && typeof o.agent_btc_addr === "string" && typeof o.chain_id === "number" && typeof o.mint_yat_result === "string");
+  },
   encode(message: BTCStakingRecord, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.txHash.length !== 0) {
       writer.uint32(10).bytes(message.txHash);
@@ -192,3 +203,4 @@ export const BTCStakingRecord = {
     };
   }
 };
+GlobalDecoderRegistry.register(BTCStakingRecord.typeUrl, BTCStakingRecord);

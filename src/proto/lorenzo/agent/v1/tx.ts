@@ -1,5 +1,7 @@
+//@ts-nocheck
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 export interface MsgUpdateParams {
   /**
    * authority is the address of the governance account.
@@ -222,6 +224,15 @@ function createBaseMsgUpdateParams(): MsgUpdateParams {
 }
 export const MsgUpdateParams = {
   typeUrl: "/lorenzo.agent.v1.MsgUpdateParams",
+  is(o: any): o is MsgUpdateParams {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.is(o.params));
+  },
+  isSDK(o: any): o is MsgUpdateParamsSDKType {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.isSDK(o.params));
+  },
+  isAmino(o: any): o is MsgUpdateParamsAmino {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.isAmino(o.params));
+  },
   encode(message: MsgUpdateParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.authority !== "") {
       writer.uint32(10).string(message.authority);
@@ -301,11 +312,21 @@ export const MsgUpdateParams = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateParams.typeUrl, MsgUpdateParams);
 function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
   return {};
 }
 export const MsgUpdateParamsResponse = {
   typeUrl: "/lorenzo.agent.v1.MsgUpdateParamsResponse",
+  is(o: any): o is MsgUpdateParamsResponse {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgUpdateParamsResponseSDKType {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgUpdateParamsResponseAmino {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
   encode(_: MsgUpdateParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -358,6 +379,7 @@ export const MsgUpdateParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateParamsResponse.typeUrl, MsgUpdateParamsResponse);
 function createBaseMsgAddAgent(): MsgAddAgent {
   return {
     name: "",
@@ -370,6 +392,15 @@ function createBaseMsgAddAgent(): MsgAddAgent {
 }
 export const MsgAddAgent = {
   typeUrl: "/lorenzo.agent.v1.MsgAddAgent",
+  is(o: any): o is MsgAddAgent {
+    return o && (o.$typeUrl === MsgAddAgent.typeUrl || typeof o.name === "string" && typeof o.btcReceivingAddress === "string" && typeof o.ethAddr === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgAddAgentSDKType {
+    return o && (o.$typeUrl === MsgAddAgent.typeUrl || typeof o.name === "string" && typeof o.btc_receiving_address === "string" && typeof o.eth_addr === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is MsgAddAgentAmino {
+    return o && (o.$typeUrl === MsgAddAgent.typeUrl || typeof o.name === "string" && typeof o.btc_receiving_address === "string" && typeof o.eth_addr === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
+  },
   encode(message: MsgAddAgent, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -501,6 +532,7 @@ export const MsgAddAgent = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgAddAgent.typeUrl, MsgAddAgent);
 function createBaseMsgAddAgentResponse(): MsgAddAgentResponse {
   return {
     id: BigInt(0)
@@ -508,6 +540,15 @@ function createBaseMsgAddAgentResponse(): MsgAddAgentResponse {
 }
 export const MsgAddAgentResponse = {
   typeUrl: "/lorenzo.agent.v1.MsgAddAgentResponse",
+  is(o: any): o is MsgAddAgentResponse {
+    return o && (o.$typeUrl === MsgAddAgentResponse.typeUrl || typeof o.id === "bigint");
+  },
+  isSDK(o: any): o is MsgAddAgentResponseSDKType {
+    return o && (o.$typeUrl === MsgAddAgentResponse.typeUrl || typeof o.id === "bigint");
+  },
+  isAmino(o: any): o is MsgAddAgentResponseAmino {
+    return o && (o.$typeUrl === MsgAddAgentResponse.typeUrl || typeof o.id === "bigint");
+  },
   encode(message: MsgAddAgentResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -574,6 +615,7 @@ export const MsgAddAgentResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgAddAgentResponse.typeUrl, MsgAddAgentResponse);
 function createBaseMsgEditAgent(): MsgEditAgent {
   return {
     id: BigInt(0),
@@ -585,6 +627,15 @@ function createBaseMsgEditAgent(): MsgEditAgent {
 }
 export const MsgEditAgent = {
   typeUrl: "/lorenzo.agent.v1.MsgEditAgent",
+  is(o: any): o is MsgEditAgent {
+    return o && (o.$typeUrl === MsgEditAgent.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgEditAgentSDKType {
+    return o && (o.$typeUrl === MsgEditAgent.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is MsgEditAgentAmino {
+    return o && (o.$typeUrl === MsgEditAgent.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
+  },
   encode(message: MsgEditAgent, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -703,11 +754,21 @@ export const MsgEditAgent = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgEditAgent.typeUrl, MsgEditAgent);
 function createBaseMsgEditAgentResponse(): MsgEditAgentResponse {
   return {};
 }
 export const MsgEditAgentResponse = {
   typeUrl: "/lorenzo.agent.v1.MsgEditAgentResponse",
+  is(o: any): o is MsgEditAgentResponse {
+    return o && o.$typeUrl === MsgEditAgentResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgEditAgentResponseSDKType {
+    return o && o.$typeUrl === MsgEditAgentResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgEditAgentResponseAmino {
+    return o && o.$typeUrl === MsgEditAgentResponse.typeUrl;
+  },
   encode(_: MsgEditAgentResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -760,6 +821,7 @@ export const MsgEditAgentResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgEditAgentResponse.typeUrl, MsgEditAgentResponse);
 function createBaseMsgRemoveAgent(): MsgRemoveAgent {
   return {
     id: BigInt(0),
@@ -768,6 +830,15 @@ function createBaseMsgRemoveAgent(): MsgRemoveAgent {
 }
 export const MsgRemoveAgent = {
   typeUrl: "/lorenzo.agent.v1.MsgRemoveAgent",
+  is(o: any): o is MsgRemoveAgent {
+    return o && (o.$typeUrl === MsgRemoveAgent.typeUrl || typeof o.id === "bigint" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgRemoveAgentSDKType {
+    return o && (o.$typeUrl === MsgRemoveAgent.typeUrl || typeof o.id === "bigint" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is MsgRemoveAgentAmino {
+    return o && (o.$typeUrl === MsgRemoveAgent.typeUrl || typeof o.id === "bigint" && typeof o.sender === "string");
+  },
   encode(message: MsgRemoveAgent, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -847,11 +918,21 @@ export const MsgRemoveAgent = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRemoveAgent.typeUrl, MsgRemoveAgent);
 function createBaseMsgRemoveAgentResponse(): MsgRemoveAgentResponse {
   return {};
 }
 export const MsgRemoveAgentResponse = {
   typeUrl: "/lorenzo.agent.v1.MsgRemoveAgentResponse",
+  is(o: any): o is MsgRemoveAgentResponse {
+    return o && o.$typeUrl === MsgRemoveAgentResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgRemoveAgentResponseSDKType {
+    return o && o.$typeUrl === MsgRemoveAgentResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgRemoveAgentResponseAmino {
+    return o && o.$typeUrl === MsgRemoveAgentResponse.typeUrl;
+  },
   encode(_: MsgRemoveAgentResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -904,3 +985,4 @@ export const MsgRemoveAgentResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRemoveAgentResponse.typeUrl, MsgRemoveAgentResponse);

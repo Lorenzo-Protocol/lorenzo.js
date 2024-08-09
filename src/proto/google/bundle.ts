@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as _128 from "./api/annotations";
 import * as _129 from "./api/http";
 import * as _130 from "./protobuf/descriptor";

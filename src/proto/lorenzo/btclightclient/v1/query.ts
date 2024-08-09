@@ -1,7 +1,9 @@
+//@ts-nocheck
 import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../../cosmos/base/query/v1beta1/pagination";
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
 import { BTCHeaderInfo, BTCHeaderInfoAmino, BTCHeaderInfoSDKType } from "./btclightclient";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { bytesFromBase64, base64FromBytes } from "../../../helpers";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
@@ -427,6 +429,15 @@ function createBaseQueryParamsRequest(): QueryParamsRequest {
 }
 export const QueryParamsRequest = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryParamsRequest",
+  is(o: any): o is QueryParamsRequest {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryParamsRequestSDKType {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isAmino(o: any): o is QueryParamsRequestAmino {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
   encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -479,6 +490,7 @@ export const QueryParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsRequest.typeUrl, QueryParamsRequest);
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
     params: Params.fromPartial({})
@@ -486,6 +498,15 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 }
 export const QueryParamsResponse = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryParamsResponse",
+  is(o: any): o is QueryParamsResponse {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.is(o.params));
+  },
+  isSDK(o: any): o is QueryParamsResponseSDKType {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isSDK(o.params));
+  },
+  isAmino(o: any): o is QueryParamsResponseAmino {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isAmino(o.params));
+  },
   encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -552,6 +573,7 @@ export const QueryParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsResponse.typeUrl, QueryParamsResponse);
 function createBaseQueryHashesRequest(): QueryHashesRequest {
   return {
     pagination: undefined
@@ -559,6 +581,15 @@ function createBaseQueryHashesRequest(): QueryHashesRequest {
 }
 export const QueryHashesRequest = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryHashesRequest",
+  is(o: any): o is QueryHashesRequest {
+    return o && o.$typeUrl === QueryHashesRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryHashesRequestSDKType {
+    return o && o.$typeUrl === QueryHashesRequest.typeUrl;
+  },
+  isAmino(o: any): o is QueryHashesRequestAmino {
+    return o && o.$typeUrl === QueryHashesRequest.typeUrl;
+  },
   encode(message: QueryHashesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
@@ -625,6 +656,7 @@ export const QueryHashesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryHashesRequest.typeUrl, QueryHashesRequest);
 function createBaseQueryHashesResponse(): QueryHashesResponse {
   return {
     hashes: [],
@@ -633,6 +665,15 @@ function createBaseQueryHashesResponse(): QueryHashesResponse {
 }
 export const QueryHashesResponse = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryHashesResponse",
+  is(o: any): o is QueryHashesResponse {
+    return o && (o.$typeUrl === QueryHashesResponse.typeUrl || Array.isArray(o.hashes) && (!o.hashes.length || o.hashes[0] instanceof Uint8Array || typeof o.hashes[0] === "string"));
+  },
+  isSDK(o: any): o is QueryHashesResponseSDKType {
+    return o && (o.$typeUrl === QueryHashesResponse.typeUrl || Array.isArray(o.hashes) && (!o.hashes.length || o.hashes[0] instanceof Uint8Array || typeof o.hashes[0] === "string"));
+  },
+  isAmino(o: any): o is QueryHashesResponseAmino {
+    return o && (o.$typeUrl === QueryHashesResponse.typeUrl || Array.isArray(o.hashes) && (!o.hashes.length || o.hashes[0] instanceof Uint8Array || typeof o.hashes[0] === "string"));
+  },
   encode(message: QueryHashesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.hashes) {
       writer.uint32(10).bytes(v!);
@@ -718,6 +759,7 @@ export const QueryHashesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryHashesResponse.typeUrl, QueryHashesResponse);
 function createBaseQueryContainsRequest(): QueryContainsRequest {
   return {
     hash: new Uint8Array()
@@ -725,6 +767,15 @@ function createBaseQueryContainsRequest(): QueryContainsRequest {
 }
 export const QueryContainsRequest = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryContainsRequest",
+  is(o: any): o is QueryContainsRequest {
+    return o && (o.$typeUrl === QueryContainsRequest.typeUrl || o.hash instanceof Uint8Array || typeof o.hash === "string");
+  },
+  isSDK(o: any): o is QueryContainsRequestSDKType {
+    return o && (o.$typeUrl === QueryContainsRequest.typeUrl || o.hash instanceof Uint8Array || typeof o.hash === "string");
+  },
+  isAmino(o: any): o is QueryContainsRequestAmino {
+    return o && (o.$typeUrl === QueryContainsRequest.typeUrl || o.hash instanceof Uint8Array || typeof o.hash === "string");
+  },
   encode(message: QueryContainsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.hash.length !== 0) {
       writer.uint32(10).bytes(message.hash);
@@ -791,6 +842,7 @@ export const QueryContainsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryContainsRequest.typeUrl, QueryContainsRequest);
 function createBaseQueryContainsResponse(): QueryContainsResponse {
   return {
     contains: false
@@ -798,6 +850,15 @@ function createBaseQueryContainsResponse(): QueryContainsResponse {
 }
 export const QueryContainsResponse = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryContainsResponse",
+  is(o: any): o is QueryContainsResponse {
+    return o && (o.$typeUrl === QueryContainsResponse.typeUrl || typeof o.contains === "boolean");
+  },
+  isSDK(o: any): o is QueryContainsResponseSDKType {
+    return o && (o.$typeUrl === QueryContainsResponse.typeUrl || typeof o.contains === "boolean");
+  },
+  isAmino(o: any): o is QueryContainsResponseAmino {
+    return o && (o.$typeUrl === QueryContainsResponse.typeUrl || typeof o.contains === "boolean");
+  },
   encode(message: QueryContainsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contains === true) {
       writer.uint32(8).bool(message.contains);
@@ -864,6 +925,7 @@ export const QueryContainsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryContainsResponse.typeUrl, QueryContainsResponse);
 function createBaseQueryContainsBytesRequest(): QueryContainsBytesRequest {
   return {
     hash: new Uint8Array()
@@ -871,6 +933,15 @@ function createBaseQueryContainsBytesRequest(): QueryContainsBytesRequest {
 }
 export const QueryContainsBytesRequest = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryContainsBytesRequest",
+  is(o: any): o is QueryContainsBytesRequest {
+    return o && (o.$typeUrl === QueryContainsBytesRequest.typeUrl || o.hash instanceof Uint8Array || typeof o.hash === "string");
+  },
+  isSDK(o: any): o is QueryContainsBytesRequestSDKType {
+    return o && (o.$typeUrl === QueryContainsBytesRequest.typeUrl || o.hash instanceof Uint8Array || typeof o.hash === "string");
+  },
+  isAmino(o: any): o is QueryContainsBytesRequestAmino {
+    return o && (o.$typeUrl === QueryContainsBytesRequest.typeUrl || o.hash instanceof Uint8Array || typeof o.hash === "string");
+  },
   encode(message: QueryContainsBytesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.hash.length !== 0) {
       writer.uint32(10).bytes(message.hash);
@@ -937,6 +1008,7 @@ export const QueryContainsBytesRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryContainsBytesRequest.typeUrl, QueryContainsBytesRequest);
 function createBaseQueryContainsBytesResponse(): QueryContainsBytesResponse {
   return {
     contains: false
@@ -944,6 +1016,15 @@ function createBaseQueryContainsBytesResponse(): QueryContainsBytesResponse {
 }
 export const QueryContainsBytesResponse = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryContainsBytesResponse",
+  is(o: any): o is QueryContainsBytesResponse {
+    return o && (o.$typeUrl === QueryContainsBytesResponse.typeUrl || typeof o.contains === "boolean");
+  },
+  isSDK(o: any): o is QueryContainsBytesResponseSDKType {
+    return o && (o.$typeUrl === QueryContainsBytesResponse.typeUrl || typeof o.contains === "boolean");
+  },
+  isAmino(o: any): o is QueryContainsBytesResponseAmino {
+    return o && (o.$typeUrl === QueryContainsBytesResponse.typeUrl || typeof o.contains === "boolean");
+  },
   encode(message: QueryContainsBytesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contains === true) {
       writer.uint32(8).bool(message.contains);
@@ -1010,6 +1091,7 @@ export const QueryContainsBytesResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryContainsBytesResponse.typeUrl, QueryContainsBytesResponse);
 function createBaseQueryMainChainRequest(): QueryMainChainRequest {
   return {
     pagination: undefined
@@ -1017,6 +1099,15 @@ function createBaseQueryMainChainRequest(): QueryMainChainRequest {
 }
 export const QueryMainChainRequest = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryMainChainRequest",
+  is(o: any): o is QueryMainChainRequest {
+    return o && o.$typeUrl === QueryMainChainRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryMainChainRequestSDKType {
+    return o && o.$typeUrl === QueryMainChainRequest.typeUrl;
+  },
+  isAmino(o: any): o is QueryMainChainRequestAmino {
+    return o && o.$typeUrl === QueryMainChainRequest.typeUrl;
+  },
   encode(message: QueryMainChainRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
@@ -1083,6 +1174,7 @@ export const QueryMainChainRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryMainChainRequest.typeUrl, QueryMainChainRequest);
 function createBaseQueryMainChainResponse(): QueryMainChainResponse {
   return {
     headers: [],
@@ -1091,6 +1183,15 @@ function createBaseQueryMainChainResponse(): QueryMainChainResponse {
 }
 export const QueryMainChainResponse = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryMainChainResponse",
+  is(o: any): o is QueryMainChainResponse {
+    return o && (o.$typeUrl === QueryMainChainResponse.typeUrl || Array.isArray(o.headers) && (!o.headers.length || BTCHeaderInfo.is(o.headers[0])));
+  },
+  isSDK(o: any): o is QueryMainChainResponseSDKType {
+    return o && (o.$typeUrl === QueryMainChainResponse.typeUrl || Array.isArray(o.headers) && (!o.headers.length || BTCHeaderInfo.isSDK(o.headers[0])));
+  },
+  isAmino(o: any): o is QueryMainChainResponseAmino {
+    return o && (o.$typeUrl === QueryMainChainResponse.typeUrl || Array.isArray(o.headers) && (!o.headers.length || BTCHeaderInfo.isAmino(o.headers[0])));
+  },
   encode(message: QueryMainChainResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.headers) {
       BTCHeaderInfo.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1176,11 +1277,21 @@ export const QueryMainChainResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryMainChainResponse.typeUrl, QueryMainChainResponse);
 function createBaseQueryTipRequest(): QueryTipRequest {
   return {};
 }
 export const QueryTipRequest = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryTipRequest",
+  is(o: any): o is QueryTipRequest {
+    return o && o.$typeUrl === QueryTipRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryTipRequestSDKType {
+    return o && o.$typeUrl === QueryTipRequest.typeUrl;
+  },
+  isAmino(o: any): o is QueryTipRequestAmino {
+    return o && o.$typeUrl === QueryTipRequest.typeUrl;
+  },
   encode(_: QueryTipRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1233,6 +1344,7 @@ export const QueryTipRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTipRequest.typeUrl, QueryTipRequest);
 function createBaseQueryTipResponse(): QueryTipResponse {
   return {
     header: undefined
@@ -1240,6 +1352,15 @@ function createBaseQueryTipResponse(): QueryTipResponse {
 }
 export const QueryTipResponse = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryTipResponse",
+  is(o: any): o is QueryTipResponse {
+    return o && o.$typeUrl === QueryTipResponse.typeUrl;
+  },
+  isSDK(o: any): o is QueryTipResponseSDKType {
+    return o && o.$typeUrl === QueryTipResponse.typeUrl;
+  },
+  isAmino(o: any): o is QueryTipResponseAmino {
+    return o && o.$typeUrl === QueryTipResponse.typeUrl;
+  },
   encode(message: QueryTipResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.header !== undefined) {
       BTCHeaderInfo.encode(message.header, writer.uint32(10).fork()).ldelim();
@@ -1306,11 +1427,21 @@ export const QueryTipResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTipResponse.typeUrl, QueryTipResponse);
 function createBaseQueryBaseHeaderRequest(): QueryBaseHeaderRequest {
   return {};
 }
 export const QueryBaseHeaderRequest = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryBaseHeaderRequest",
+  is(o: any): o is QueryBaseHeaderRequest {
+    return o && o.$typeUrl === QueryBaseHeaderRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryBaseHeaderRequestSDKType {
+    return o && o.$typeUrl === QueryBaseHeaderRequest.typeUrl;
+  },
+  isAmino(o: any): o is QueryBaseHeaderRequestAmino {
+    return o && o.$typeUrl === QueryBaseHeaderRequest.typeUrl;
+  },
   encode(_: QueryBaseHeaderRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1363,6 +1494,7 @@ export const QueryBaseHeaderRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryBaseHeaderRequest.typeUrl, QueryBaseHeaderRequest);
 function createBaseQueryBaseHeaderResponse(): QueryBaseHeaderResponse {
   return {
     header: undefined
@@ -1370,6 +1502,15 @@ function createBaseQueryBaseHeaderResponse(): QueryBaseHeaderResponse {
 }
 export const QueryBaseHeaderResponse = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryBaseHeaderResponse",
+  is(o: any): o is QueryBaseHeaderResponse {
+    return o && o.$typeUrl === QueryBaseHeaderResponse.typeUrl;
+  },
+  isSDK(o: any): o is QueryBaseHeaderResponseSDKType {
+    return o && o.$typeUrl === QueryBaseHeaderResponse.typeUrl;
+  },
+  isAmino(o: any): o is QueryBaseHeaderResponseAmino {
+    return o && o.$typeUrl === QueryBaseHeaderResponse.typeUrl;
+  },
   encode(message: QueryBaseHeaderResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.header !== undefined) {
       BTCHeaderInfo.encode(message.header, writer.uint32(10).fork()).ldelim();
@@ -1436,6 +1577,7 @@ export const QueryBaseHeaderResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryBaseHeaderResponse.typeUrl, QueryBaseHeaderResponse);
 function createBaseQueryHeaderDepthRequest(): QueryHeaderDepthRequest {
   return {
     hash: ""
@@ -1443,6 +1585,15 @@ function createBaseQueryHeaderDepthRequest(): QueryHeaderDepthRequest {
 }
 export const QueryHeaderDepthRequest = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryHeaderDepthRequest",
+  is(o: any): o is QueryHeaderDepthRequest {
+    return o && (o.$typeUrl === QueryHeaderDepthRequest.typeUrl || typeof o.hash === "string");
+  },
+  isSDK(o: any): o is QueryHeaderDepthRequestSDKType {
+    return o && (o.$typeUrl === QueryHeaderDepthRequest.typeUrl || typeof o.hash === "string");
+  },
+  isAmino(o: any): o is QueryHeaderDepthRequestAmino {
+    return o && (o.$typeUrl === QueryHeaderDepthRequest.typeUrl || typeof o.hash === "string");
+  },
   encode(message: QueryHeaderDepthRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.hash !== "") {
       writer.uint32(10).string(message.hash);
@@ -1509,6 +1660,7 @@ export const QueryHeaderDepthRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryHeaderDepthRequest.typeUrl, QueryHeaderDepthRequest);
 function createBaseQueryHeaderDepthResponse(): QueryHeaderDepthResponse {
   return {
     depth: BigInt(0)
@@ -1516,6 +1668,15 @@ function createBaseQueryHeaderDepthResponse(): QueryHeaderDepthResponse {
 }
 export const QueryHeaderDepthResponse = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryHeaderDepthResponse",
+  is(o: any): o is QueryHeaderDepthResponse {
+    return o && (o.$typeUrl === QueryHeaderDepthResponse.typeUrl || typeof o.depth === "bigint");
+  },
+  isSDK(o: any): o is QueryHeaderDepthResponseSDKType {
+    return o && (o.$typeUrl === QueryHeaderDepthResponse.typeUrl || typeof o.depth === "bigint");
+  },
+  isAmino(o: any): o is QueryHeaderDepthResponseAmino {
+    return o && (o.$typeUrl === QueryHeaderDepthResponse.typeUrl || typeof o.depth === "bigint");
+  },
   encode(message: QueryHeaderDepthResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.depth !== BigInt(0)) {
       writer.uint32(8).uint64(message.depth);
@@ -1582,11 +1743,21 @@ export const QueryHeaderDepthResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryHeaderDepthResponse.typeUrl, QueryHeaderDepthResponse);
 function createBaseQueryFeeRateRequest(): QueryFeeRateRequest {
   return {};
 }
 export const QueryFeeRateRequest = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryFeeRateRequest",
+  is(o: any): o is QueryFeeRateRequest {
+    return o && o.$typeUrl === QueryFeeRateRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryFeeRateRequestSDKType {
+    return o && o.$typeUrl === QueryFeeRateRequest.typeUrl;
+  },
+  isAmino(o: any): o is QueryFeeRateRequestAmino {
+    return o && o.$typeUrl === QueryFeeRateRequest.typeUrl;
+  },
   encode(_: QueryFeeRateRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1639,6 +1810,7 @@ export const QueryFeeRateRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryFeeRateRequest.typeUrl, QueryFeeRateRequest);
 function createBaseQueryFeeRateResponse(): QueryFeeRateResponse {
   return {
     feeRate: BigInt(0)
@@ -1646,6 +1818,15 @@ function createBaseQueryFeeRateResponse(): QueryFeeRateResponse {
 }
 export const QueryFeeRateResponse = {
   typeUrl: "/lorenzo.btclightclient.v1.QueryFeeRateResponse",
+  is(o: any): o is QueryFeeRateResponse {
+    return o && (o.$typeUrl === QueryFeeRateResponse.typeUrl || typeof o.feeRate === "bigint");
+  },
+  isSDK(o: any): o is QueryFeeRateResponseSDKType {
+    return o && (o.$typeUrl === QueryFeeRateResponse.typeUrl || typeof o.fee_rate === "bigint");
+  },
+  isAmino(o: any): o is QueryFeeRateResponseAmino {
+    return o && (o.$typeUrl === QueryFeeRateResponse.typeUrl || typeof o.fee_rate === "bigint");
+  },
   encode(message: QueryFeeRateResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.feeRate !== BigInt(0)) {
       writer.uint32(8).uint64(message.feeRate);
@@ -1712,3 +1893,4 @@ export const QueryFeeRateResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryFeeRateResponse.typeUrl, QueryFeeRateResponse);

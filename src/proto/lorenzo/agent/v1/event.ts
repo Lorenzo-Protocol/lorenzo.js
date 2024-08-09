@@ -1,4 +1,6 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /** agent creation event */
 export interface EventAddAgent {
   /** id is the unique identifier of the agent */
@@ -133,6 +135,15 @@ function createBaseEventAddAgent(): EventAddAgent {
 }
 export const EventAddAgent = {
   typeUrl: "/lorenzo.agent.v1.EventAddAgent",
+  is(o: any): o is EventAddAgent {
+    return o && (o.$typeUrl === EventAddAgent.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.btcReceivingAddress === "string" && typeof o.ethAddr === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is EventAddAgentSDKType {
+    return o && (o.$typeUrl === EventAddAgent.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.btc_receiving_address === "string" && typeof o.eth_addr === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is EventAddAgentAmino {
+    return o && (o.$typeUrl === EventAddAgent.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.btc_receiving_address === "string" && typeof o.eth_addr === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
+  },
   encode(message: EventAddAgent, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -277,6 +288,7 @@ export const EventAddAgent = {
     };
   }
 };
+GlobalDecoderRegistry.register(EventAddAgent.typeUrl, EventAddAgent);
 function createBaseEventEditAgent(): EventEditAgent {
   return {
     id: BigInt(0),
@@ -288,6 +300,15 @@ function createBaseEventEditAgent(): EventEditAgent {
 }
 export const EventEditAgent = {
   typeUrl: "/lorenzo.agent.v1.EventEditAgent",
+  is(o: any): o is EventEditAgent {
+    return o && (o.$typeUrl === EventEditAgent.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is EventEditAgentSDKType {
+    return o && (o.$typeUrl === EventEditAgent.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is EventEditAgentAmino {
+    return o && (o.$typeUrl === EventEditAgent.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
+  },
   encode(message: EventEditAgent, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -406,6 +427,7 @@ export const EventEditAgent = {
     };
   }
 };
+GlobalDecoderRegistry.register(EventEditAgent.typeUrl, EventEditAgent);
 function createBaseEventRemoveAgent(): EventRemoveAgent {
   return {
     id: BigInt(0),
@@ -414,6 +436,15 @@ function createBaseEventRemoveAgent(): EventRemoveAgent {
 }
 export const EventRemoveAgent = {
   typeUrl: "/lorenzo.agent.v1.EventRemoveAgent",
+  is(o: any): o is EventRemoveAgent {
+    return o && (o.$typeUrl === EventRemoveAgent.typeUrl || typeof o.id === "bigint" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is EventRemoveAgentSDKType {
+    return o && (o.$typeUrl === EventRemoveAgent.typeUrl || typeof o.id === "bigint" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is EventRemoveAgentAmino {
+    return o && (o.$typeUrl === EventRemoveAgent.typeUrl || typeof o.id === "bigint" && typeof o.sender === "string");
+  },
   encode(message: EventRemoveAgent, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -493,3 +524,4 @@ export const EventRemoveAgent = {
     };
   }
 };
+GlobalDecoderRegistry.register(EventRemoveAgent.typeUrl, EventRemoveAgent);

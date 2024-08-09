@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { MsgUpdateParams, MsgUpgradePlan, MsgCreatePlan, MsgSetMerkleRoot, MsgClaims, MsgUpdatePlanStatus, MsgCreateYAT, MsgSetMinter, MsgRemoveMinter } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/lorenzo.plan.v1.MsgUpdateParams", MsgUpdateParams], ["/lorenzo.plan.v1.MsgUpgradePlan", MsgUpgradePlan], ["/lorenzo.plan.v1.MsgCreatePlan", MsgCreatePlan], ["/lorenzo.plan.v1.MsgSetMerkleRoot", MsgSetMerkleRoot], ["/lorenzo.plan.v1.MsgClaims", MsgClaims], ["/lorenzo.plan.v1.MsgUpdatePlanStatus", MsgUpdatePlanStatus], ["/lorenzo.plan.v1.MsgCreateYAT", MsgCreateYAT], ["/lorenzo.plan.v1.MsgSetMinter", MsgSetMinter], ["/lorenzo.plan.v1.MsgRemoveMinter", MsgRemoveMinter]];

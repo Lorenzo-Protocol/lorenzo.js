@@ -1,4 +1,6 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /** Params defines the parameters for the module. */
 export interface Params {
   /** List of messages that are not fees */
@@ -28,6 +30,15 @@ function createBaseParams(): Params {
 }
 export const Params = {
   typeUrl: "/lorenzo.fee.v1.Params",
+  is(o: any): o is Params {
+    return o && (o.$typeUrl === Params.typeUrl || Array.isArray(o.nonFeeMsgs) && (!o.nonFeeMsgs.length || typeof o.nonFeeMsgs[0] === "string"));
+  },
+  isSDK(o: any): o is ParamsSDKType {
+    return o && (o.$typeUrl === Params.typeUrl || Array.isArray(o.non_fee_msgs) && (!o.non_fee_msgs.length || typeof o.non_fee_msgs[0] === "string"));
+  },
+  isAmino(o: any): o is ParamsAmino {
+    return o && (o.$typeUrl === Params.typeUrl || Array.isArray(o.non_fee_msgs) && (!o.non_fee_msgs.length || typeof o.non_fee_msgs[0] === "string"));
+  },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.nonFeeMsgs) {
       writer.uint32(10).string(v!);
@@ -100,3 +111,4 @@ export const Params = {
     };
   }
 };
+GlobalDecoderRegistry.register(Params.typeUrl, Params);

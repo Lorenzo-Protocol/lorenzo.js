@@ -1,7 +1,9 @@
+//@ts-nocheck
 import { Vote, VoteAmino, VoteSDKType, LightBlock, LightBlockAmino, LightBlockSDKType } from "./types";
 import { Timestamp } from "../../google/protobuf/timestamp";
 import { Validator, ValidatorAmino, ValidatorSDKType } from "./validator";
 import { BinaryReader, BinaryWriter } from "../../binary";
+import { GlobalDecoderRegistry } from "../../registry";
 import { toTimestamp, fromTimestamp } from "../../helpers";
 export interface Evidence {
   duplicateVoteEvidence?: DuplicateVoteEvidence;
@@ -112,6 +114,15 @@ function createBaseEvidence(): Evidence {
 }
 export const Evidence = {
   typeUrl: "/tendermint.types.Evidence",
+  is(o: any): o is Evidence {
+    return o && o.$typeUrl === Evidence.typeUrl;
+  },
+  isSDK(o: any): o is EvidenceSDKType {
+    return o && o.$typeUrl === Evidence.typeUrl;
+  },
+  isAmino(o: any): o is EvidenceAmino {
+    return o && o.$typeUrl === Evidence.typeUrl;
+  },
   encode(message: Evidence, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.duplicateVoteEvidence !== undefined) {
       DuplicateVoteEvidence.encode(message.duplicateVoteEvidence, writer.uint32(10).fork()).ldelim();
@@ -191,6 +202,7 @@ export const Evidence = {
     };
   }
 };
+GlobalDecoderRegistry.register(Evidence.typeUrl, Evidence);
 function createBaseDuplicateVoteEvidence(): DuplicateVoteEvidence {
   return {
     voteA: undefined,
@@ -202,6 +214,15 @@ function createBaseDuplicateVoteEvidence(): DuplicateVoteEvidence {
 }
 export const DuplicateVoteEvidence = {
   typeUrl: "/tendermint.types.DuplicateVoteEvidence",
+  is(o: any): o is DuplicateVoteEvidence {
+    return o && (o.$typeUrl === DuplicateVoteEvidence.typeUrl || typeof o.totalVotingPower === "bigint" && typeof o.validatorPower === "bigint" && Timestamp.is(o.timestamp));
+  },
+  isSDK(o: any): o is DuplicateVoteEvidenceSDKType {
+    return o && (o.$typeUrl === DuplicateVoteEvidence.typeUrl || typeof o.total_voting_power === "bigint" && typeof o.validator_power === "bigint" && Timestamp.isSDK(o.timestamp));
+  },
+  isAmino(o: any): o is DuplicateVoteEvidenceAmino {
+    return o && (o.$typeUrl === DuplicateVoteEvidence.typeUrl || typeof o.total_voting_power === "bigint" && typeof o.validator_power === "bigint" && Timestamp.isAmino(o.timestamp));
+  },
   encode(message: DuplicateVoteEvidence, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.voteA !== undefined) {
       Vote.encode(message.voteA, writer.uint32(10).fork()).ldelim();
@@ -264,7 +285,7 @@ export const DuplicateVoteEvidence = {
       voteB: object.vote_b ? Vote.fromSDK(object.vote_b) : undefined,
       totalVotingPower: object?.total_voting_power,
       validatorPower: object?.validator_power,
-      timestamp: object.timestamp ? Timestamp.fromSDK(object.timestamp) : undefined
+      timestamp: object.timestamp ?? undefined
     };
   },
   toSDK(message: DuplicateVoteEvidence): DuplicateVoteEvidenceSDKType {
@@ -273,7 +294,7 @@ export const DuplicateVoteEvidence = {
     message.voteB !== undefined && (obj.vote_b = message.voteB ? Vote.toSDK(message.voteB) : undefined);
     obj.total_voting_power = message.totalVotingPower;
     obj.validator_power = message.validatorPower;
-    message.timestamp !== undefined && (obj.timestamp = message.timestamp ? Timestamp.toSDK(message.timestamp) : undefined);
+    message.timestamp !== undefined && (obj.timestamp = message.timestamp ?? undefined);
     return obj;
   },
   fromAmino(object: DuplicateVoteEvidenceAmino): DuplicateVoteEvidence {
@@ -320,6 +341,7 @@ export const DuplicateVoteEvidence = {
     };
   }
 };
+GlobalDecoderRegistry.register(DuplicateVoteEvidence.typeUrl, DuplicateVoteEvidence);
 function createBaseLightClientAttackEvidence(): LightClientAttackEvidence {
   return {
     conflictingBlock: undefined,
@@ -331,6 +353,15 @@ function createBaseLightClientAttackEvidence(): LightClientAttackEvidence {
 }
 export const LightClientAttackEvidence = {
   typeUrl: "/tendermint.types.LightClientAttackEvidence",
+  is(o: any): o is LightClientAttackEvidence {
+    return o && (o.$typeUrl === LightClientAttackEvidence.typeUrl || typeof o.commonHeight === "bigint" && Array.isArray(o.byzantineValidators) && (!o.byzantineValidators.length || Validator.is(o.byzantineValidators[0])) && typeof o.totalVotingPower === "bigint" && Timestamp.is(o.timestamp));
+  },
+  isSDK(o: any): o is LightClientAttackEvidenceSDKType {
+    return o && (o.$typeUrl === LightClientAttackEvidence.typeUrl || typeof o.common_height === "bigint" && Array.isArray(o.byzantine_validators) && (!o.byzantine_validators.length || Validator.isSDK(o.byzantine_validators[0])) && typeof o.total_voting_power === "bigint" && Timestamp.isSDK(o.timestamp));
+  },
+  isAmino(o: any): o is LightClientAttackEvidenceAmino {
+    return o && (o.$typeUrl === LightClientAttackEvidence.typeUrl || typeof o.common_height === "bigint" && Array.isArray(o.byzantine_validators) && (!o.byzantine_validators.length || Validator.isAmino(o.byzantine_validators[0])) && typeof o.total_voting_power === "bigint" && Timestamp.isAmino(o.timestamp));
+  },
   encode(message: LightClientAttackEvidence, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.conflictingBlock !== undefined) {
       LightBlock.encode(message.conflictingBlock, writer.uint32(10).fork()).ldelim();
@@ -393,7 +424,7 @@ export const LightClientAttackEvidence = {
       commonHeight: object?.common_height,
       byzantineValidators: Array.isArray(object?.byzantine_validators) ? object.byzantine_validators.map((e: any) => Validator.fromSDK(e)) : [],
       totalVotingPower: object?.total_voting_power,
-      timestamp: object.timestamp ? Timestamp.fromSDK(object.timestamp) : undefined
+      timestamp: object.timestamp ?? undefined
     };
   },
   toSDK(message: LightClientAttackEvidence): LightClientAttackEvidenceSDKType {
@@ -406,7 +437,7 @@ export const LightClientAttackEvidence = {
       obj.byzantine_validators = [];
     }
     obj.total_voting_power = message.totalVotingPower;
-    message.timestamp !== undefined && (obj.timestamp = message.timestamp ? Timestamp.toSDK(message.timestamp) : undefined);
+    message.timestamp !== undefined && (obj.timestamp = message.timestamp ?? undefined);
     return obj;
   },
   fromAmino(object: LightClientAttackEvidenceAmino): LightClientAttackEvidence {
@@ -455,6 +486,7 @@ export const LightClientAttackEvidence = {
     };
   }
 };
+GlobalDecoderRegistry.register(LightClientAttackEvidence.typeUrl, LightClientAttackEvidence);
 function createBaseEvidenceList(): EvidenceList {
   return {
     evidence: []
@@ -462,6 +494,15 @@ function createBaseEvidenceList(): EvidenceList {
 }
 export const EvidenceList = {
   typeUrl: "/tendermint.types.EvidenceList",
+  is(o: any): o is EvidenceList {
+    return o && (o.$typeUrl === EvidenceList.typeUrl || Array.isArray(o.evidence) && (!o.evidence.length || Evidence.is(o.evidence[0])));
+  },
+  isSDK(o: any): o is EvidenceListSDKType {
+    return o && (o.$typeUrl === EvidenceList.typeUrl || Array.isArray(o.evidence) && (!o.evidence.length || Evidence.isSDK(o.evidence[0])));
+  },
+  isAmino(o: any): o is EvidenceListAmino {
+    return o && (o.$typeUrl === EvidenceList.typeUrl || Array.isArray(o.evidence) && (!o.evidence.length || Evidence.isAmino(o.evidence[0])));
+  },
   encode(message: EvidenceList, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.evidence) {
       Evidence.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -534,3 +575,4 @@ export const EvidenceList = {
     };
   }
 };
+GlobalDecoderRegistry.register(EvidenceList.typeUrl, EvidenceList);

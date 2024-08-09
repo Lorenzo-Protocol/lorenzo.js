@@ -1,5 +1,7 @@
+//@ts-nocheck
 import { Any, AnyAmino, AnySDKType } from "../../../google/protobuf/any";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /**
  * Config represents the configuration for a Cosmos SDK ABCI app.
  * It is intended that all state machine logic including the version of
@@ -162,6 +164,16 @@ function createBaseConfig(): Config {
 }
 export const Config = {
   typeUrl: "/cosmos.app.v1alpha1.Config",
+  aminoType: "cosmos-sdk/Config",
+  is(o: any): o is Config {
+    return o && (o.$typeUrl === Config.typeUrl || Array.isArray(o.modules) && (!o.modules.length || ModuleConfig.is(o.modules[0])) && Array.isArray(o.golangBindings) && (!o.golangBindings.length || GolangBinding.is(o.golangBindings[0])));
+  },
+  isSDK(o: any): o is ConfigSDKType {
+    return o && (o.$typeUrl === Config.typeUrl || Array.isArray(o.modules) && (!o.modules.length || ModuleConfig.isSDK(o.modules[0])) && Array.isArray(o.golang_bindings) && (!o.golang_bindings.length || GolangBinding.isSDK(o.golang_bindings[0])));
+  },
+  isAmino(o: any): o is ConfigAmino {
+    return o && (o.$typeUrl === Config.typeUrl || Array.isArray(o.modules) && (!o.modules.length || ModuleConfig.isAmino(o.modules[0])) && Array.isArray(o.golang_bindings) && (!o.golang_bindings.length || GolangBinding.isAmino(o.golang_bindings[0])));
+  },
   encode(message: Config, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.modules) {
       ModuleConfig.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -259,6 +271,8 @@ export const Config = {
     };
   }
 };
+GlobalDecoderRegistry.register(Config.typeUrl, Config);
+GlobalDecoderRegistry.registerAminoProtoMapping(Config.aminoType, Config.typeUrl);
 function createBaseModuleConfig(): ModuleConfig {
   return {
     name: "",
@@ -268,6 +282,16 @@ function createBaseModuleConfig(): ModuleConfig {
 }
 export const ModuleConfig = {
   typeUrl: "/cosmos.app.v1alpha1.ModuleConfig",
+  aminoType: "cosmos-sdk/ModuleConfig",
+  is(o: any): o is ModuleConfig {
+    return o && (o.$typeUrl === ModuleConfig.typeUrl || typeof o.name === "string" && Array.isArray(o.golangBindings) && (!o.golangBindings.length || GolangBinding.is(o.golangBindings[0])));
+  },
+  isSDK(o: any): o is ModuleConfigSDKType {
+    return o && (o.$typeUrl === ModuleConfig.typeUrl || typeof o.name === "string" && Array.isArray(o.golang_bindings) && (!o.golang_bindings.length || GolangBinding.isSDK(o.golang_bindings[0])));
+  },
+  isAmino(o: any): o is ModuleConfigAmino {
+    return o && (o.$typeUrl === ModuleConfig.typeUrl || typeof o.name === "string" && Array.isArray(o.golang_bindings) && (!o.golang_bindings.length || GolangBinding.isAmino(o.golang_bindings[0])));
+  },
   encode(message: ModuleConfig, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -372,6 +396,8 @@ export const ModuleConfig = {
     };
   }
 };
+GlobalDecoderRegistry.register(ModuleConfig.typeUrl, ModuleConfig);
+GlobalDecoderRegistry.registerAminoProtoMapping(ModuleConfig.aminoType, ModuleConfig.typeUrl);
 function createBaseGolangBinding(): GolangBinding {
   return {
     interfaceType: "",
@@ -380,6 +406,16 @@ function createBaseGolangBinding(): GolangBinding {
 }
 export const GolangBinding = {
   typeUrl: "/cosmos.app.v1alpha1.GolangBinding",
+  aminoType: "cosmos-sdk/GolangBinding",
+  is(o: any): o is GolangBinding {
+    return o && (o.$typeUrl === GolangBinding.typeUrl || typeof o.interfaceType === "string" && typeof o.implementation === "string");
+  },
+  isSDK(o: any): o is GolangBindingSDKType {
+    return o && (o.$typeUrl === GolangBinding.typeUrl || typeof o.interface_type === "string" && typeof o.implementation === "string");
+  },
+  isAmino(o: any): o is GolangBindingAmino {
+    return o && (o.$typeUrl === GolangBinding.typeUrl || typeof o.interface_type === "string" && typeof o.implementation === "string");
+  },
   encode(message: GolangBinding, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.interfaceType !== "") {
       writer.uint32(10).string(message.interfaceType);
@@ -465,3 +501,5 @@ export const GolangBinding = {
     };
   }
 };
+GlobalDecoderRegistry.register(GolangBinding.typeUrl, GolangBinding);
+GlobalDecoderRegistry.registerAminoProtoMapping(GolangBinding.aminoType, GolangBinding.typeUrl);

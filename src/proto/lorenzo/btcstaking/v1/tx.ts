@@ -1,6 +1,8 @@
+//@ts-nocheck
 import { Receiver, ReceiverAmino, ReceiverSDKType, Params, ParamsAmino, ParamsSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { bytesFromBase64, base64FromBytes } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
 export interface TransactionKey {
   index: number;
   hash: Uint8Array;
@@ -257,6 +259,15 @@ function createBaseTransactionKey(): TransactionKey {
 }
 export const TransactionKey = {
   typeUrl: "/lorenzo.btcstaking.v1.TransactionKey",
+  is(o: any): o is TransactionKey {
+    return o && (o.$typeUrl === TransactionKey.typeUrl || typeof o.index === "number" && (o.hash instanceof Uint8Array || typeof o.hash === "string"));
+  },
+  isSDK(o: any): o is TransactionKeySDKType {
+    return o && (o.$typeUrl === TransactionKey.typeUrl || typeof o.index === "number" && (o.hash instanceof Uint8Array || typeof o.hash === "string"));
+  },
+  isAmino(o: any): o is TransactionKeyAmino {
+    return o && (o.$typeUrl === TransactionKey.typeUrl || typeof o.index === "number" && (o.hash instanceof Uint8Array || typeof o.hash === "string"));
+  },
   encode(message: TransactionKey, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.index !== 0) {
       writer.uint32(8).uint32(message.index);
@@ -336,6 +347,7 @@ export const TransactionKey = {
     };
   }
 };
+GlobalDecoderRegistry.register(TransactionKey.typeUrl, TransactionKey);
 function createBaseTransactionInfo(): TransactionInfo {
   return {
     key: undefined,
@@ -345,6 +357,15 @@ function createBaseTransactionInfo(): TransactionInfo {
 }
 export const TransactionInfo = {
   typeUrl: "/lorenzo.btcstaking.v1.TransactionInfo",
+  is(o: any): o is TransactionInfo {
+    return o && (o.$typeUrl === TransactionInfo.typeUrl || (o.transaction instanceof Uint8Array || typeof o.transaction === "string") && (o.proof instanceof Uint8Array || typeof o.proof === "string"));
+  },
+  isSDK(o: any): o is TransactionInfoSDKType {
+    return o && (o.$typeUrl === TransactionInfo.typeUrl || (o.transaction instanceof Uint8Array || typeof o.transaction === "string") && (o.proof instanceof Uint8Array || typeof o.proof === "string"));
+  },
+  isAmino(o: any): o is TransactionInfoAmino {
+    return o && (o.$typeUrl === TransactionInfo.typeUrl || (o.transaction instanceof Uint8Array || typeof o.transaction === "string") && (o.proof instanceof Uint8Array || typeof o.proof === "string"));
+  },
   encode(message: TransactionInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== undefined) {
       TransactionKey.encode(message.key, writer.uint32(10).fork()).ldelim();
@@ -437,6 +458,7 @@ export const TransactionInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(TransactionInfo.typeUrl, TransactionInfo);
 function createBaseMsgCreateBTCStaking(): MsgCreateBTCStaking {
   return {
     signer: "",
@@ -447,6 +469,15 @@ function createBaseMsgCreateBTCStaking(): MsgCreateBTCStaking {
 }
 export const MsgCreateBTCStaking = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCStaking",
+  is(o: any): o is MsgCreateBTCStaking {
+    return o && (o.$typeUrl === MsgCreateBTCStaking.typeUrl || typeof o.signer === "string" && typeof o.receiver === "string" && typeof o.agentId === "bigint");
+  },
+  isSDK(o: any): o is MsgCreateBTCStakingSDKType {
+    return o && (o.$typeUrl === MsgCreateBTCStaking.typeUrl || typeof o.signer === "string" && typeof o.receiver === "string" && typeof o.agent_id === "bigint");
+  },
+  isAmino(o: any): o is MsgCreateBTCStakingAmino {
+    return o && (o.$typeUrl === MsgCreateBTCStaking.typeUrl || typeof o.signer === "string" && typeof o.receiver === "string" && typeof o.agent_id === "bigint");
+  },
   encode(message: MsgCreateBTCStaking, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.signer !== "") {
       writer.uint32(10).string(message.signer);
@@ -552,11 +583,21 @@ export const MsgCreateBTCStaking = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreateBTCStaking.typeUrl, MsgCreateBTCStaking);
 function createBaseMsgCreateBTCStakingResponse(): MsgCreateBTCStakingResponse {
   return {};
 }
 export const MsgCreateBTCStakingResponse = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCStakingResponse",
+  is(o: any): o is MsgCreateBTCStakingResponse {
+    return o && o.$typeUrl === MsgCreateBTCStakingResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgCreateBTCStakingResponseSDKType {
+    return o && o.$typeUrl === MsgCreateBTCStakingResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgCreateBTCStakingResponseAmino {
+    return o && o.$typeUrl === MsgCreateBTCStakingResponse.typeUrl;
+  },
   encode(_: MsgCreateBTCStakingResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -609,6 +650,7 @@ export const MsgCreateBTCStakingResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreateBTCStakingResponse.typeUrl, MsgCreateBTCStakingResponse);
 function createBaseMsgBurnRequest(): MsgBurnRequest {
   return {
     signer: "",
@@ -618,6 +660,15 @@ function createBaseMsgBurnRequest(): MsgBurnRequest {
 }
 export const MsgBurnRequest = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgBurnRequest",
+  is(o: any): o is MsgBurnRequest {
+    return o && (o.$typeUrl === MsgBurnRequest.typeUrl || typeof o.signer === "string" && typeof o.btcTargetAddress === "string" && typeof o.amount === "string");
+  },
+  isSDK(o: any): o is MsgBurnRequestSDKType {
+    return o && (o.$typeUrl === MsgBurnRequest.typeUrl || typeof o.signer === "string" && typeof o.btc_target_address === "string" && typeof o.amount === "string");
+  },
+  isAmino(o: any): o is MsgBurnRequestAmino {
+    return o && (o.$typeUrl === MsgBurnRequest.typeUrl || typeof o.signer === "string" && typeof o.btc_target_address === "string" && typeof o.amount === "string");
+  },
   encode(message: MsgBurnRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.signer !== "") {
       writer.uint32(10).string(message.signer);
@@ -710,11 +761,21 @@ export const MsgBurnRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgBurnRequest.typeUrl, MsgBurnRequest);
 function createBaseMsgBurnResponse(): MsgBurnResponse {
   return {};
 }
 export const MsgBurnResponse = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgBurnResponse",
+  is(o: any): o is MsgBurnResponse {
+    return o && o.$typeUrl === MsgBurnResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgBurnResponseSDKType {
+    return o && o.$typeUrl === MsgBurnResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgBurnResponseAmino {
+    return o && o.$typeUrl === MsgBurnResponse.typeUrl;
+  },
   encode(_: MsgBurnResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -767,6 +828,7 @@ export const MsgBurnResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgBurnResponse.typeUrl, MsgBurnResponse);
 function createBaseMsgAddReceiver(): MsgAddReceiver {
   return {
     authority: "",
@@ -775,6 +837,15 @@ function createBaseMsgAddReceiver(): MsgAddReceiver {
 }
 export const MsgAddReceiver = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgAddReceiver",
+  is(o: any): o is MsgAddReceiver {
+    return o && (o.$typeUrl === MsgAddReceiver.typeUrl || typeof o.authority === "string" && Receiver.is(o.receiver));
+  },
+  isSDK(o: any): o is MsgAddReceiverSDKType {
+    return o && (o.$typeUrl === MsgAddReceiver.typeUrl || typeof o.authority === "string" && Receiver.isSDK(o.receiver));
+  },
+  isAmino(o: any): o is MsgAddReceiverAmino {
+    return o && (o.$typeUrl === MsgAddReceiver.typeUrl || typeof o.authority === "string" && Receiver.isAmino(o.receiver));
+  },
   encode(message: MsgAddReceiver, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.authority !== "") {
       writer.uint32(10).string(message.authority);
@@ -854,11 +925,21 @@ export const MsgAddReceiver = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgAddReceiver.typeUrl, MsgAddReceiver);
 function createBaseMsgAddReceiverResponse(): MsgAddReceiverResponse {
   return {};
 }
 export const MsgAddReceiverResponse = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgAddReceiverResponse",
+  is(o: any): o is MsgAddReceiverResponse {
+    return o && o.$typeUrl === MsgAddReceiverResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgAddReceiverResponseSDKType {
+    return o && o.$typeUrl === MsgAddReceiverResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgAddReceiverResponseAmino {
+    return o && o.$typeUrl === MsgAddReceiverResponse.typeUrl;
+  },
   encode(_: MsgAddReceiverResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -911,6 +992,7 @@ export const MsgAddReceiverResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgAddReceiverResponse.typeUrl, MsgAddReceiverResponse);
 function createBaseMsgRemoveReceiver(): MsgRemoveReceiver {
   return {
     authority: "",
@@ -919,6 +1001,15 @@ function createBaseMsgRemoveReceiver(): MsgRemoveReceiver {
 }
 export const MsgRemoveReceiver = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgRemoveReceiver",
+  is(o: any): o is MsgRemoveReceiver {
+    return o && (o.$typeUrl === MsgRemoveReceiver.typeUrl || typeof o.authority === "string" && typeof o.receiver === "string");
+  },
+  isSDK(o: any): o is MsgRemoveReceiverSDKType {
+    return o && (o.$typeUrl === MsgRemoveReceiver.typeUrl || typeof o.authority === "string" && typeof o.receiver === "string");
+  },
+  isAmino(o: any): o is MsgRemoveReceiverAmino {
+    return o && (o.$typeUrl === MsgRemoveReceiver.typeUrl || typeof o.authority === "string" && typeof o.receiver === "string");
+  },
   encode(message: MsgRemoveReceiver, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.authority !== "") {
       writer.uint32(10).string(message.authority);
@@ -998,11 +1089,21 @@ export const MsgRemoveReceiver = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRemoveReceiver.typeUrl, MsgRemoveReceiver);
 function createBaseMsgRemoveReceiverResponse(): MsgRemoveReceiverResponse {
   return {};
 }
 export const MsgRemoveReceiverResponse = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgRemoveReceiverResponse",
+  is(o: any): o is MsgRemoveReceiverResponse {
+    return o && o.$typeUrl === MsgRemoveReceiverResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgRemoveReceiverResponseSDKType {
+    return o && o.$typeUrl === MsgRemoveReceiverResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgRemoveReceiverResponseAmino {
+    return o && o.$typeUrl === MsgRemoveReceiverResponse.typeUrl;
+  },
   encode(_: MsgRemoveReceiverResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1055,6 +1156,7 @@ export const MsgRemoveReceiverResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRemoveReceiverResponse.typeUrl, MsgRemoveReceiverResponse);
 function createBaseMsgUpdateParams(): MsgUpdateParams {
   return {
     authority: "",
@@ -1063,6 +1165,15 @@ function createBaseMsgUpdateParams(): MsgUpdateParams {
 }
 export const MsgUpdateParams = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgUpdateParams",
+  is(o: any): o is MsgUpdateParams {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.is(o.params));
+  },
+  isSDK(o: any): o is MsgUpdateParamsSDKType {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.isSDK(o.params));
+  },
+  isAmino(o: any): o is MsgUpdateParamsAmino {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.isAmino(o.params));
+  },
   encode(message: MsgUpdateParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.authority !== "") {
       writer.uint32(10).string(message.authority);
@@ -1142,11 +1253,21 @@ export const MsgUpdateParams = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateParams.typeUrl, MsgUpdateParams);
 function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
   return {};
 }
 export const MsgUpdateParamsResponse = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgUpdateParamsResponse",
+  is(o: any): o is MsgUpdateParamsResponse {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgUpdateParamsResponseSDKType {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgUpdateParamsResponseAmino {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
   encode(_: MsgUpdateParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1199,3 +1320,4 @@ export const MsgUpdateParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateParamsResponse.typeUrl, MsgUpdateParamsResponse);

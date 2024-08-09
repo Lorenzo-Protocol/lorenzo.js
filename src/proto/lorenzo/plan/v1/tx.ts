@@ -1,6 +1,8 @@
+//@ts-nocheck
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
 import { PlanStatus, planStatusFromJSON, planStatusToJSON } from "./plan";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { isSet } from "../../../helpers";
 /** MsgUpdateParams is the request type for the Msg/UpdateParams RPC method. */
 export interface MsgUpdateParams {
@@ -535,6 +537,15 @@ function createBaseMsgUpdateParams(): MsgUpdateParams {
 }
 export const MsgUpdateParams = {
   typeUrl: "/lorenzo.plan.v1.MsgUpdateParams",
+  is(o: any): o is MsgUpdateParams {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.is(o.params));
+  },
+  isSDK(o: any): o is MsgUpdateParamsSDKType {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.isSDK(o.params));
+  },
+  isAmino(o: any): o is MsgUpdateParamsAmino {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.isAmino(o.params));
+  },
   encode(message: MsgUpdateParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.authority !== "") {
       writer.uint32(10).string(message.authority);
@@ -614,11 +625,21 @@ export const MsgUpdateParams = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateParams.typeUrl, MsgUpdateParams);
 function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
   return {};
 }
 export const MsgUpdateParamsResponse = {
   typeUrl: "/lorenzo.plan.v1.MsgUpdateParamsResponse",
+  is(o: any): o is MsgUpdateParamsResponse {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgUpdateParamsResponseSDKType {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgUpdateParamsResponseAmino {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
   encode(_: MsgUpdateParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -671,6 +692,7 @@ export const MsgUpdateParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateParamsResponse.typeUrl, MsgUpdateParamsResponse);
 function createBaseMsgUpgradePlan(): MsgUpgradePlan {
   return {
     implementation: "",
@@ -679,6 +701,15 @@ function createBaseMsgUpgradePlan(): MsgUpgradePlan {
 }
 export const MsgUpgradePlan = {
   typeUrl: "/lorenzo.plan.v1.MsgUpgradePlan",
+  is(o: any): o is MsgUpgradePlan {
+    return o && (o.$typeUrl === MsgUpgradePlan.typeUrl || typeof o.implementation === "string" && typeof o.authority === "string");
+  },
+  isSDK(o: any): o is MsgUpgradePlanSDKType {
+    return o && (o.$typeUrl === MsgUpgradePlan.typeUrl || typeof o.implementation === "string" && typeof o.authority === "string");
+  },
+  isAmino(o: any): o is MsgUpgradePlanAmino {
+    return o && (o.$typeUrl === MsgUpgradePlan.typeUrl || typeof o.implementation === "string" && typeof o.authority === "string");
+  },
   encode(message: MsgUpgradePlan, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.implementation !== "") {
       writer.uint32(10).string(message.implementation);
@@ -758,11 +789,21 @@ export const MsgUpgradePlan = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpgradePlan.typeUrl, MsgUpgradePlan);
 function createBaseMsgUpgradePlanResponse(): MsgUpgradePlanResponse {
   return {};
 }
 export const MsgUpgradePlanResponse = {
   typeUrl: "/lorenzo.plan.v1.MsgUpgradePlanResponse",
+  is(o: any): o is MsgUpgradePlanResponse {
+    return o && o.$typeUrl === MsgUpgradePlanResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgUpgradePlanResponseSDKType {
+    return o && o.$typeUrl === MsgUpgradePlanResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgUpgradePlanResponseAmino {
+    return o && o.$typeUrl === MsgUpgradePlanResponse.typeUrl;
+  },
   encode(_: MsgUpgradePlanResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -815,6 +856,7 @@ export const MsgUpgradePlanResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpgradePlanResponse.typeUrl, MsgUpgradePlanResponse);
 function createBaseMsgCreatePlan(): MsgCreatePlan {
   return {
     name: "",
@@ -828,6 +870,15 @@ function createBaseMsgCreatePlan(): MsgCreatePlan {
 }
 export const MsgCreatePlan = {
   typeUrl: "/lorenzo.plan.v1.MsgCreatePlan",
+  is(o: any): o is MsgCreatePlan {
+    return o && (o.$typeUrl === MsgCreatePlan.typeUrl || typeof o.name === "string" && typeof o.planDescUri === "string" && typeof o.agentId === "bigint" && typeof o.planStartTime === "bigint" && typeof o.periodTime === "bigint" && typeof o.yatContractAddress === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgCreatePlanSDKType {
+    return o && (o.$typeUrl === MsgCreatePlan.typeUrl || typeof o.name === "string" && typeof o.plan_desc_uri === "string" && typeof o.agent_id === "bigint" && typeof o.plan_start_time === "bigint" && typeof o.period_time === "bigint" && typeof o.yat_contract_address === "string" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is MsgCreatePlanAmino {
+    return o && (o.$typeUrl === MsgCreatePlan.typeUrl || typeof o.name === "string" && typeof o.plan_desc_uri === "string" && typeof o.agent_id === "bigint" && typeof o.plan_start_time === "bigint" && typeof o.period_time === "bigint" && typeof o.yat_contract_address === "string" && typeof o.sender === "string");
+  },
   encode(message: MsgCreatePlan, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -972,6 +1023,7 @@ export const MsgCreatePlan = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreatePlan.typeUrl, MsgCreatePlan);
 function createBaseMsgCreatePlanResponse(): MsgCreatePlanResponse {
   return {
     id: BigInt(0)
@@ -979,6 +1031,15 @@ function createBaseMsgCreatePlanResponse(): MsgCreatePlanResponse {
 }
 export const MsgCreatePlanResponse = {
   typeUrl: "/lorenzo.plan.v1.MsgCreatePlanResponse",
+  is(o: any): o is MsgCreatePlanResponse {
+    return o && (o.$typeUrl === MsgCreatePlanResponse.typeUrl || typeof o.id === "bigint");
+  },
+  isSDK(o: any): o is MsgCreatePlanResponseSDKType {
+    return o && (o.$typeUrl === MsgCreatePlanResponse.typeUrl || typeof o.id === "bigint");
+  },
+  isAmino(o: any): o is MsgCreatePlanResponseAmino {
+    return o && (o.$typeUrl === MsgCreatePlanResponse.typeUrl || typeof o.id === "bigint");
+  },
   encode(message: MsgCreatePlanResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -1045,6 +1106,7 @@ export const MsgCreatePlanResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreatePlanResponse.typeUrl, MsgCreatePlanResponse);
 function createBaseMsgSetMerkleRoot(): MsgSetMerkleRoot {
   return {
     planId: BigInt(0),
@@ -1055,6 +1117,15 @@ function createBaseMsgSetMerkleRoot(): MsgSetMerkleRoot {
 }
 export const MsgSetMerkleRoot = {
   typeUrl: "/lorenzo.plan.v1.MsgSetMerkleRoot",
+  is(o: any): o is MsgSetMerkleRoot {
+    return o && (o.$typeUrl === MsgSetMerkleRoot.typeUrl || typeof o.planId === "bigint" && typeof o.roundId === "string" && typeof o.merkleRoot === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgSetMerkleRootSDKType {
+    return o && (o.$typeUrl === MsgSetMerkleRoot.typeUrl || typeof o.plan_id === "bigint" && typeof o.round_id === "string" && typeof o.merkle_root === "string" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is MsgSetMerkleRootAmino {
+    return o && (o.$typeUrl === MsgSetMerkleRoot.typeUrl || typeof o.plan_id === "bigint" && typeof o.round_id === "string" && typeof o.merkle_root === "string" && typeof o.sender === "string");
+  },
   encode(message: MsgSetMerkleRoot, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.planId !== BigInt(0)) {
       writer.uint32(8).uint64(message.planId);
@@ -1160,11 +1231,21 @@ export const MsgSetMerkleRoot = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetMerkleRoot.typeUrl, MsgSetMerkleRoot);
 function createBaseMsgSetMerkleRootResponse(): MsgSetMerkleRootResponse {
   return {};
 }
 export const MsgSetMerkleRootResponse = {
   typeUrl: "/lorenzo.plan.v1.MsgSetMerkleRootResponse",
+  is(o: any): o is MsgSetMerkleRootResponse {
+    return o && o.$typeUrl === MsgSetMerkleRootResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgSetMerkleRootResponseSDKType {
+    return o && o.$typeUrl === MsgSetMerkleRootResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgSetMerkleRootResponseAmino {
+    return o && o.$typeUrl === MsgSetMerkleRootResponse.typeUrl;
+  },
   encode(_: MsgSetMerkleRootResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1217,6 +1298,7 @@ export const MsgSetMerkleRootResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetMerkleRootResponse.typeUrl, MsgSetMerkleRootResponse);
 function createBaseMsgClaims(): MsgClaims {
   return {
     planId: BigInt(0),
@@ -1229,6 +1311,15 @@ function createBaseMsgClaims(): MsgClaims {
 }
 export const MsgClaims = {
   typeUrl: "/lorenzo.plan.v1.MsgClaims",
+  is(o: any): o is MsgClaims {
+    return o && (o.$typeUrl === MsgClaims.typeUrl || typeof o.planId === "bigint" && typeof o.receiver === "string" && typeof o.roundId === "string" && typeof o.amount === "string" && typeof o.merkleProof === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgClaimsSDKType {
+    return o && (o.$typeUrl === MsgClaims.typeUrl || typeof o.plan_id === "bigint" && typeof o.receiver === "string" && typeof o.round_id === "string" && typeof o.amount === "string" && typeof o.merkle_proof === "string" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is MsgClaimsAmino {
+    return o && (o.$typeUrl === MsgClaims.typeUrl || typeof o.plan_id === "bigint" && typeof o.receiver === "string" && typeof o.round_id === "string" && typeof o.amount === "string" && typeof o.merkle_proof === "string" && typeof o.sender === "string");
+  },
   encode(message: MsgClaims, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.planId !== BigInt(0)) {
       writer.uint32(8).uint64(message.planId);
@@ -1360,11 +1451,21 @@ export const MsgClaims = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgClaims.typeUrl, MsgClaims);
 function createBaseMsgClaimsResponse(): MsgClaimsResponse {
   return {};
 }
 export const MsgClaimsResponse = {
   typeUrl: "/lorenzo.plan.v1.MsgClaimsResponse",
+  is(o: any): o is MsgClaimsResponse {
+    return o && o.$typeUrl === MsgClaimsResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgClaimsResponseSDKType {
+    return o && o.$typeUrl === MsgClaimsResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgClaimsResponseAmino {
+    return o && o.$typeUrl === MsgClaimsResponse.typeUrl;
+  },
   encode(_: MsgClaimsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1417,6 +1518,7 @@ export const MsgClaimsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgClaimsResponse.typeUrl, MsgClaimsResponse);
 function createBaseMsgUpdatePlanStatus(): MsgUpdatePlanStatus {
   return {
     planId: BigInt(0),
@@ -1426,6 +1528,15 @@ function createBaseMsgUpdatePlanStatus(): MsgUpdatePlanStatus {
 }
 export const MsgUpdatePlanStatus = {
   typeUrl: "/lorenzo.plan.v1.MsgUpdatePlanStatus",
+  is(o: any): o is MsgUpdatePlanStatus {
+    return o && (o.$typeUrl === MsgUpdatePlanStatus.typeUrl || typeof o.planId === "bigint" && isSet(o.status) && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgUpdatePlanStatusSDKType {
+    return o && (o.$typeUrl === MsgUpdatePlanStatus.typeUrl || typeof o.plan_id === "bigint" && isSet(o.status) && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is MsgUpdatePlanStatusAmino {
+    return o && (o.$typeUrl === MsgUpdatePlanStatus.typeUrl || typeof o.plan_id === "bigint" && isSet(o.status) && typeof o.sender === "string");
+  },
   encode(message: MsgUpdatePlanStatus, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.planId !== BigInt(0)) {
       writer.uint32(8).uint64(message.planId);
@@ -1518,11 +1629,21 @@ export const MsgUpdatePlanStatus = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdatePlanStatus.typeUrl, MsgUpdatePlanStatus);
 function createBaseMsgUpdatePlanStatusResponse(): MsgUpdatePlanStatusResponse {
   return {};
 }
 export const MsgUpdatePlanStatusResponse = {
   typeUrl: "/lorenzo.plan.v1.MsgUpdatePlanStatusResponse",
+  is(o: any): o is MsgUpdatePlanStatusResponse {
+    return o && o.$typeUrl === MsgUpdatePlanStatusResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgUpdatePlanStatusResponseSDKType {
+    return o && o.$typeUrl === MsgUpdatePlanStatusResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgUpdatePlanStatusResponseAmino {
+    return o && o.$typeUrl === MsgUpdatePlanStatusResponse.typeUrl;
+  },
   encode(_: MsgUpdatePlanStatusResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1575,6 +1696,7 @@ export const MsgUpdatePlanStatusResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdatePlanStatusResponse.typeUrl, MsgUpdatePlanStatusResponse);
 function createBaseMsgCreateYAT(): MsgCreateYAT {
   return {
     name: "",
@@ -1584,6 +1706,15 @@ function createBaseMsgCreateYAT(): MsgCreateYAT {
 }
 export const MsgCreateYAT = {
   typeUrl: "/lorenzo.plan.v1.MsgCreateYAT",
+  is(o: any): o is MsgCreateYAT {
+    return o && (o.$typeUrl === MsgCreateYAT.typeUrl || typeof o.name === "string" && typeof o.symbol === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgCreateYATSDKType {
+    return o && (o.$typeUrl === MsgCreateYAT.typeUrl || typeof o.name === "string" && typeof o.symbol === "string" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is MsgCreateYATAmino {
+    return o && (o.$typeUrl === MsgCreateYAT.typeUrl || typeof o.name === "string" && typeof o.symbol === "string" && typeof o.sender === "string");
+  },
   encode(message: MsgCreateYAT, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -1676,6 +1807,7 @@ export const MsgCreateYAT = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreateYAT.typeUrl, MsgCreateYAT);
 function createBaseMsgCreateYATResponse(): MsgCreateYATResponse {
   return {
     contractAddress: ""
@@ -1683,6 +1815,15 @@ function createBaseMsgCreateYATResponse(): MsgCreateYATResponse {
 }
 export const MsgCreateYATResponse = {
   typeUrl: "/lorenzo.plan.v1.MsgCreateYATResponse",
+  is(o: any): o is MsgCreateYATResponse {
+    return o && (o.$typeUrl === MsgCreateYATResponse.typeUrl || typeof o.contractAddress === "string");
+  },
+  isSDK(o: any): o is MsgCreateYATResponseSDKType {
+    return o && (o.$typeUrl === MsgCreateYATResponse.typeUrl || typeof o.contract_address === "string");
+  },
+  isAmino(o: any): o is MsgCreateYATResponseAmino {
+    return o && (o.$typeUrl === MsgCreateYATResponse.typeUrl || typeof o.contract_address === "string");
+  },
   encode(message: MsgCreateYATResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contractAddress !== "") {
       writer.uint32(10).string(message.contractAddress);
@@ -1749,6 +1890,7 @@ export const MsgCreateYATResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgCreateYATResponse.typeUrl, MsgCreateYATResponse);
 function createBaseMsgSetMinter(): MsgSetMinter {
   return {
     minter: "",
@@ -1758,6 +1900,15 @@ function createBaseMsgSetMinter(): MsgSetMinter {
 }
 export const MsgSetMinter = {
   typeUrl: "/lorenzo.plan.v1.MsgSetMinter",
+  is(o: any): o is MsgSetMinter {
+    return o && (o.$typeUrl === MsgSetMinter.typeUrl || typeof o.minter === "string" && typeof o.contractAddress === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgSetMinterSDKType {
+    return o && (o.$typeUrl === MsgSetMinter.typeUrl || typeof o.minter === "string" && typeof o.contract_address === "string" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is MsgSetMinterAmino {
+    return o && (o.$typeUrl === MsgSetMinter.typeUrl || typeof o.minter === "string" && typeof o.contract_address === "string" && typeof o.sender === "string");
+  },
   encode(message: MsgSetMinter, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.minter !== "") {
       writer.uint32(10).string(message.minter);
@@ -1850,11 +2001,21 @@ export const MsgSetMinter = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetMinter.typeUrl, MsgSetMinter);
 function createBaseMsgSetMinterResponse(): MsgSetMinterResponse {
   return {};
 }
 export const MsgSetMinterResponse = {
   typeUrl: "/lorenzo.plan.v1.MsgSetMinterResponse",
+  is(o: any): o is MsgSetMinterResponse {
+    return o && o.$typeUrl === MsgSetMinterResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgSetMinterResponseSDKType {
+    return o && o.$typeUrl === MsgSetMinterResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgSetMinterResponseAmino {
+    return o && o.$typeUrl === MsgSetMinterResponse.typeUrl;
+  },
   encode(_: MsgSetMinterResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1907,6 +2068,7 @@ export const MsgSetMinterResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgSetMinterResponse.typeUrl, MsgSetMinterResponse);
 function createBaseMsgRemoveMinter(): MsgRemoveMinter {
   return {
     minter: "",
@@ -1916,6 +2078,15 @@ function createBaseMsgRemoveMinter(): MsgRemoveMinter {
 }
 export const MsgRemoveMinter = {
   typeUrl: "/lorenzo.plan.v1.MsgRemoveMinter",
+  is(o: any): o is MsgRemoveMinter {
+    return o && (o.$typeUrl === MsgRemoveMinter.typeUrl || typeof o.minter === "string" && typeof o.contractAddress === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgRemoveMinterSDKType {
+    return o && (o.$typeUrl === MsgRemoveMinter.typeUrl || typeof o.minter === "string" && typeof o.contract_address === "string" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is MsgRemoveMinterAmino {
+    return o && (o.$typeUrl === MsgRemoveMinter.typeUrl || typeof o.minter === "string" && typeof o.contract_address === "string" && typeof o.sender === "string");
+  },
   encode(message: MsgRemoveMinter, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.minter !== "") {
       writer.uint32(10).string(message.minter);
@@ -2008,11 +2179,21 @@ export const MsgRemoveMinter = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRemoveMinter.typeUrl, MsgRemoveMinter);
 function createBaseMsgRemoveMinterResponse(): MsgRemoveMinterResponse {
   return {};
 }
 export const MsgRemoveMinterResponse = {
   typeUrl: "/lorenzo.plan.v1.MsgRemoveMinterResponse",
+  is(o: any): o is MsgRemoveMinterResponse {
+    return o && o.$typeUrl === MsgRemoveMinterResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgRemoveMinterResponseSDKType {
+    return o && o.$typeUrl === MsgRemoveMinterResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgRemoveMinterResponseAmino {
+    return o && o.$typeUrl === MsgRemoveMinterResponse.typeUrl;
+  },
   encode(_: MsgRemoveMinterResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -2065,3 +2246,4 @@ export const MsgRemoveMinterResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRemoveMinterResponse.typeUrl, MsgRemoveMinterResponse);

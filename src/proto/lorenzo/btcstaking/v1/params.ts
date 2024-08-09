@@ -1,4 +1,6 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 export interface Receiver {
   /** name of the receiver */
   name: string;
@@ -79,6 +81,15 @@ function createBaseReceiver(): Receiver {
 }
 export const Receiver = {
   typeUrl: "/lorenzo.btcstaking.v1.Receiver",
+  is(o: any): o is Receiver {
+    return o && (o.$typeUrl === Receiver.typeUrl || typeof o.name === "string" && typeof o.addr === "string" && typeof o.ethAddr === "string");
+  },
+  isSDK(o: any): o is ReceiverSDKType {
+    return o && (o.$typeUrl === Receiver.typeUrl || typeof o.name === "string" && typeof o.addr === "string" && typeof o.eth_addr === "string");
+  },
+  isAmino(o: any): o is ReceiverAmino {
+    return o && (o.$typeUrl === Receiver.typeUrl || typeof o.name === "string" && typeof o.addr === "string" && typeof o.eth_addr === "string");
+  },
   encode(message: Receiver, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
@@ -171,6 +182,7 @@ export const Receiver = {
     };
   }
 };
+GlobalDecoderRegistry.register(Receiver.typeUrl, Receiver);
 function createBaseParams(): Params {
   return {
     receivers: [],
@@ -182,6 +194,15 @@ function createBaseParams(): Params {
 }
 export const Params = {
   typeUrl: "/lorenzo.btcstaking.v1.Params",
+  is(o: any): o is Params {
+    return o && (o.$typeUrl === Params.typeUrl || Array.isArray(o.receivers) && (!o.receivers.length || Receiver.is(o.receivers[0])) && typeof o.btcConfirmationsDepth === "number" && Array.isArray(o.minterAllowList) && (!o.minterAllowList.length || typeof o.minterAllowList[0] === "string") && typeof o.bridgeAddr === "string" && typeof o.txoutDustAmount === "bigint");
+  },
+  isSDK(o: any): o is ParamsSDKType {
+    return o && (o.$typeUrl === Params.typeUrl || Array.isArray(o.receivers) && (!o.receivers.length || Receiver.isSDK(o.receivers[0])) && typeof o.btc_confirmations_depth === "number" && Array.isArray(o.minter_allow_list) && (!o.minter_allow_list.length || typeof o.minter_allow_list[0] === "string") && typeof o.bridge_addr === "string" && typeof o.txout_dust_amount === "bigint");
+  },
+  isAmino(o: any): o is ParamsAmino {
+    return o && (o.$typeUrl === Params.typeUrl || Array.isArray(o.receivers) && (!o.receivers.length || Receiver.isAmino(o.receivers[0])) && typeof o.btc_confirmations_depth === "number" && Array.isArray(o.minter_allow_list) && (!o.minter_allow_list.length || typeof o.minter_allow_list[0] === "string") && typeof o.bridge_addr === "string" && typeof o.txout_dust_amount === "bigint");
+  },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.receivers) {
       Receiver.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -312,3 +333,4 @@ export const Params = {
     };
   }
 };
+GlobalDecoderRegistry.register(Params.typeUrl, Params);

@@ -1,4 +1,6 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /** Params defines the parameters for the module. */
 export interface Params {
   /**
@@ -34,6 +36,15 @@ function createBaseParams(): Params {
 }
 export const Params = {
   typeUrl: "/lorenzo.btclightclient.v1.Params",
+  is(o: any): o is Params {
+    return o && (o.$typeUrl === Params.typeUrl || Array.isArray(o.insertHeadersAllowList) && (!o.insertHeadersAllowList.length || typeof o.insertHeadersAllowList[0] === "string"));
+  },
+  isSDK(o: any): o is ParamsSDKType {
+    return o && (o.$typeUrl === Params.typeUrl || Array.isArray(o.insert_headers_allow_list) && (!o.insert_headers_allow_list.length || typeof o.insert_headers_allow_list[0] === "string"));
+  },
+  isAmino(o: any): o is ParamsAmino {
+    return o && (o.$typeUrl === Params.typeUrl || Array.isArray(o.insert_headers_allow_list) && (!o.insert_headers_allow_list.length || typeof o.insert_headers_allow_list[0] === "string"));
+  },
   encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.insertHeadersAllowList) {
       writer.uint32(10).string(v!);
@@ -106,3 +117,4 @@ export const Params = {
     };
   }
 };
+GlobalDecoderRegistry.register(Params.typeUrl, Params);

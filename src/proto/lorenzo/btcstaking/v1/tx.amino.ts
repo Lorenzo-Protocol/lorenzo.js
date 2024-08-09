@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { MsgCreateBTCStaking, MsgBurnRequest, MsgAddReceiver, MsgRemoveReceiver, MsgUpdateParams } from "./tx";
 export const AminoConverter = {
   "/lorenzo.btcstaking.v1.MsgCreateBTCStaking": {

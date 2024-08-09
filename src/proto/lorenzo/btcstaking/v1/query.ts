@@ -1,6 +1,8 @@
+//@ts-nocheck
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
 import { BTCStakingRecord, BTCStakingRecordAmino, BTCStakingRecordSDKType } from "./staking_record";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 import { bytesFromBase64, base64FromBytes } from "../../../helpers";
 export interface QueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
@@ -101,6 +103,15 @@ function createBaseQueryParamsRequest(): QueryParamsRequest {
 }
 export const QueryParamsRequest = {
   typeUrl: "/lorenzo.btcstaking.v1.QueryParamsRequest",
+  is(o: any): o is QueryParamsRequest {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryParamsRequestSDKType {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isAmino(o: any): o is QueryParamsRequestAmino {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
   encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -153,6 +164,7 @@ export const QueryParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsRequest.typeUrl, QueryParamsRequest);
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
     params: undefined
@@ -160,6 +172,15 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 }
 export const QueryParamsResponse = {
   typeUrl: "/lorenzo.btcstaking.v1.QueryParamsResponse",
+  is(o: any): o is QueryParamsResponse {
+    return o && o.$typeUrl === QueryParamsResponse.typeUrl;
+  },
+  isSDK(o: any): o is QueryParamsResponseSDKType {
+    return o && o.$typeUrl === QueryParamsResponse.typeUrl;
+  },
+  isAmino(o: any): o is QueryParamsResponseAmino {
+    return o && o.$typeUrl === QueryParamsResponse.typeUrl;
+  },
   encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -226,6 +247,7 @@ export const QueryParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsResponse.typeUrl, QueryParamsResponse);
 function createBaseStakingRecordDisplay(): StakingRecordDisplay {
   return {
     txId: "",
@@ -238,6 +260,15 @@ function createBaseStakingRecordDisplay(): StakingRecordDisplay {
 }
 export const StakingRecordDisplay = {
   typeUrl: "/lorenzo.btcstaking.v1.StakingRecordDisplay",
+  is(o: any): o is StakingRecordDisplay {
+    return o && (o.$typeUrl === StakingRecordDisplay.typeUrl || typeof o.txId === "string" && typeof o.receiverAddress === "string" && typeof o.amount === "string" && typeof o.agentName === "string" && typeof o.agentBtcAddr === "string" && typeof o.chainId === "number");
+  },
+  isSDK(o: any): o is StakingRecordDisplaySDKType {
+    return o && (o.$typeUrl === StakingRecordDisplay.typeUrl || typeof o.tx_id === "string" && typeof o.receiver_address === "string" && typeof o.amount === "string" && typeof o.agent_name === "string" && typeof o.agent_btc_addr === "string" && typeof o.chain_id === "number");
+  },
+  isAmino(o: any): o is StakingRecordDisplayAmino {
+    return o && (o.$typeUrl === StakingRecordDisplay.typeUrl || typeof o.tx_id === "string" && typeof o.receiver_address === "string" && typeof o.amount === "string" && typeof o.agent_name === "string" && typeof o.agent_btc_addr === "string" && typeof o.chain_id === "number");
+  },
   encode(message: StakingRecordDisplay, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.txId !== "") {
       writer.uint32(10).string(message.txId);
@@ -369,6 +400,7 @@ export const StakingRecordDisplay = {
     };
   }
 };
+GlobalDecoderRegistry.register(StakingRecordDisplay.typeUrl, StakingRecordDisplay);
 function createBaseQueryStakingRecordRequest(): QueryStakingRecordRequest {
   return {
     txHash: new Uint8Array()
@@ -376,6 +408,15 @@ function createBaseQueryStakingRecordRequest(): QueryStakingRecordRequest {
 }
 export const QueryStakingRecordRequest = {
   typeUrl: "/lorenzo.btcstaking.v1.QueryStakingRecordRequest",
+  is(o: any): o is QueryStakingRecordRequest {
+    return o && (o.$typeUrl === QueryStakingRecordRequest.typeUrl || o.txHash instanceof Uint8Array || typeof o.txHash === "string");
+  },
+  isSDK(o: any): o is QueryStakingRecordRequestSDKType {
+    return o && (o.$typeUrl === QueryStakingRecordRequest.typeUrl || o.txHash instanceof Uint8Array || typeof o.txHash === "string");
+  },
+  isAmino(o: any): o is QueryStakingRecordRequestAmino {
+    return o && (o.$typeUrl === QueryStakingRecordRequest.typeUrl || o.txHash instanceof Uint8Array || typeof o.txHash === "string");
+  },
   encode(message: QueryStakingRecordRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.txHash.length !== 0) {
       writer.uint32(10).bytes(message.txHash);
@@ -442,6 +483,7 @@ export const QueryStakingRecordRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryStakingRecordRequest.typeUrl, QueryStakingRecordRequest);
 function createBaseQueryStakingRecordResponse(): QueryStakingRecordResponse {
   return {
     record: undefined
@@ -449,6 +491,15 @@ function createBaseQueryStakingRecordResponse(): QueryStakingRecordResponse {
 }
 export const QueryStakingRecordResponse = {
   typeUrl: "/lorenzo.btcstaking.v1.QueryStakingRecordResponse",
+  is(o: any): o is QueryStakingRecordResponse {
+    return o && o.$typeUrl === QueryStakingRecordResponse.typeUrl;
+  },
+  isSDK(o: any): o is QueryStakingRecordResponseSDKType {
+    return o && o.$typeUrl === QueryStakingRecordResponse.typeUrl;
+  },
+  isAmino(o: any): o is QueryStakingRecordResponseAmino {
+    return o && o.$typeUrl === QueryStakingRecordResponse.typeUrl;
+  },
   encode(message: QueryStakingRecordResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.record !== undefined) {
       BTCStakingRecord.encode(message.record, writer.uint32(10).fork()).ldelim();
@@ -515,3 +566,4 @@ export const QueryStakingRecordResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryStakingRecordResponse.typeUrl, QueryStakingRecordResponse);

@@ -1,8 +1,10 @@
+//@ts-nocheck
 import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../../cosmos/base/query/v1beta1/pagination";
 import { TokenPair, TokenPairAmino, TokenPairSDKType } from "./token";
 import { Params, ParamsAmino, ParamsSDKType } from "./genesis";
 import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /** QueryTokenPairsRequest is the request type for the Query/TokenPairs RPC */
 export interface QueryTokenPairsRequest {
   pagination?: PageRequest;
@@ -182,6 +184,15 @@ function createBaseQueryTokenPairsRequest(): QueryTokenPairsRequest {
 }
 export const QueryTokenPairsRequest = {
   typeUrl: "/lorenzo.token.v1.QueryTokenPairsRequest",
+  is(o: any): o is QueryTokenPairsRequest {
+    return o && o.$typeUrl === QueryTokenPairsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryTokenPairsRequestSDKType {
+    return o && o.$typeUrl === QueryTokenPairsRequest.typeUrl;
+  },
+  isAmino(o: any): o is QueryTokenPairsRequestAmino {
+    return o && o.$typeUrl === QueryTokenPairsRequest.typeUrl;
+  },
   encode(message: QueryTokenPairsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
@@ -248,6 +259,7 @@ export const QueryTokenPairsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTokenPairsRequest.typeUrl, QueryTokenPairsRequest);
 function createBaseQueryTokenPairsResponse(): QueryTokenPairsResponse {
   return {
     tokenPairs: [],
@@ -256,6 +268,15 @@ function createBaseQueryTokenPairsResponse(): QueryTokenPairsResponse {
 }
 export const QueryTokenPairsResponse = {
   typeUrl: "/lorenzo.token.v1.QueryTokenPairsResponse",
+  is(o: any): o is QueryTokenPairsResponse {
+    return o && (o.$typeUrl === QueryTokenPairsResponse.typeUrl || Array.isArray(o.tokenPairs) && (!o.tokenPairs.length || TokenPair.is(o.tokenPairs[0])));
+  },
+  isSDK(o: any): o is QueryTokenPairsResponseSDKType {
+    return o && (o.$typeUrl === QueryTokenPairsResponse.typeUrl || Array.isArray(o.token_pairs) && (!o.token_pairs.length || TokenPair.isSDK(o.token_pairs[0])));
+  },
+  isAmino(o: any): o is QueryTokenPairsResponseAmino {
+    return o && (o.$typeUrl === QueryTokenPairsResponse.typeUrl || Array.isArray(o.token_pairs) && (!o.token_pairs.length || TokenPair.isAmino(o.token_pairs[0])));
+  },
   encode(message: QueryTokenPairsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.tokenPairs) {
       TokenPair.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -341,6 +362,7 @@ export const QueryTokenPairsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTokenPairsResponse.typeUrl, QueryTokenPairsResponse);
 function createBaseQueryTokenPairRequest(): QueryTokenPairRequest {
   return {
     token: ""
@@ -348,6 +370,15 @@ function createBaseQueryTokenPairRequest(): QueryTokenPairRequest {
 }
 export const QueryTokenPairRequest = {
   typeUrl: "/lorenzo.token.v1.QueryTokenPairRequest",
+  is(o: any): o is QueryTokenPairRequest {
+    return o && (o.$typeUrl === QueryTokenPairRequest.typeUrl || typeof o.token === "string");
+  },
+  isSDK(o: any): o is QueryTokenPairRequestSDKType {
+    return o && (o.$typeUrl === QueryTokenPairRequest.typeUrl || typeof o.token === "string");
+  },
+  isAmino(o: any): o is QueryTokenPairRequestAmino {
+    return o && (o.$typeUrl === QueryTokenPairRequest.typeUrl || typeof o.token === "string");
+  },
   encode(message: QueryTokenPairRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.token !== "") {
       writer.uint32(10).string(message.token);
@@ -414,6 +445,7 @@ export const QueryTokenPairRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTokenPairRequest.typeUrl, QueryTokenPairRequest);
 function createBaseQueryTokenPairResponse(): QueryTokenPairResponse {
   return {
     tokenPair: TokenPair.fromPartial({})
@@ -421,6 +453,15 @@ function createBaseQueryTokenPairResponse(): QueryTokenPairResponse {
 }
 export const QueryTokenPairResponse = {
   typeUrl: "/lorenzo.token.v1.QueryTokenPairResponse",
+  is(o: any): o is QueryTokenPairResponse {
+    return o && (o.$typeUrl === QueryTokenPairResponse.typeUrl || TokenPair.is(o.tokenPair));
+  },
+  isSDK(o: any): o is QueryTokenPairResponseSDKType {
+    return o && (o.$typeUrl === QueryTokenPairResponse.typeUrl || TokenPair.isSDK(o.token_pair));
+  },
+  isAmino(o: any): o is QueryTokenPairResponseAmino {
+    return o && (o.$typeUrl === QueryTokenPairResponse.typeUrl || TokenPair.isAmino(o.token_pair));
+  },
   encode(message: QueryTokenPairResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.tokenPair !== undefined) {
       TokenPair.encode(message.tokenPair, writer.uint32(10).fork()).ldelim();
@@ -487,11 +528,21 @@ export const QueryTokenPairResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryTokenPairResponse.typeUrl, QueryTokenPairResponse);
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
 export const QueryParamsRequest = {
   typeUrl: "/lorenzo.token.v1.QueryParamsRequest",
+  is(o: any): o is QueryParamsRequest {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryParamsRequestSDKType {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isAmino(o: any): o is QueryParamsRequestAmino {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
   encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -544,6 +595,7 @@ export const QueryParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsRequest.typeUrl, QueryParamsRequest);
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
     params: Params.fromPartial({})
@@ -551,6 +603,15 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 }
 export const QueryParamsResponse = {
   typeUrl: "/lorenzo.token.v1.QueryParamsResponse",
+  is(o: any): o is QueryParamsResponse {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.is(o.params));
+  },
+  isSDK(o: any): o is QueryParamsResponseSDKType {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isSDK(o.params));
+  },
+  isAmino(o: any): o is QueryParamsResponseAmino {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isAmino(o.params));
+  },
   encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -617,6 +678,7 @@ export const QueryParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsResponse.typeUrl, QueryParamsResponse);
 function createBaseQueryBalanceRequest(): QueryBalanceRequest {
   return {
     accountAddress: "",
@@ -625,6 +687,15 @@ function createBaseQueryBalanceRequest(): QueryBalanceRequest {
 }
 export const QueryBalanceRequest = {
   typeUrl: "/lorenzo.token.v1.QueryBalanceRequest",
+  is(o: any): o is QueryBalanceRequest {
+    return o && (o.$typeUrl === QueryBalanceRequest.typeUrl || typeof o.accountAddress === "string" && typeof o.token === "string");
+  },
+  isSDK(o: any): o is QueryBalanceRequestSDKType {
+    return o && (o.$typeUrl === QueryBalanceRequest.typeUrl || typeof o.account_address === "string" && typeof o.token === "string");
+  },
+  isAmino(o: any): o is QueryBalanceRequestAmino {
+    return o && (o.$typeUrl === QueryBalanceRequest.typeUrl || typeof o.account_address === "string" && typeof o.token === "string");
+  },
   encode(message: QueryBalanceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.accountAddress !== "") {
       writer.uint32(10).string(message.accountAddress);
@@ -704,6 +775,7 @@ export const QueryBalanceRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryBalanceRequest.typeUrl, QueryBalanceRequest);
 function createBaseQueryBalanceResponse(): QueryBalanceResponse {
   return {
     coin: Coin.fromPartial({}),
@@ -713,6 +785,15 @@ function createBaseQueryBalanceResponse(): QueryBalanceResponse {
 }
 export const QueryBalanceResponse = {
   typeUrl: "/lorenzo.token.v1.QueryBalanceResponse",
+  is(o: any): o is QueryBalanceResponse {
+    return o && (o.$typeUrl === QueryBalanceResponse.typeUrl || Coin.is(o.coin) && typeof o.erc20Address === "string" && typeof o.erc20TokenAmount === "string");
+  },
+  isSDK(o: any): o is QueryBalanceResponseSDKType {
+    return o && (o.$typeUrl === QueryBalanceResponse.typeUrl || Coin.isSDK(o.coin) && typeof o.erc20_address === "string" && typeof o.erc20_token_amount === "string");
+  },
+  isAmino(o: any): o is QueryBalanceResponseAmino {
+    return o && (o.$typeUrl === QueryBalanceResponse.typeUrl || Coin.isAmino(o.coin) && typeof o.erc20_address === "string" && typeof o.erc20_token_amount === "string");
+  },
   encode(message: QueryBalanceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.coin !== undefined) {
       Coin.encode(message.coin, writer.uint32(10).fork()).ldelim();
@@ -805,3 +886,4 @@ export const QueryBalanceResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryBalanceResponse.typeUrl, QueryBalanceResponse);

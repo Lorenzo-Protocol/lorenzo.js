@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { MsgInsertHeaders, MsgUpdateParams, MsgUpdateFeeRate } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/lorenzo.btclightclient.v1.MsgInsertHeaders", MsgInsertHeaders], ["/lorenzo.btclightclient.v1.MsgUpdateParams", MsgUpdateParams], ["/lorenzo.btclightclient.v1.MsgUpdateFeeRate", MsgUpdateFeeRate]];

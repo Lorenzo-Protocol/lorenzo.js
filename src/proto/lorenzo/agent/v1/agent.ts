@@ -1,4 +1,6 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /** Agent defines the details of a project */
 export interface Agent {
   /** id is the unique identifier of the agent */
@@ -58,6 +60,15 @@ function createBaseAgent(): Agent {
 }
 export const Agent = {
   typeUrl: "/lorenzo.agent.v1.Agent",
+  is(o: any): o is Agent {
+    return o && (o.$typeUrl === Agent.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.btcReceivingAddress === "string" && typeof o.ethAddr === "string" && typeof o.description === "string" && typeof o.url === "string");
+  },
+  isSDK(o: any): o is AgentSDKType {
+    return o && (o.$typeUrl === Agent.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.btc_receiving_address === "string" && typeof o.eth_addr === "string" && typeof o.description === "string" && typeof o.url === "string");
+  },
+  isAmino(o: any): o is AgentAmino {
+    return o && (o.$typeUrl === Agent.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.btc_receiving_address === "string" && typeof o.eth_addr === "string" && typeof o.description === "string" && typeof o.url === "string");
+  },
   encode(message: Agent, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -189,3 +200,4 @@ export const Agent = {
     };
   }
 };
+GlobalDecoderRegistry.register(Agent.typeUrl, Agent);

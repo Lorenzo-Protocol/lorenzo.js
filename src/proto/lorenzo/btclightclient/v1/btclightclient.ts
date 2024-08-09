@@ -1,5 +1,7 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { bytesFromBase64, base64FromBytes } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
 /**
  * BTCHeaderInfo is a structure that contains all relevant information about a
  * BTC header
@@ -83,6 +85,15 @@ function createBaseBTCHeaderInfo(): BTCHeaderInfo {
 }
 export const BTCHeaderInfo = {
   typeUrl: "/lorenzo.btclightclient.v1.BTCHeaderInfo",
+  is(o: any): o is BTCHeaderInfo {
+    return o && (o.$typeUrl === BTCHeaderInfo.typeUrl || (o.header instanceof Uint8Array || typeof o.header === "string") && (o.hash instanceof Uint8Array || typeof o.hash === "string") && typeof o.height === "bigint" && (o.work instanceof Uint8Array || typeof o.work === "string"));
+  },
+  isSDK(o: any): o is BTCHeaderInfoSDKType {
+    return o && (o.$typeUrl === BTCHeaderInfo.typeUrl || (o.header instanceof Uint8Array || typeof o.header === "string") && (o.hash instanceof Uint8Array || typeof o.hash === "string") && typeof o.height === "bigint" && (o.work instanceof Uint8Array || typeof o.work === "string"));
+  },
+  isAmino(o: any): o is BTCHeaderInfoAmino {
+    return o && (o.$typeUrl === BTCHeaderInfo.typeUrl || (o.header instanceof Uint8Array || typeof o.header === "string") && (o.hash instanceof Uint8Array || typeof o.hash === "string") && typeof o.height === "bigint" && (o.work instanceof Uint8Array || typeof o.work === "string"));
+  },
   encode(message: BTCHeaderInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.header.length !== 0) {
       writer.uint32(10).bytes(message.header);
@@ -188,6 +199,7 @@ export const BTCHeaderInfo = {
     };
   }
 };
+GlobalDecoderRegistry.register(BTCHeaderInfo.typeUrl, BTCHeaderInfo);
 function createBaseBTCFeeRate(): BTCFeeRate {
   return {
     feeRate: BigInt(0)
@@ -195,6 +207,15 @@ function createBaseBTCFeeRate(): BTCFeeRate {
 }
 export const BTCFeeRate = {
   typeUrl: "/lorenzo.btclightclient.v1.BTCFeeRate",
+  is(o: any): o is BTCFeeRate {
+    return o && (o.$typeUrl === BTCFeeRate.typeUrl || typeof o.feeRate === "bigint");
+  },
+  isSDK(o: any): o is BTCFeeRateSDKType {
+    return o && (o.$typeUrl === BTCFeeRate.typeUrl || typeof o.fee_rate === "bigint");
+  },
+  isAmino(o: any): o is BTCFeeRateAmino {
+    return o && (o.$typeUrl === BTCFeeRate.typeUrl || typeof o.fee_rate === "bigint");
+  },
   encode(message: BTCFeeRate, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.feeRate !== BigInt(0)) {
       writer.uint32(8).uint64(message.feeRate);
@@ -261,3 +282,4 @@ export const BTCFeeRate = {
     };
   }
 };
+GlobalDecoderRegistry.register(BTCFeeRate.typeUrl, BTCFeeRate);

@@ -1,6 +1,8 @@
+//@ts-nocheck
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { toTimestamp, fromTimestamp } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
 /**
  * Equivocation implements the Evidence interface and defines evidence of double
  * signing misbehavior.
@@ -57,6 +59,16 @@ function createBaseEquivocation(): Equivocation {
 }
 export const Equivocation = {
   typeUrl: "/cosmos.evidence.v1beta1.Equivocation",
+  aminoType: "cosmos-sdk/Equivocation",
+  is(o: any): o is Equivocation {
+    return o && (o.$typeUrl === Equivocation.typeUrl || typeof o.height === "bigint" && Timestamp.is(o.time) && typeof o.power === "bigint" && typeof o.consensusAddress === "string");
+  },
+  isSDK(o: any): o is EquivocationSDKType {
+    return o && (o.$typeUrl === Equivocation.typeUrl || typeof o.height === "bigint" && Timestamp.isSDK(o.time) && typeof o.power === "bigint" && typeof o.consensus_address === "string");
+  },
+  isAmino(o: any): o is EquivocationAmino {
+    return o && (o.$typeUrl === Equivocation.typeUrl || typeof o.height === "bigint" && Timestamp.isAmino(o.time) && typeof o.power === "bigint" && typeof o.consensus_address === "string");
+  },
   encode(message: Equivocation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.height !== BigInt(0)) {
       writer.uint32(8).int64(message.height);
@@ -109,7 +121,7 @@ export const Equivocation = {
   fromSDK(object: EquivocationSDKType): Equivocation {
     return {
       height: object?.height,
-      time: object.time ? Timestamp.fromSDK(object.time) : undefined,
+      time: object.time ?? undefined,
       power: object?.power,
       consensusAddress: object?.consensus_address
     };
@@ -117,7 +129,7 @@ export const Equivocation = {
   toSDK(message: Equivocation): EquivocationSDKType {
     const obj: any = {};
     obj.height = message.height;
-    message.time !== undefined && (obj.time = message.time ? Timestamp.toSDK(message.time) : undefined);
+    message.time !== undefined && (obj.time = message.time ?? undefined);
     obj.power = message.power;
     obj.consensus_address = message.consensusAddress;
     return obj;
@@ -168,3 +180,5 @@ export const Equivocation = {
     };
   }
 };
+GlobalDecoderRegistry.register(Equivocation.typeUrl, Equivocation);
+GlobalDecoderRegistry.registerAminoProtoMapping(Equivocation.aminoType, Equivocation.typeUrl);

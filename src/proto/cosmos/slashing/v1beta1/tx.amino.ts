@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { MsgUnjail, MsgUpdateParams } from "./tx";
 export const AminoConverter = {
   "/cosmos.slashing.v1beta1.MsgUnjail": {

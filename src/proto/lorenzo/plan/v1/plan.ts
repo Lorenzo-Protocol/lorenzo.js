@@ -1,5 +1,7 @@
-import { BinaryReader, BinaryWriter } from "../../../binary";
+//@ts-nocheck
 import { isSet } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 export enum PlanStatus {
   Pause = 0,
   Unpause = 1,
@@ -91,6 +93,15 @@ function createBasePlan(): Plan {
 }
 export const Plan = {
   typeUrl: "/lorenzo.plan.v1.Plan",
+  is(o: any): o is Plan {
+    return o && (o.$typeUrl === Plan.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.planDescUri === "string" && typeof o.agentId === "bigint" && typeof o.planStartTime === "bigint" && typeof o.periodTime === "bigint" && typeof o.yatContractAddress === "string" && typeof o.contractAddress === "string" && isSet(o.enabled));
+  },
+  isSDK(o: any): o is PlanSDKType {
+    return o && (o.$typeUrl === Plan.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.plan_desc_uri === "string" && typeof o.agent_id === "bigint" && typeof o.plan_start_time === "bigint" && typeof o.period_time === "bigint" && typeof o.yat_contract_address === "string" && typeof o.contract_address === "string" && isSet(o.enabled));
+  },
+  isAmino(o: any): o is PlanAmino {
+    return o && (o.$typeUrl === Plan.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.plan_desc_uri === "string" && typeof o.agent_id === "bigint" && typeof o.plan_start_time === "bigint" && typeof o.period_time === "bigint" && typeof o.yat_contract_address === "string" && typeof o.contract_address === "string" && isSet(o.enabled));
+  },
   encode(message: Plan, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -261,3 +272,4 @@ export const Plan = {
     };
   }
 };
+GlobalDecoderRegistry.register(Plan.typeUrl, Plan);

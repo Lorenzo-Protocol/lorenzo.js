@@ -1,6 +1,8 @@
+//@ts-nocheck
 import { ModuleOptions, ModuleOptionsAmino, ModuleOptionsSDKType } from "./options";
 import { BinaryReader, BinaryWriter } from "../../../binary";
-import { isObject } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
+import { isSet, isObject } from "../../../helpers";
 /** AppOptionsRequest is the RemoteInfoService/AppOptions request type. */
 export interface AppOptionsRequest {}
 export interface AppOptionsRequestProtoMsg {
@@ -68,6 +70,16 @@ function createBaseAppOptionsRequest(): AppOptionsRequest {
 }
 export const AppOptionsRequest = {
   typeUrl: "/cosmos.autocli.v1.AppOptionsRequest",
+  aminoType: "cosmos-sdk/AppOptionsRequest",
+  is(o: any): o is AppOptionsRequest {
+    return o && o.$typeUrl === AppOptionsRequest.typeUrl;
+  },
+  isSDK(o: any): o is AppOptionsRequestSDKType {
+    return o && o.$typeUrl === AppOptionsRequest.typeUrl;
+  },
+  isAmino(o: any): o is AppOptionsRequestAmino {
+    return o && o.$typeUrl === AppOptionsRequest.typeUrl;
+  },
   encode(_: AppOptionsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -126,6 +138,8 @@ export const AppOptionsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(AppOptionsRequest.typeUrl, AppOptionsRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(AppOptionsRequest.aminoType, AppOptionsRequest.typeUrl);
 function createBaseAppOptionsResponse_ModuleOptionsEntry(): AppOptionsResponse_ModuleOptionsEntry {
   return {
     key: "",
@@ -213,6 +227,16 @@ function createBaseAppOptionsResponse(): AppOptionsResponse {
 }
 export const AppOptionsResponse = {
   typeUrl: "/cosmos.autocli.v1.AppOptionsResponse",
+  aminoType: "cosmos-sdk/AppOptionsResponse",
+  is(o: any): o is AppOptionsResponse {
+    return o && (o.$typeUrl === AppOptionsResponse.typeUrl || isSet(o.moduleOptions));
+  },
+  isSDK(o: any): o is AppOptionsResponseSDKType {
+    return o && (o.$typeUrl === AppOptionsResponse.typeUrl || isSet(o.module_options));
+  },
+  isAmino(o: any): o is AppOptionsResponseAmino {
+    return o && (o.$typeUrl === AppOptionsResponse.typeUrl || isSet(o.module_options));
+  },
   encode(message: AppOptionsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     Object.entries(message.moduleOptions).forEach(([key, value]) => {
       AppOptionsResponse_ModuleOptionsEntry.encode({
@@ -318,3 +342,5 @@ export const AppOptionsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(AppOptionsResponse.typeUrl, AppOptionsResponse);
+GlobalDecoderRegistry.registerAminoProtoMapping(AppOptionsResponse.aminoType, AppOptionsResponse.typeUrl);

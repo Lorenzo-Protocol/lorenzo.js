@@ -1,5 +1,7 @@
+//@ts-nocheck
 import { BTCHeaderInfo, BTCHeaderInfoAmino, BTCHeaderInfoSDKType } from "./btclightclient";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /**
  * The header included in the event is the block in the history
  * of the current mainchain to which we are rolling back to.
@@ -126,6 +128,15 @@ function createBaseEventBTCRollBack(): EventBTCRollBack {
 }
 export const EventBTCRollBack = {
   typeUrl: "/lorenzo.btclightclient.v1.EventBTCRollBack",
+  is(o: any): o is EventBTCRollBack {
+    return o && o.$typeUrl === EventBTCRollBack.typeUrl;
+  },
+  isSDK(o: any): o is EventBTCRollBackSDKType {
+    return o && o.$typeUrl === EventBTCRollBack.typeUrl;
+  },
+  isAmino(o: any): o is EventBTCRollBackAmino {
+    return o && o.$typeUrl === EventBTCRollBack.typeUrl;
+  },
   encode(message: EventBTCRollBack, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.header !== undefined) {
       BTCHeaderInfo.encode(message.header, writer.uint32(10).fork()).ldelim();
@@ -192,6 +203,7 @@ export const EventBTCRollBack = {
     };
   }
 };
+GlobalDecoderRegistry.register(EventBTCRollBack.typeUrl, EventBTCRollBack);
 function createBaseEventBTCRollForward(): EventBTCRollForward {
   return {
     header: undefined
@@ -199,6 +211,15 @@ function createBaseEventBTCRollForward(): EventBTCRollForward {
 }
 export const EventBTCRollForward = {
   typeUrl: "/lorenzo.btclightclient.v1.EventBTCRollForward",
+  is(o: any): o is EventBTCRollForward {
+    return o && o.$typeUrl === EventBTCRollForward.typeUrl;
+  },
+  isSDK(o: any): o is EventBTCRollForwardSDKType {
+    return o && o.$typeUrl === EventBTCRollForward.typeUrl;
+  },
+  isAmino(o: any): o is EventBTCRollForwardAmino {
+    return o && o.$typeUrl === EventBTCRollForward.typeUrl;
+  },
   encode(message: EventBTCRollForward, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.header !== undefined) {
       BTCHeaderInfo.encode(message.header, writer.uint32(10).fork()).ldelim();
@@ -265,6 +286,7 @@ export const EventBTCRollForward = {
     };
   }
 };
+GlobalDecoderRegistry.register(EventBTCRollForward.typeUrl, EventBTCRollForward);
 function createBaseEventBTCHeaderInserted(): EventBTCHeaderInserted {
   return {
     header: undefined
@@ -272,6 +294,15 @@ function createBaseEventBTCHeaderInserted(): EventBTCHeaderInserted {
 }
 export const EventBTCHeaderInserted = {
   typeUrl: "/lorenzo.btclightclient.v1.EventBTCHeaderInserted",
+  is(o: any): o is EventBTCHeaderInserted {
+    return o && o.$typeUrl === EventBTCHeaderInserted.typeUrl;
+  },
+  isSDK(o: any): o is EventBTCHeaderInsertedSDKType {
+    return o && o.$typeUrl === EventBTCHeaderInserted.typeUrl;
+  },
+  isAmino(o: any): o is EventBTCHeaderInsertedAmino {
+    return o && o.$typeUrl === EventBTCHeaderInserted.typeUrl;
+  },
   encode(message: EventBTCHeaderInserted, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.header !== undefined) {
       BTCHeaderInfo.encode(message.header, writer.uint32(10).fork()).ldelim();
@@ -338,6 +369,7 @@ export const EventBTCHeaderInserted = {
     };
   }
 };
+GlobalDecoderRegistry.register(EventBTCHeaderInserted.typeUrl, EventBTCHeaderInserted);
 function createBaseEventBTCFeeRateUpdated(): EventBTCFeeRateUpdated {
   return {
     feeRate: BigInt(0)
@@ -345,6 +377,15 @@ function createBaseEventBTCFeeRateUpdated(): EventBTCFeeRateUpdated {
 }
 export const EventBTCFeeRateUpdated = {
   typeUrl: "/lorenzo.btclightclient.v1.EventBTCFeeRateUpdated",
+  is(o: any): o is EventBTCFeeRateUpdated {
+    return o && (o.$typeUrl === EventBTCFeeRateUpdated.typeUrl || typeof o.feeRate === "bigint");
+  },
+  isSDK(o: any): o is EventBTCFeeRateUpdatedSDKType {
+    return o && (o.$typeUrl === EventBTCFeeRateUpdated.typeUrl || typeof o.fee_rate === "bigint");
+  },
+  isAmino(o: any): o is EventBTCFeeRateUpdatedAmino {
+    return o && (o.$typeUrl === EventBTCFeeRateUpdated.typeUrl || typeof o.fee_rate === "bigint");
+  },
   encode(message: EventBTCFeeRateUpdated, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.feeRate !== BigInt(0)) {
       writer.uint32(8).uint64(message.feeRate);
@@ -411,3 +452,4 @@ export const EventBTCFeeRateUpdated = {
     };
   }
 };
+GlobalDecoderRegistry.register(EventBTCFeeRateUpdated.typeUrl, EventBTCFeeRateUpdated);

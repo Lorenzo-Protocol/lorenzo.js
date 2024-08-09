@@ -1,4 +1,6 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { GlobalDecoderRegistry } from "../../../../registry";
 import { bytesFromBase64, base64FromBytes } from "../../../../helpers";
 /** Pairs defines a repeated slice of Pair objects. */
 export interface Pairs {
@@ -50,6 +52,16 @@ function createBasePairs(): Pairs {
 }
 export const Pairs = {
   typeUrl: "/cosmos.base.kv.v1beta1.Pairs",
+  aminoType: "cosmos-sdk/Pairs",
+  is(o: any): o is Pairs {
+    return o && (o.$typeUrl === Pairs.typeUrl || Array.isArray(o.pairs) && (!o.pairs.length || Pair.is(o.pairs[0])));
+  },
+  isSDK(o: any): o is PairsSDKType {
+    return o && (o.$typeUrl === Pairs.typeUrl || Array.isArray(o.pairs) && (!o.pairs.length || Pair.isSDK(o.pairs[0])));
+  },
+  isAmino(o: any): o is PairsAmino {
+    return o && (o.$typeUrl === Pairs.typeUrl || Array.isArray(o.pairs) && (!o.pairs.length || Pair.isAmino(o.pairs[0])));
+  },
   encode(message: Pairs, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.pairs) {
       Pair.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -128,6 +140,8 @@ export const Pairs = {
     };
   }
 };
+GlobalDecoderRegistry.register(Pairs.typeUrl, Pairs);
+GlobalDecoderRegistry.registerAminoProtoMapping(Pairs.aminoType, Pairs.typeUrl);
 function createBasePair(): Pair {
   return {
     key: new Uint8Array(),
@@ -136,6 +150,16 @@ function createBasePair(): Pair {
 }
 export const Pair = {
   typeUrl: "/cosmos.base.kv.v1beta1.Pair",
+  aminoType: "cosmos-sdk/Pair",
+  is(o: any): o is Pair {
+    return o && (o.$typeUrl === Pair.typeUrl || (o.key instanceof Uint8Array || typeof o.key === "string") && (o.value instanceof Uint8Array || typeof o.value === "string"));
+  },
+  isSDK(o: any): o is PairSDKType {
+    return o && (o.$typeUrl === Pair.typeUrl || (o.key instanceof Uint8Array || typeof o.key === "string") && (o.value instanceof Uint8Array || typeof o.value === "string"));
+  },
+  isAmino(o: any): o is PairAmino {
+    return o && (o.$typeUrl === Pair.typeUrl || (o.key instanceof Uint8Array || typeof o.key === "string") && (o.value instanceof Uint8Array || typeof o.value === "string"));
+  },
   encode(message: Pair, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key);
@@ -221,3 +245,5 @@ export const Pair = {
     };
   }
 };
+GlobalDecoderRegistry.register(Pair.typeUrl, Pair);
+GlobalDecoderRegistry.registerAminoProtoMapping(Pair.aminoType, Pair.typeUrl);

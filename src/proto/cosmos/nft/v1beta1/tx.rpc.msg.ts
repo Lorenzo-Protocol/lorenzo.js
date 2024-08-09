@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
 import { MsgSend, MsgSendResponse } from "./tx";
@@ -18,3 +19,6 @@ export class MsgClientImpl implements Msg {
     return promise.then(data => MsgSendResponse.decode(new BinaryReader(data)));
   }
 }
+export const createClientImpl = (rpc: Rpc) => {
+  return new MsgClientImpl(rpc);
+};

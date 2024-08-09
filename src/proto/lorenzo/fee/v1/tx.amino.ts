@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { MsgUpdateParams } from "./tx";
 export const AminoConverter = {
   "/lorenzo.fee.v1.MsgUpdateParams": {

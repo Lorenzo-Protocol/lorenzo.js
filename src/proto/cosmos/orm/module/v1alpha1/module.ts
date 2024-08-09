@@ -1,4 +1,6 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { GlobalDecoderRegistry } from "../../../../registry";
 /**
  * Module defines the ORM module which adds providers to the app container for
  * module-scoped DB's. In the future it may provide gRPC services for interacting
@@ -30,6 +32,16 @@ function createBaseModule(): Module {
 }
 export const Module = {
   typeUrl: "/cosmos.orm.module.v1alpha1.Module",
+  aminoType: "cosmos-sdk/Module",
+  is(o: any): o is Module {
+    return o && o.$typeUrl === Module.typeUrl;
+  },
+  isSDK(o: any): o is ModuleSDKType {
+    return o && o.$typeUrl === Module.typeUrl;
+  },
+  isAmino(o: any): o is ModuleAmino {
+    return o && o.$typeUrl === Module.typeUrl;
+  },
   encode(_: Module, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -88,3 +100,5 @@ export const Module = {
     };
   }
 };
+GlobalDecoderRegistry.register(Module.typeUrl, Module);
+GlobalDecoderRegistry.registerAminoProtoMapping(Module.aminoType, Module.typeUrl);

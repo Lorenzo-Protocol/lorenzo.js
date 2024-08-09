@@ -1,6 +1,8 @@
+//@ts-nocheck
 import { BTCStakingRecord, BTCStakingRecordAmino, BTCStakingRecordSDKType } from "./staking_record";
 import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /** BTC staking creation event */
 export interface EventBTCStakingCreated {
   record?: BTCStakingRecord;
@@ -51,6 +53,15 @@ function createBaseEventBTCStakingCreated(): EventBTCStakingCreated {
 }
 export const EventBTCStakingCreated = {
   typeUrl: "/lorenzo.btcstaking.v1.EventBTCStakingCreated",
+  is(o: any): o is EventBTCStakingCreated {
+    return o && o.$typeUrl === EventBTCStakingCreated.typeUrl;
+  },
+  isSDK(o: any): o is EventBTCStakingCreatedSDKType {
+    return o && o.$typeUrl === EventBTCStakingCreated.typeUrl;
+  },
+  isAmino(o: any): o is EventBTCStakingCreatedAmino {
+    return o && o.$typeUrl === EventBTCStakingCreated.typeUrl;
+  },
   encode(message: EventBTCStakingCreated, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.record !== undefined) {
       BTCStakingRecord.encode(message.record, writer.uint32(10).fork()).ldelim();
@@ -117,6 +128,7 @@ export const EventBTCStakingCreated = {
     };
   }
 };
+GlobalDecoderRegistry.register(EventBTCStakingCreated.typeUrl, EventBTCStakingCreated);
 function createBaseEventBurnCreated(): EventBurnCreated {
   return {
     signer: "",
@@ -126,6 +138,15 @@ function createBaseEventBurnCreated(): EventBurnCreated {
 }
 export const EventBurnCreated = {
   typeUrl: "/lorenzo.btcstaking.v1.EventBurnCreated",
+  is(o: any): o is EventBurnCreated {
+    return o && (o.$typeUrl === EventBurnCreated.typeUrl || typeof o.signer === "string" && typeof o.btcTargetAddress === "string" && Coin.is(o.amount));
+  },
+  isSDK(o: any): o is EventBurnCreatedSDKType {
+    return o && (o.$typeUrl === EventBurnCreated.typeUrl || typeof o.signer === "string" && typeof o.btc_target_address === "string" && Coin.isSDK(o.amount));
+  },
+  isAmino(o: any): o is EventBurnCreatedAmino {
+    return o && (o.$typeUrl === EventBurnCreated.typeUrl || typeof o.signer === "string" && typeof o.btc_target_address === "string" && Coin.isAmino(o.amount));
+  },
   encode(message: EventBurnCreated, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.signer !== "") {
       writer.uint32(10).string(message.signer);
@@ -218,3 +239,4 @@ export const EventBurnCreated = {
     };
   }
 };
+GlobalDecoderRegistry.register(EventBurnCreated.typeUrl, EventBurnCreated);

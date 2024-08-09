@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { MsgRegisterCoin, MsgRegisterERC20, MsgToggleConversion, MsgConvertCoin, MsgConvertERC20, MsgUpdateParams } from "./tx";
 export const AminoConverter = {
   "/lorenzo.token.v1.MsgRegisterCoin": {

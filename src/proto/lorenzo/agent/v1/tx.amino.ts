@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { MsgUpdateParams, MsgAddAgent, MsgEditAgent, MsgRemoveAgent } from "./tx";
 export const AminoConverter = {
   "/lorenzo.agent.v1.MsgUpdateParams": {

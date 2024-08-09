@@ -1,4 +1,6 @@
+//@ts-nocheck
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /** EventRegisterCoin is an event emitted when a coin is registered. */
 export interface EventRegisterPair {
   /** sdk coin denomination */
@@ -154,6 +156,15 @@ function createBaseEventRegisterPair(): EventRegisterPair {
 }
 export const EventRegisterPair = {
   typeUrl: "/lorenzo.token.v1.EventRegisterPair",
+  is(o: any): o is EventRegisterPair {
+    return o && (o.$typeUrl === EventRegisterPair.typeUrl || typeof o.denom === "string" && typeof o.contractAddress === "string");
+  },
+  isSDK(o: any): o is EventRegisterPairSDKType {
+    return o && (o.$typeUrl === EventRegisterPair.typeUrl || typeof o.denom === "string" && typeof o.contract_address === "string");
+  },
+  isAmino(o: any): o is EventRegisterPairAmino {
+    return o && (o.$typeUrl === EventRegisterPair.typeUrl || typeof o.denom === "string" && typeof o.contract_address === "string");
+  },
   encode(message: EventRegisterPair, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
@@ -233,6 +244,7 @@ export const EventRegisterPair = {
     };
   }
 };
+GlobalDecoderRegistry.register(EventRegisterPair.typeUrl, EventRegisterPair);
 function createBaseEventToggleTokenConversion(): EventToggleTokenConversion {
   return {
     denom: "",
@@ -241,6 +253,15 @@ function createBaseEventToggleTokenConversion(): EventToggleTokenConversion {
 }
 export const EventToggleTokenConversion = {
   typeUrl: "/lorenzo.token.v1.EventToggleTokenConversion",
+  is(o: any): o is EventToggleTokenConversion {
+    return o && (o.$typeUrl === EventToggleTokenConversion.typeUrl || typeof o.denom === "string" && typeof o.contractAddress === "string");
+  },
+  isSDK(o: any): o is EventToggleTokenConversionSDKType {
+    return o && (o.$typeUrl === EventToggleTokenConversion.typeUrl || typeof o.denom === "string" && typeof o.contract_address === "string");
+  },
+  isAmino(o: any): o is EventToggleTokenConversionAmino {
+    return o && (o.$typeUrl === EventToggleTokenConversion.typeUrl || typeof o.denom === "string" && typeof o.contract_address === "string");
+  },
   encode(message: EventToggleTokenConversion, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
@@ -320,6 +341,7 @@ export const EventToggleTokenConversion = {
     };
   }
 };
+GlobalDecoderRegistry.register(EventToggleTokenConversion.typeUrl, EventToggleTokenConversion);
 function createBaseEventConvertCoin(): EventConvertCoin {
   return {
     sender: "",
@@ -331,6 +353,15 @@ function createBaseEventConvertCoin(): EventConvertCoin {
 }
 export const EventConvertCoin = {
   typeUrl: "/lorenzo.token.v1.EventConvertCoin",
+  is(o: any): o is EventConvertCoin {
+    return o && (o.$typeUrl === EventConvertCoin.typeUrl || typeof o.sender === "string" && typeof o.receiver === "string" && typeof o.amount === "string" && typeof o.denom === "string" && typeof o.contractAddress === "string");
+  },
+  isSDK(o: any): o is EventConvertCoinSDKType {
+    return o && (o.$typeUrl === EventConvertCoin.typeUrl || typeof o.sender === "string" && typeof o.receiver === "string" && typeof o.amount === "string" && typeof o.denom === "string" && typeof o.contract_address === "string");
+  },
+  isAmino(o: any): o is EventConvertCoinAmino {
+    return o && (o.$typeUrl === EventConvertCoin.typeUrl || typeof o.sender === "string" && typeof o.receiver === "string" && typeof o.amount === "string" && typeof o.denom === "string" && typeof o.contract_address === "string");
+  },
   encode(message: EventConvertCoin, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sender !== "") {
       writer.uint32(10).string(message.sender);
@@ -449,6 +480,7 @@ export const EventConvertCoin = {
     };
   }
 };
+GlobalDecoderRegistry.register(EventConvertCoin.typeUrl, EventConvertCoin);
 function createBaseEventConvertERC20(): EventConvertERC20 {
   return {
     sender: "",
@@ -460,6 +492,15 @@ function createBaseEventConvertERC20(): EventConvertERC20 {
 }
 export const EventConvertERC20 = {
   typeUrl: "/lorenzo.token.v1.EventConvertERC20",
+  is(o: any): o is EventConvertERC20 {
+    return o && (o.$typeUrl === EventConvertERC20.typeUrl || typeof o.sender === "string" && typeof o.receiver === "string" && typeof o.amount === "string" && typeof o.denom === "string" && typeof o.contractAddress === "string");
+  },
+  isSDK(o: any): o is EventConvertERC20SDKType {
+    return o && (o.$typeUrl === EventConvertERC20.typeUrl || typeof o.sender === "string" && typeof o.receiver === "string" && typeof o.amount === "string" && typeof o.denom === "string" && typeof o.contract_address === "string");
+  },
+  isAmino(o: any): o is EventConvertERC20Amino {
+    return o && (o.$typeUrl === EventConvertERC20.typeUrl || typeof o.sender === "string" && typeof o.receiver === "string" && typeof o.amount === "string" && typeof o.denom === "string" && typeof o.contract_address === "string");
+  },
   encode(message: EventConvertERC20, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.sender !== "") {
       writer.uint32(10).string(message.sender);
@@ -578,3 +619,4 @@ export const EventConvertERC20 = {
     };
   }
 };
+GlobalDecoderRegistry.register(EventConvertERC20.typeUrl, EventConvertERC20);

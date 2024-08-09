@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { MsgRegisterCoin, MsgRegisterERC20, MsgToggleConversion, MsgConvertCoin, MsgConvertERC20, MsgUpdateParams } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/lorenzo.token.v1.MsgRegisterCoin", MsgRegisterCoin], ["/lorenzo.token.v1.MsgRegisterERC20", MsgRegisterERC20], ["/lorenzo.token.v1.MsgToggleConversion", MsgToggleConversion], ["/lorenzo.token.v1.MsgConvertCoin", MsgConvertCoin], ["/lorenzo.token.v1.MsgConvertERC20", MsgConvertERC20], ["/lorenzo.token.v1.MsgUpdateParams", MsgUpdateParams]];

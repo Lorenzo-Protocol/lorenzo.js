@@ -1,7 +1,9 @@
+//@ts-nocheck
 import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../../cosmos/base/query/v1beta1/pagination";
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
 import { Agent, AgentAmino, AgentSDKType } from "./agent";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
@@ -132,6 +134,15 @@ function createBaseQueryParamsRequest(): QueryParamsRequest {
 }
 export const QueryParamsRequest = {
   typeUrl: "/lorenzo.agent.v1.QueryParamsRequest",
+  is(o: any): o is QueryParamsRequest {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryParamsRequestSDKType {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isAmino(o: any): o is QueryParamsRequestAmino {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
   encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -184,6 +195,7 @@ export const QueryParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsRequest.typeUrl, QueryParamsRequest);
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
     params: Params.fromPartial({})
@@ -191,6 +203,15 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 }
 export const QueryParamsResponse = {
   typeUrl: "/lorenzo.agent.v1.QueryParamsResponse",
+  is(o: any): o is QueryParamsResponse {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.is(o.params));
+  },
+  isSDK(o: any): o is QueryParamsResponseSDKType {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isSDK(o.params));
+  },
+  isAmino(o: any): o is QueryParamsResponseAmino {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isAmino(o.params));
+  },
   encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -257,6 +278,7 @@ export const QueryParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsResponse.typeUrl, QueryParamsResponse);
 function createBaseQueryAgentsRequest(): QueryAgentsRequest {
   return {
     pagination: undefined
@@ -264,6 +286,15 @@ function createBaseQueryAgentsRequest(): QueryAgentsRequest {
 }
 export const QueryAgentsRequest = {
   typeUrl: "/lorenzo.agent.v1.QueryAgentsRequest",
+  is(o: any): o is QueryAgentsRequest {
+    return o && o.$typeUrl === QueryAgentsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryAgentsRequestSDKType {
+    return o && o.$typeUrl === QueryAgentsRequest.typeUrl;
+  },
+  isAmino(o: any): o is QueryAgentsRequestAmino {
+    return o && o.$typeUrl === QueryAgentsRequest.typeUrl;
+  },
   encode(message: QueryAgentsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
@@ -330,6 +361,7 @@ export const QueryAgentsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryAgentsRequest.typeUrl, QueryAgentsRequest);
 function createBaseQueryAgentsResponse(): QueryAgentsResponse {
   return {
     agents: [],
@@ -338,6 +370,15 @@ function createBaseQueryAgentsResponse(): QueryAgentsResponse {
 }
 export const QueryAgentsResponse = {
   typeUrl: "/lorenzo.agent.v1.QueryAgentsResponse",
+  is(o: any): o is QueryAgentsResponse {
+    return o && (o.$typeUrl === QueryAgentsResponse.typeUrl || Array.isArray(o.agents) && (!o.agents.length || Agent.is(o.agents[0])));
+  },
+  isSDK(o: any): o is QueryAgentsResponseSDKType {
+    return o && (o.$typeUrl === QueryAgentsResponse.typeUrl || Array.isArray(o.agents) && (!o.agents.length || Agent.isSDK(o.agents[0])));
+  },
+  isAmino(o: any): o is QueryAgentsResponseAmino {
+    return o && (o.$typeUrl === QueryAgentsResponse.typeUrl || Array.isArray(o.agents) && (!o.agents.length || Agent.isAmino(o.agents[0])));
+  },
   encode(message: QueryAgentsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.agents) {
       Agent.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -423,6 +464,7 @@ export const QueryAgentsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryAgentsResponse.typeUrl, QueryAgentsResponse);
 function createBaseQueryAgentRequest(): QueryAgentRequest {
   return {
     id: BigInt(0)
@@ -430,6 +472,15 @@ function createBaseQueryAgentRequest(): QueryAgentRequest {
 }
 export const QueryAgentRequest = {
   typeUrl: "/lorenzo.agent.v1.QueryAgentRequest",
+  is(o: any): o is QueryAgentRequest {
+    return o && (o.$typeUrl === QueryAgentRequest.typeUrl || typeof o.id === "bigint");
+  },
+  isSDK(o: any): o is QueryAgentRequestSDKType {
+    return o && (o.$typeUrl === QueryAgentRequest.typeUrl || typeof o.id === "bigint");
+  },
+  isAmino(o: any): o is QueryAgentRequestAmino {
+    return o && (o.$typeUrl === QueryAgentRequest.typeUrl || typeof o.id === "bigint");
+  },
   encode(message: QueryAgentRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -496,6 +547,7 @@ export const QueryAgentRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryAgentRequest.typeUrl, QueryAgentRequest);
 function createBaseQueryAgentResponse(): QueryAgentResponse {
   return {
     agent: Agent.fromPartial({})
@@ -503,6 +555,15 @@ function createBaseQueryAgentResponse(): QueryAgentResponse {
 }
 export const QueryAgentResponse = {
   typeUrl: "/lorenzo.agent.v1.QueryAgentResponse",
+  is(o: any): o is QueryAgentResponse {
+    return o && (o.$typeUrl === QueryAgentResponse.typeUrl || Agent.is(o.agent));
+  },
+  isSDK(o: any): o is QueryAgentResponseSDKType {
+    return o && (o.$typeUrl === QueryAgentResponse.typeUrl || Agent.isSDK(o.agent));
+  },
+  isAmino(o: any): o is QueryAgentResponseAmino {
+    return o && (o.$typeUrl === QueryAgentResponse.typeUrl || Agent.isAmino(o.agent));
+  },
   encode(message: QueryAgentResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.agent !== undefined) {
       Agent.encode(message.agent, writer.uint32(10).fork()).ldelim();
@@ -569,3 +630,4 @@ export const QueryAgentResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryAgentResponse.typeUrl, QueryAgentResponse);

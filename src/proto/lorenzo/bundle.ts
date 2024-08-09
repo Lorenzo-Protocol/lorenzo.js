@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as _134 from "./agent/v1/agent";
 import * as _135 from "./agent/v1/event";
 import * as _136 from "./agent/v1/genesis";

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { MsgUpdateParams, MsgAddAgent, MsgEditAgent, MsgRemoveAgent } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/lorenzo.agent.v1.MsgUpdateParams", MsgUpdateParams], ["/lorenzo.agent.v1.MsgAddAgent", MsgAddAgent], ["/lorenzo.agent.v1.MsgEditAgent", MsgEditAgent], ["/lorenzo.agent.v1.MsgRemoveAgent", MsgRemoveAgent]];

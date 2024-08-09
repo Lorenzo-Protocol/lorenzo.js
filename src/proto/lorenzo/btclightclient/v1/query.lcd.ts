@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { setPaginationParams } from "../../../helpers";
 import { LCDClient } from "@cosmology/lcd";
 import { QueryParamsRequest, QueryParamsResponseSDKType, QueryHashesRequest, QueryHashesResponseSDKType, QueryContainsRequest, QueryContainsResponseSDKType, QueryContainsBytesRequest, QueryContainsBytesResponseSDKType, QueryMainChainRequest, QueryMainChainResponseSDKType, QueryTipRequest, QueryTipResponseSDKType, QueryBaseHeaderRequest, QueryBaseHeaderResponseSDKType, QueryHeaderDepthRequest, QueryHeaderDepthResponseSDKType, QueryFeeRateRequest, QueryFeeRateResponseSDKType } from "./query";

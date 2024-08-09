@@ -1,6 +1,8 @@
+//@ts-nocheck
 import { Metadata, MetadataAmino, MetadataSDKType, Params, ParamsAmino, ParamsSDKType } from "../../../cosmos/bank/v1beta1/bank";
 import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /**
  * MsgRegisterCoin registers a token pair for existing coin
  * NOTE: this is a governance message.
@@ -279,6 +281,15 @@ function createBaseMsgRegisterCoin(): MsgRegisterCoin {
 }
 export const MsgRegisterCoin = {
   typeUrl: "/lorenzo.token.v1.MsgRegisterCoin",
+  is(o: any): o is MsgRegisterCoin {
+    return o && (o.$typeUrl === MsgRegisterCoin.typeUrl || typeof o.authority === "string" && Array.isArray(o.metadata) && (!o.metadata.length || Metadata.is(o.metadata[0])));
+  },
+  isSDK(o: any): o is MsgRegisterCoinSDKType {
+    return o && (o.$typeUrl === MsgRegisterCoin.typeUrl || typeof o.authority === "string" && Array.isArray(o.metadata) && (!o.metadata.length || Metadata.isSDK(o.metadata[0])));
+  },
+  isAmino(o: any): o is MsgRegisterCoinAmino {
+    return o && (o.$typeUrl === MsgRegisterCoin.typeUrl || typeof o.authority === "string" && Array.isArray(o.metadata) && (!o.metadata.length || Metadata.isAmino(o.metadata[0])));
+  },
   encode(message: MsgRegisterCoin, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.authority !== "") {
       writer.uint32(10).string(message.authority);
@@ -364,11 +375,21 @@ export const MsgRegisterCoin = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRegisterCoin.typeUrl, MsgRegisterCoin);
 function createBaseMsgRegisterCoinResponse(): MsgRegisterCoinResponse {
   return {};
 }
 export const MsgRegisterCoinResponse = {
   typeUrl: "/lorenzo.token.v1.MsgRegisterCoinResponse",
+  is(o: any): o is MsgRegisterCoinResponse {
+    return o && o.$typeUrl === MsgRegisterCoinResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgRegisterCoinResponseSDKType {
+    return o && o.$typeUrl === MsgRegisterCoinResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgRegisterCoinResponseAmino {
+    return o && o.$typeUrl === MsgRegisterCoinResponse.typeUrl;
+  },
   encode(_: MsgRegisterCoinResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -421,6 +442,7 @@ export const MsgRegisterCoinResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRegisterCoinResponse.typeUrl, MsgRegisterCoinResponse);
 function createBaseMsgRegisterERC20(): MsgRegisterERC20 {
   return {
     authority: "",
@@ -429,6 +451,15 @@ function createBaseMsgRegisterERC20(): MsgRegisterERC20 {
 }
 export const MsgRegisterERC20 = {
   typeUrl: "/lorenzo.token.v1.MsgRegisterERC20",
+  is(o: any): o is MsgRegisterERC20 {
+    return o && (o.$typeUrl === MsgRegisterERC20.typeUrl || typeof o.authority === "string" && Array.isArray(o.contractAddresses) && (!o.contractAddresses.length || typeof o.contractAddresses[0] === "string"));
+  },
+  isSDK(o: any): o is MsgRegisterERC20SDKType {
+    return o && (o.$typeUrl === MsgRegisterERC20.typeUrl || typeof o.authority === "string" && Array.isArray(o.contract_addresses) && (!o.contract_addresses.length || typeof o.contract_addresses[0] === "string"));
+  },
+  isAmino(o: any): o is MsgRegisterERC20Amino {
+    return o && (o.$typeUrl === MsgRegisterERC20.typeUrl || typeof o.authority === "string" && Array.isArray(o.contract_addresses) && (!o.contract_addresses.length || typeof o.contract_addresses[0] === "string"));
+  },
   encode(message: MsgRegisterERC20, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.authority !== "") {
       writer.uint32(10).string(message.authority);
@@ -514,11 +545,21 @@ export const MsgRegisterERC20 = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRegisterERC20.typeUrl, MsgRegisterERC20);
 function createBaseMsgRegisterERC20Response(): MsgRegisterERC20Response {
   return {};
 }
 export const MsgRegisterERC20Response = {
   typeUrl: "/lorenzo.token.v1.MsgRegisterERC20Response",
+  is(o: any): o is MsgRegisterERC20Response {
+    return o && o.$typeUrl === MsgRegisterERC20Response.typeUrl;
+  },
+  isSDK(o: any): o is MsgRegisterERC20ResponseSDKType {
+    return o && o.$typeUrl === MsgRegisterERC20Response.typeUrl;
+  },
+  isAmino(o: any): o is MsgRegisterERC20ResponseAmino {
+    return o && o.$typeUrl === MsgRegisterERC20Response.typeUrl;
+  },
   encode(_: MsgRegisterERC20Response, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -571,6 +612,7 @@ export const MsgRegisterERC20Response = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgRegisterERC20Response.typeUrl, MsgRegisterERC20Response);
 function createBaseMsgToggleConversion(): MsgToggleConversion {
   return {
     authority: "",
@@ -579,6 +621,15 @@ function createBaseMsgToggleConversion(): MsgToggleConversion {
 }
 export const MsgToggleConversion = {
   typeUrl: "/lorenzo.token.v1.MsgToggleConversion",
+  is(o: any): o is MsgToggleConversion {
+    return o && (o.$typeUrl === MsgToggleConversion.typeUrl || typeof o.authority === "string" && typeof o.token === "string");
+  },
+  isSDK(o: any): o is MsgToggleConversionSDKType {
+    return o && (o.$typeUrl === MsgToggleConversion.typeUrl || typeof o.authority === "string" && typeof o.token === "string");
+  },
+  isAmino(o: any): o is MsgToggleConversionAmino {
+    return o && (o.$typeUrl === MsgToggleConversion.typeUrl || typeof o.authority === "string" && typeof o.token === "string");
+  },
   encode(message: MsgToggleConversion, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.authority !== "") {
       writer.uint32(10).string(message.authority);
@@ -658,11 +709,21 @@ export const MsgToggleConversion = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgToggleConversion.typeUrl, MsgToggleConversion);
 function createBaseMsgToggleConversionResponse(): MsgToggleConversionResponse {
   return {};
 }
 export const MsgToggleConversionResponse = {
   typeUrl: "/lorenzo.token.v1.MsgToggleConversionResponse",
+  is(o: any): o is MsgToggleConversionResponse {
+    return o && o.$typeUrl === MsgToggleConversionResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgToggleConversionResponseSDKType {
+    return o && o.$typeUrl === MsgToggleConversionResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgToggleConversionResponseAmino {
+    return o && o.$typeUrl === MsgToggleConversionResponse.typeUrl;
+  },
   encode(_: MsgToggleConversionResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -715,6 +776,7 @@ export const MsgToggleConversionResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgToggleConversionResponse.typeUrl, MsgToggleConversionResponse);
 function createBaseMsgConvertCoin(): MsgConvertCoin {
   return {
     coin: Coin.fromPartial({}),
@@ -724,6 +786,15 @@ function createBaseMsgConvertCoin(): MsgConvertCoin {
 }
 export const MsgConvertCoin = {
   typeUrl: "/lorenzo.token.v1.MsgConvertCoin",
+  is(o: any): o is MsgConvertCoin {
+    return o && (o.$typeUrl === MsgConvertCoin.typeUrl || Coin.is(o.coin) && typeof o.receiver === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgConvertCoinSDKType {
+    return o && (o.$typeUrl === MsgConvertCoin.typeUrl || Coin.isSDK(o.coin) && typeof o.receiver === "string" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is MsgConvertCoinAmino {
+    return o && (o.$typeUrl === MsgConvertCoin.typeUrl || Coin.isAmino(o.coin) && typeof o.receiver === "string" && typeof o.sender === "string");
+  },
   encode(message: MsgConvertCoin, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.coin !== undefined) {
       Coin.encode(message.coin, writer.uint32(10).fork()).ldelim();
@@ -816,11 +887,21 @@ export const MsgConvertCoin = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgConvertCoin.typeUrl, MsgConvertCoin);
 function createBaseMsgConvertCoinResponse(): MsgConvertCoinResponse {
   return {};
 }
 export const MsgConvertCoinResponse = {
   typeUrl: "/lorenzo.token.v1.MsgConvertCoinResponse",
+  is(o: any): o is MsgConvertCoinResponse {
+    return o && o.$typeUrl === MsgConvertCoinResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgConvertCoinResponseSDKType {
+    return o && o.$typeUrl === MsgConvertCoinResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgConvertCoinResponseAmino {
+    return o && o.$typeUrl === MsgConvertCoinResponse.typeUrl;
+  },
   encode(_: MsgConvertCoinResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -873,6 +954,7 @@ export const MsgConvertCoinResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgConvertCoinResponse.typeUrl, MsgConvertCoinResponse);
 function createBaseMsgConvertERC20(): MsgConvertERC20 {
   return {
     contractAddress: "",
@@ -883,6 +965,15 @@ function createBaseMsgConvertERC20(): MsgConvertERC20 {
 }
 export const MsgConvertERC20 = {
   typeUrl: "/lorenzo.token.v1.MsgConvertERC20",
+  is(o: any): o is MsgConvertERC20 {
+    return o && (o.$typeUrl === MsgConvertERC20.typeUrl || typeof o.contractAddress === "string" && typeof o.amount === "string" && typeof o.receiver === "string" && typeof o.sender === "string");
+  },
+  isSDK(o: any): o is MsgConvertERC20SDKType {
+    return o && (o.$typeUrl === MsgConvertERC20.typeUrl || typeof o.contract_address === "string" && typeof o.amount === "string" && typeof o.receiver === "string" && typeof o.sender === "string");
+  },
+  isAmino(o: any): o is MsgConvertERC20Amino {
+    return o && (o.$typeUrl === MsgConvertERC20.typeUrl || typeof o.contract_address === "string" && typeof o.amount === "string" && typeof o.receiver === "string" && typeof o.sender === "string");
+  },
   encode(message: MsgConvertERC20, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.contractAddress !== "") {
       writer.uint32(10).string(message.contractAddress);
@@ -988,11 +1079,21 @@ export const MsgConvertERC20 = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgConvertERC20.typeUrl, MsgConvertERC20);
 function createBaseMsgConvertERC20Response(): MsgConvertERC20Response {
   return {};
 }
 export const MsgConvertERC20Response = {
   typeUrl: "/lorenzo.token.v1.MsgConvertERC20Response",
+  is(o: any): o is MsgConvertERC20Response {
+    return o && o.$typeUrl === MsgConvertERC20Response.typeUrl;
+  },
+  isSDK(o: any): o is MsgConvertERC20ResponseSDKType {
+    return o && o.$typeUrl === MsgConvertERC20Response.typeUrl;
+  },
+  isAmino(o: any): o is MsgConvertERC20ResponseAmino {
+    return o && o.$typeUrl === MsgConvertERC20Response.typeUrl;
+  },
   encode(_: MsgConvertERC20Response, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1045,6 +1146,7 @@ export const MsgConvertERC20Response = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgConvertERC20Response.typeUrl, MsgConvertERC20Response);
 function createBaseMsgUpdateParams(): MsgUpdateParams {
   return {
     authority: "",
@@ -1053,6 +1155,15 @@ function createBaseMsgUpdateParams(): MsgUpdateParams {
 }
 export const MsgUpdateParams = {
   typeUrl: "/lorenzo.token.v1.MsgUpdateParams",
+  is(o: any): o is MsgUpdateParams {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.is(o.params));
+  },
+  isSDK(o: any): o is MsgUpdateParamsSDKType {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.isSDK(o.params));
+  },
+  isAmino(o: any): o is MsgUpdateParamsAmino {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.isAmino(o.params));
+  },
   encode(message: MsgUpdateParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.authority !== "") {
       writer.uint32(10).string(message.authority);
@@ -1132,11 +1243,21 @@ export const MsgUpdateParams = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateParams.typeUrl, MsgUpdateParams);
 function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
   return {};
 }
 export const MsgUpdateParamsResponse = {
   typeUrl: "/lorenzo.token.v1.MsgUpdateParamsResponse",
+  is(o: any): o is MsgUpdateParamsResponse {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgUpdateParamsResponseSDKType {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgUpdateParamsResponseAmino {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
   encode(_: MsgUpdateParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -1189,3 +1310,4 @@ export const MsgUpdateParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateParamsResponse.typeUrl, MsgUpdateParamsResponse);

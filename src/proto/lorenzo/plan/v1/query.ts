@@ -1,7 +1,9 @@
+//@ts-nocheck
 import { PageRequest, PageRequestAmino, PageRequestSDKType, PageResponse, PageResponseAmino, PageResponseSDKType } from "../../../cosmos/base/query/v1beta1/pagination";
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
 import { Plan, PlanAmino, PlanSDKType } from "./plan";
 import { BinaryReader, BinaryWriter } from "../../../binary";
+import { GlobalDecoderRegistry } from "../../../registry";
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
 export interface QueryParamsRequestProtoMsg {
@@ -198,6 +200,15 @@ function createBaseQueryParamsRequest(): QueryParamsRequest {
 }
 export const QueryParamsRequest = {
   typeUrl: "/lorenzo.plan.v1.QueryParamsRequest",
+  is(o: any): o is QueryParamsRequest {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryParamsRequestSDKType {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
+  isAmino(o: any): o is QueryParamsRequestAmino {
+    return o && o.$typeUrl === QueryParamsRequest.typeUrl;
+  },
   encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -250,6 +261,7 @@ export const QueryParamsRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsRequest.typeUrl, QueryParamsRequest);
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
     params: Params.fromPartial({})
@@ -257,6 +269,15 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
 }
 export const QueryParamsResponse = {
   typeUrl: "/lorenzo.plan.v1.QueryParamsResponse",
+  is(o: any): o is QueryParamsResponse {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.is(o.params));
+  },
+  isSDK(o: any): o is QueryParamsResponseSDKType {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isSDK(o.params));
+  },
+  isAmino(o: any): o is QueryParamsResponseAmino {
+    return o && (o.$typeUrl === QueryParamsResponse.typeUrl || Params.isAmino(o.params));
+  },
   encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
@@ -323,6 +344,7 @@ export const QueryParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryParamsResponse.typeUrl, QueryParamsResponse);
 function createBaseQueryPlansRequest(): QueryPlansRequest {
   return {
     pagination: undefined
@@ -330,6 +352,15 @@ function createBaseQueryPlansRequest(): QueryPlansRequest {
 }
 export const QueryPlansRequest = {
   typeUrl: "/lorenzo.plan.v1.QueryPlansRequest",
+  is(o: any): o is QueryPlansRequest {
+    return o && o.$typeUrl === QueryPlansRequest.typeUrl;
+  },
+  isSDK(o: any): o is QueryPlansRequestSDKType {
+    return o && o.$typeUrl === QueryPlansRequest.typeUrl;
+  },
+  isAmino(o: any): o is QueryPlansRequestAmino {
+    return o && o.$typeUrl === QueryPlansRequest.typeUrl;
+  },
   encode(message: QueryPlansRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
@@ -396,6 +427,7 @@ export const QueryPlansRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPlansRequest.typeUrl, QueryPlansRequest);
 function createBaseQueryPlansResponse(): QueryPlansResponse {
   return {
     plans: [],
@@ -404,6 +436,15 @@ function createBaseQueryPlansResponse(): QueryPlansResponse {
 }
 export const QueryPlansResponse = {
   typeUrl: "/lorenzo.plan.v1.QueryPlansResponse",
+  is(o: any): o is QueryPlansResponse {
+    return o && (o.$typeUrl === QueryPlansResponse.typeUrl || Array.isArray(o.plans) && (!o.plans.length || Plan.is(o.plans[0])));
+  },
+  isSDK(o: any): o is QueryPlansResponseSDKType {
+    return o && (o.$typeUrl === QueryPlansResponse.typeUrl || Array.isArray(o.plans) && (!o.plans.length || Plan.isSDK(o.plans[0])));
+  },
+  isAmino(o: any): o is QueryPlansResponseAmino {
+    return o && (o.$typeUrl === QueryPlansResponse.typeUrl || Array.isArray(o.plans) && (!o.plans.length || Plan.isAmino(o.plans[0])));
+  },
   encode(message: QueryPlansResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.plans) {
       Plan.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -489,6 +530,7 @@ export const QueryPlansResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPlansResponse.typeUrl, QueryPlansResponse);
 function createBaseQueryPlanRequest(): QueryPlanRequest {
   return {
     id: BigInt(0)
@@ -496,6 +538,15 @@ function createBaseQueryPlanRequest(): QueryPlanRequest {
 }
 export const QueryPlanRequest = {
   typeUrl: "/lorenzo.plan.v1.QueryPlanRequest",
+  is(o: any): o is QueryPlanRequest {
+    return o && (o.$typeUrl === QueryPlanRequest.typeUrl || typeof o.id === "bigint");
+  },
+  isSDK(o: any): o is QueryPlanRequestSDKType {
+    return o && (o.$typeUrl === QueryPlanRequest.typeUrl || typeof o.id === "bigint");
+  },
+  isAmino(o: any): o is QueryPlanRequestAmino {
+    return o && (o.$typeUrl === QueryPlanRequest.typeUrl || typeof o.id === "bigint");
+  },
   encode(message: QueryPlanRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -562,6 +613,7 @@ export const QueryPlanRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPlanRequest.typeUrl, QueryPlanRequest);
 function createBaseQueryPlanResponse(): QueryPlanResponse {
   return {
     plan: Plan.fromPartial({})
@@ -569,6 +621,15 @@ function createBaseQueryPlanResponse(): QueryPlanResponse {
 }
 export const QueryPlanResponse = {
   typeUrl: "/lorenzo.plan.v1.QueryPlanResponse",
+  is(o: any): o is QueryPlanResponse {
+    return o && (o.$typeUrl === QueryPlanResponse.typeUrl || Plan.is(o.plan));
+  },
+  isSDK(o: any): o is QueryPlanResponseSDKType {
+    return o && (o.$typeUrl === QueryPlanResponse.typeUrl || Plan.isSDK(o.plan));
+  },
+  isAmino(o: any): o is QueryPlanResponseAmino {
+    return o && (o.$typeUrl === QueryPlanResponse.typeUrl || Plan.isAmino(o.plan));
+  },
   encode(message: QueryPlanResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.plan !== undefined) {
       Plan.encode(message.plan, writer.uint32(10).fork()).ldelim();
@@ -635,6 +696,7 @@ export const QueryPlanResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryPlanResponse.typeUrl, QueryPlanResponse);
 function createBaseQueryClaimLeafNodeRequest(): QueryClaimLeafNodeRequest {
   return {
     id: BigInt(0),
@@ -644,6 +706,15 @@ function createBaseQueryClaimLeafNodeRequest(): QueryClaimLeafNodeRequest {
 }
 export const QueryClaimLeafNodeRequest = {
   typeUrl: "/lorenzo.plan.v1.QueryClaimLeafNodeRequest",
+  is(o: any): o is QueryClaimLeafNodeRequest {
+    return o && (o.$typeUrl === QueryClaimLeafNodeRequest.typeUrl || typeof o.id === "bigint" && typeof o.roundId === "string" && typeof o.leafNode === "string");
+  },
+  isSDK(o: any): o is QueryClaimLeafNodeRequestSDKType {
+    return o && (o.$typeUrl === QueryClaimLeafNodeRequest.typeUrl || typeof o.id === "bigint" && typeof o.round_id === "string" && typeof o.leaf_node === "string");
+  },
+  isAmino(o: any): o is QueryClaimLeafNodeRequestAmino {
+    return o && (o.$typeUrl === QueryClaimLeafNodeRequest.typeUrl || typeof o.id === "bigint" && typeof o.round_id === "string" && typeof o.leaf_node === "string");
+  },
   encode(message: QueryClaimLeafNodeRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
@@ -736,6 +807,7 @@ export const QueryClaimLeafNodeRequest = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryClaimLeafNodeRequest.typeUrl, QueryClaimLeafNodeRequest);
 function createBaseQueryClaimLeafNodeResponse(): QueryClaimLeafNodeResponse {
   return {
     success: false
@@ -743,6 +815,15 @@ function createBaseQueryClaimLeafNodeResponse(): QueryClaimLeafNodeResponse {
 }
 export const QueryClaimLeafNodeResponse = {
   typeUrl: "/lorenzo.plan.v1.QueryClaimLeafNodeResponse",
+  is(o: any): o is QueryClaimLeafNodeResponse {
+    return o && (o.$typeUrl === QueryClaimLeafNodeResponse.typeUrl || typeof o.success === "boolean");
+  },
+  isSDK(o: any): o is QueryClaimLeafNodeResponseSDKType {
+    return o && (o.$typeUrl === QueryClaimLeafNodeResponse.typeUrl || typeof o.success === "boolean");
+  },
+  isAmino(o: any): o is QueryClaimLeafNodeResponseAmino {
+    return o && (o.$typeUrl === QueryClaimLeafNodeResponse.typeUrl || typeof o.success === "boolean");
+  },
   encode(message: QueryClaimLeafNodeResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.success === true) {
       writer.uint32(8).bool(message.success);
@@ -809,3 +890,4 @@ export const QueryClaimLeafNodeResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(QueryClaimLeafNodeResponse.typeUrl, QueryClaimLeafNodeResponse);

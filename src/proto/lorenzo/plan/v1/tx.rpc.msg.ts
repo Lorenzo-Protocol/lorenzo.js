@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
 import { MsgUpdateParams, MsgUpdateParamsResponse, MsgUpgradePlan, MsgUpgradePlanResponse, MsgCreatePlan, MsgCreatePlanResponse, MsgSetMerkleRoot, MsgSetMerkleRootResponse, MsgClaims, MsgClaimsResponse, MsgUpdatePlanStatus, MsgUpdatePlanStatusResponse, MsgCreateYAT, MsgCreateYATResponse, MsgSetMinter, MsgSetMinterResponse, MsgRemoveMinter, MsgRemoveMinterResponse } from "./tx";
@@ -82,3 +83,6 @@ export class MsgClientImpl implements Msg {
     return promise.then(data => MsgRemoveMinterResponse.decode(new BinaryReader(data)));
   }
 }
+export const createClientImpl = (rpc: Rpc) => {
+  return new MsgClientImpl(rpc);
+};

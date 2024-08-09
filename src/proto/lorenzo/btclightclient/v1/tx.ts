@@ -1,6 +1,8 @@
+//@ts-nocheck
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { bytesFromBase64, base64FromBytes } from "../../../helpers";
+import { GlobalDecoderRegistry } from "../../../registry";
 /** MsgInsertHeaders defines the message for multiple incoming header bytes */
 export interface MsgInsertHeaders {
   signer: string;
@@ -156,6 +158,15 @@ function createBaseMsgInsertHeaders(): MsgInsertHeaders {
 }
 export const MsgInsertHeaders = {
   typeUrl: "/lorenzo.btclightclient.v1.MsgInsertHeaders",
+  is(o: any): o is MsgInsertHeaders {
+    return o && (o.$typeUrl === MsgInsertHeaders.typeUrl || typeof o.signer === "string" && Array.isArray(o.headers) && (!o.headers.length || o.headers[0] instanceof Uint8Array || typeof o.headers[0] === "string"));
+  },
+  isSDK(o: any): o is MsgInsertHeadersSDKType {
+    return o && (o.$typeUrl === MsgInsertHeaders.typeUrl || typeof o.signer === "string" && Array.isArray(o.headers) && (!o.headers.length || o.headers[0] instanceof Uint8Array || typeof o.headers[0] === "string"));
+  },
+  isAmino(o: any): o is MsgInsertHeadersAmino {
+    return o && (o.$typeUrl === MsgInsertHeaders.typeUrl || typeof o.signer === "string" && Array.isArray(o.headers) && (!o.headers.length || o.headers[0] instanceof Uint8Array || typeof o.headers[0] === "string"));
+  },
   encode(message: MsgInsertHeaders, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.signer !== "") {
       writer.uint32(10).string(message.signer);
@@ -241,11 +252,21 @@ export const MsgInsertHeaders = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgInsertHeaders.typeUrl, MsgInsertHeaders);
 function createBaseMsgInsertHeadersResponse(): MsgInsertHeadersResponse {
   return {};
 }
 export const MsgInsertHeadersResponse = {
   typeUrl: "/lorenzo.btclightclient.v1.MsgInsertHeadersResponse",
+  is(o: any): o is MsgInsertHeadersResponse {
+    return o && o.$typeUrl === MsgInsertHeadersResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgInsertHeadersResponseSDKType {
+    return o && o.$typeUrl === MsgInsertHeadersResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgInsertHeadersResponseAmino {
+    return o && o.$typeUrl === MsgInsertHeadersResponse.typeUrl;
+  },
   encode(_: MsgInsertHeadersResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -298,6 +319,7 @@ export const MsgInsertHeadersResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgInsertHeadersResponse.typeUrl, MsgInsertHeadersResponse);
 function createBaseMsgUpdateParams(): MsgUpdateParams {
   return {
     authority: "",
@@ -306,6 +328,15 @@ function createBaseMsgUpdateParams(): MsgUpdateParams {
 }
 export const MsgUpdateParams = {
   typeUrl: "/lorenzo.btclightclient.v1.MsgUpdateParams",
+  is(o: any): o is MsgUpdateParams {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.is(o.params));
+  },
+  isSDK(o: any): o is MsgUpdateParamsSDKType {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.isSDK(o.params));
+  },
+  isAmino(o: any): o is MsgUpdateParamsAmino {
+    return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.isAmino(o.params));
+  },
   encode(message: MsgUpdateParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.authority !== "") {
       writer.uint32(10).string(message.authority);
@@ -385,11 +416,21 @@ export const MsgUpdateParams = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateParams.typeUrl, MsgUpdateParams);
 function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
   return {};
 }
 export const MsgUpdateParamsResponse = {
   typeUrl: "/lorenzo.btclightclient.v1.MsgUpdateParamsResponse",
+  is(o: any): o is MsgUpdateParamsResponse {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgUpdateParamsResponseSDKType {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgUpdateParamsResponseAmino {
+    return o && o.$typeUrl === MsgUpdateParamsResponse.typeUrl;
+  },
   encode(_: MsgUpdateParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -442,6 +483,7 @@ export const MsgUpdateParamsResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateParamsResponse.typeUrl, MsgUpdateParamsResponse);
 function createBaseMsgUpdateFeeRate(): MsgUpdateFeeRate {
   return {
     signer: "",
@@ -450,6 +492,15 @@ function createBaseMsgUpdateFeeRate(): MsgUpdateFeeRate {
 }
 export const MsgUpdateFeeRate = {
   typeUrl: "/lorenzo.btclightclient.v1.MsgUpdateFeeRate",
+  is(o: any): o is MsgUpdateFeeRate {
+    return o && (o.$typeUrl === MsgUpdateFeeRate.typeUrl || typeof o.signer === "string" && typeof o.feeRate === "bigint");
+  },
+  isSDK(o: any): o is MsgUpdateFeeRateSDKType {
+    return o && (o.$typeUrl === MsgUpdateFeeRate.typeUrl || typeof o.signer === "string" && typeof o.fee_rate === "bigint");
+  },
+  isAmino(o: any): o is MsgUpdateFeeRateAmino {
+    return o && (o.$typeUrl === MsgUpdateFeeRate.typeUrl || typeof o.signer === "string" && typeof o.fee_rate === "bigint");
+  },
   encode(message: MsgUpdateFeeRate, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.signer !== "") {
       writer.uint32(10).string(message.signer);
@@ -529,11 +580,21 @@ export const MsgUpdateFeeRate = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateFeeRate.typeUrl, MsgUpdateFeeRate);
 function createBaseMsgUpdateFeeRateResponse(): MsgUpdateFeeRateResponse {
   return {};
 }
 export const MsgUpdateFeeRateResponse = {
   typeUrl: "/lorenzo.btclightclient.v1.MsgUpdateFeeRateResponse",
+  is(o: any): o is MsgUpdateFeeRateResponse {
+    return o && o.$typeUrl === MsgUpdateFeeRateResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgUpdateFeeRateResponseSDKType {
+    return o && o.$typeUrl === MsgUpdateFeeRateResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgUpdateFeeRateResponseAmino {
+    return o && o.$typeUrl === MsgUpdateFeeRateResponse.typeUrl;
+  },
   encode(_: MsgUpdateFeeRateResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
@@ -586,3 +647,4 @@ export const MsgUpdateFeeRateResponse = {
     };
   }
 };
+GlobalDecoderRegistry.register(MsgUpdateFeeRateResponse.typeUrl, MsgUpdateFeeRateResponse);

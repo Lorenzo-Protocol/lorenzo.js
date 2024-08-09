@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { MsgCreateBTCStaking, MsgBurnRequest, MsgAddReceiver, MsgRemoveReceiver, MsgUpdateParams } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [["/lorenzo.btcstaking.v1.MsgCreateBTCStaking", MsgCreateBTCStaking], ["/lorenzo.btcstaking.v1.MsgBurnRequest", MsgBurnRequest], ["/lorenzo.btcstaking.v1.MsgAddReceiver", MsgAddReceiver], ["/lorenzo.btcstaking.v1.MsgRemoveReceiver", MsgRemoveReceiver], ["/lorenzo.btcstaking.v1.MsgUpdateParams", MsgUpdateParams]];
