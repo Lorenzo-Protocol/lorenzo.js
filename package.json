@@ -5,7 +5,8 @@
   "scripts": {
     "start": "tsc && node src/index.js",
     "build": "tsc",
-    "dev": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "codegen": "scripts/protogen.sh && ts-node ./scripts/codegen.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
     "@cosmjs/crypto": "0.29.4",
     "@cosmjs/proto-signing": "^0.29.5",
     "@cosmjs/stargate": "0.29.4",
+    "@cosmology/telescope": "1.8.3",
     "ts-node": "^10.9.2",
     "ts-proto": "^1.181.1",
     "typescript": "^5.5.4"

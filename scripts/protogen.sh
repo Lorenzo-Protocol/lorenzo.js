@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-# NOTE: Do not run this script directly.
+# NOTE: This script is no longer used for generating proto codes
+# and @cosmology/telescope is used instead. However we still use
+# this to fetch targeted proto files.
 
 set -euo pipefail
 
@@ -29,5 +31,6 @@ rm -rf ${TMP_DIR}
 echo "Download cosmos-sdk proto files..."
 ${BUF_BIN} export buf.build/cosmos/cosmos-sdk:v0.47.0 -o ${PROTO_DIR}
 
-echo "Generating protos code files..."
-${BUF_BIN} generate --template buf.gen.ts.yaml
+# NOTE: buf generate is commented.
+#echo "Generating protos code files..."
+#${BUF_BIN} generate --template buf.gen.ts.yaml
