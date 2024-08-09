@@ -15,4 +15,6 @@ async function testQueryBlance() {
     }
 }
 
-testQueryBlance();
+testQueryBlance().then(r => {
+    console.log("success")
+});
