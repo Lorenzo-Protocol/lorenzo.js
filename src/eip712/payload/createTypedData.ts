@@ -5,7 +5,7 @@ import { flattenPayload } from './flattenPayload.js'
 
 export const PRIMARY_TYPE = 'Tx'
 
-// TODO: Replace with cosmjs StdSignDoc
+// createTypedData creates an EIP-712 typed data
 export const createTypedData = (chainId: number, stdSignDoc: JSONObject) => {
     const transformResponse = flattenPayload(stdSignDoc)
     const types = createTypes(transformResponse)
@@ -18,8 +18,4 @@ export const createTypedData = (chainId: number, stdSignDoc: JSONObject) => {
         domain,
         message,
     }
-}
-
-export const createLegacyTypedData = (chainId: number, stdSignDoc: JSONObject) => {
-    // TODO: legacy typed data
 }

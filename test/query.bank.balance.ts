@@ -1,4 +1,4 @@
-import { lorenzo } from '../src/proto';
+import { lorenzo } from '../src/telescope';
 
 async function testQueryBlance() {
     try {

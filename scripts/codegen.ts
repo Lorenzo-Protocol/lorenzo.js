@@ -3,7 +3,7 @@ import { sync as rimraf } from 'rimraf';
 import telescope from '@cosmology/telescope';
 
 const protoDirs = [join(__dirname, '/../proto')];
-const outPath = join(__dirname, '/../src/proto');
+const outPath = join(__dirname, '/../src/telescope');
 rimraf(outPath);
 
 telescope({

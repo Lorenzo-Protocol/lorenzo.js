@@ -1,5 +1,5 @@
-import { cosmos } from '../src/proto';
-import { getSigningCosmosClient } from '../src/proto';
+import { cosmos } from '../src/telescope';
+import { getSigningCosmosClient } from '../src/telescope';
 import { coins } from '@cosmjs/amino';
 
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";

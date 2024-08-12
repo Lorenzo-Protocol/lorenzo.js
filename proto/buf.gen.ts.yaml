@@ -1,10 +1,4 @@
 version: v1
 plugins:
-  - plugin: buf.build/community/stephenh-ts-proto
+  - plugin: buf.build/bufbuild/es:v1.0.0
     out: ../src/proto
-    opt: 
-      - esModuleInterop=true
-      - forceLong=string
-      - useOptionals=messages
-      - exportCommonSymbols=false
-      - snakeToCamel=false
