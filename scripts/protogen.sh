@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-# NOTE: This script is no longer used for generating proto codes
-# and @cosmology/telescope is used instead. However we still use
-# this to fetch targeted proto files.
+# NOTE: This script is used for generating proto codes through buf.
+# @cosmology/telescope can also be used instead for telescope codes.
 
 set -euo pipefail
 
@@ -35,9 +34,8 @@ git clone --depth 1 --branch ${ETHERMINT_TAG} ${ETHERMINT_REPO} ${TMP_DIR} >/dev
 cp -rf ${TMP_DIR}/proto/ethermint ${PROTO_DIR}
 rm -rf ${TMP_DIR}
 
-
 echo "Download cosmos-sdk proto files..."
-${BUF_BIN} export buf.build/cosmos/cosmos-sdk:v0.47.0 -o ${PROTO_DIR}
+${BUF_BIN} export buf.build/cosmos/cosmos-sdk:${COSMOS_TAG} -o ${PROTO_DIR}
 
 # NOTE: buf generate is commented.
 echo "Generating protos code files..."
