@@ -38,5 +38,5 @@ echo "Download cosmos-sdk proto files..."
 ${BUF_BIN} export buf.build/cosmos/cosmos-sdk:${COSMOS_TAG} -o ${PROTO_DIR}
 
 # NOTE: buf generate is commented.
-echo "Generating protos code files..."
-${BUF_BIN} generate --template buf.gen.ts.yaml
+# echo "Generating protos code files..."
+# ${BUF_BIN} generate --template buf.gen.ts.yaml

@@ -8,8 +8,6 @@ The Lorenzo JavaScript SDK must keep its proto definition consistent with the Lo
 
 Run `./scripts/protogen.sh` to fetch proto files directly from the Lorenzo repo and Cosmos BSR.
 
-We use both `telescope` and `buf` to generate proto codes in `src/telescope` and `src/proto`.
-
 Run `./scripts/protogen.sh` and `npm run-script codegen` to generate proto codes.
 
 TODO: Use buf dep rather than building them from source.

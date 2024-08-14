@@ -6,6 +6,7 @@
     "start": "tsc && node src/index.js",
     "build": "tsc",
     "dev": "ts-node src/index.ts",
+    "fetch-proto": "./scripts/protogen.sh",
     "codegen": "ts-node ./scripts/codegen.ts"
   },
   "keywords": [],
