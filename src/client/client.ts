@@ -13,6 +13,7 @@ import { ethAccountParser } from "./account";
 import { SignatureResult, PublicKey } from "./types";
 import { AccountData, Signer, SigningMode } from "./signer";
 import { AminoTypes } from "./aminotypes";
+import * as EIP712  from "../eip712";
 import { PubKey } from "../telescope/ethermint/crypto/v1/ethsecp256k1/keys";
 
 /**
@@ -85,7 +86,7 @@ export class LorenzoClient extends SigningStargateClient {
     private txSigner: Signer;
     private typesRegistry: Registry;
     private types: AminoTypes;
-    private readonly options: LorenzoClientOptions;
+    private options: LorenzoClientOptions;
 
     public static override async connect(
         endpoint: string,
@@ -110,7 +111,7 @@ export class LorenzoClient extends SigningStargateClient {
         this.options = options;
     }
 
-    override async signAndBroadcast(
+    public override async signAndBroadcast(
         signerAddress: string,
         messages: readonly EncodeObject[],
         fee: StdFee | "auto" | number,
@@ -159,7 +160,7 @@ export class LorenzoClient extends SigningStargateClient {
         return accountFromSigner;
     }
 
-    override async sign(
+    public override async sign(
         signerAddress: string,
         messages: readonly EncodeObject[],
         fee: StdFee,
@@ -195,7 +196,7 @@ export class LorenzoClient extends SigningStargateClient {
             options?.signerData ?? (await this.getSignerData(signerAddress));
 
         // Sign the data using the proper mode
-        return this.txSigner.signingMode === SigningMode.DIRECT
+        return this.txSigner.getSigningMode() === SigningMode.DIRECT
             ? this.signTxDirect(
                 signerAddress,
                 messages,
@@ -244,7 +245,7 @@ export class LorenzoClient extends SigningStargateClient {
         const txBodyBytes = this.registry.encode(txBodyEncodeObject);
         const gasLimit = Int53.fromString(fee.gas).toNumber();
 
-        // NOTE: eth secp256k1 encoding.
+        // NOTE: eth_secp256k1 encoding.
         const pubkey = Any.fromPartial({
             typeUrl: '/ethermint.crypto.v1.ethsecp256k1.PubKey',
             value: PubKey.encode({
@@ -285,5 +286,22 @@ export class LorenzoClient extends SigningStargateClient {
                 signatures: [fromBase64(signature.signature)],
             }),
         };
+    }
+
+    /**
+     * Set the EIP712 signature flag. Must be called before signing to enable.
+     *
+     * @param enabled
+     *
+     */
+    public setEIP712Enabled(enabled: boolean) {
+        this.txSigner.setEIP712Enabled(enabled)
+    }
+
+    /**
+     * isEIP712Enabled returns true if the EIP712 signature is enabled.
+     */
+    public isEIP712Enabled(): boolean {
+        return this.txSigner.getEIP712Enabled()
     }
 }

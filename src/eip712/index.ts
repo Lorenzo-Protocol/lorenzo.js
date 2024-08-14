@@ -1,1 +1,2 @@
-export * from './messages/base.js'
+export * from './typedData'
+export * from './encoding'

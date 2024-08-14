@@ -1,7 +1,7 @@
-import { JSONObject } from './message.js'
-import { createDomain } from './createDomain.js'
-import { createTypes } from './createTypes.js'
-import { flattenPayload } from './flattenPayload.js'
+import { JSONObject } from './message'
+import { createDomain } from './createDomain'
+import { createTypes } from './createTypes'
+import { flattenPayload } from './flattenPayload'
 
 export const PRIMARY_TYPE = 'Tx'
 

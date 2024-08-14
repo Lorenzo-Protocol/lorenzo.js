@@ -13,4 +13,6 @@ export interface AccountData extends Omit<CosmjsAccountData, 'algo'> {
 export interface OfflineAminoSigner
   extends Omit<CosmjsOfflineAminoSigner, 'getAccounts'> {
   readonly getAccounts: () => Promise<readonly AccountData[]>
+  readonly setEIP712Enabled?: (enabled: boolean) => void;
+  readonly getEIP712Enabled?: () => boolean;
 }

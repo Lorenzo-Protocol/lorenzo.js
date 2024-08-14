@@ -15,4 +15,6 @@ export interface AccountData extends Omit<CosmjsAccountData, 'algo'> {
 export interface OfflineDirectSigner extends Omit<CosmjsOfflineDirectSigner, 'getAccounts'> {
     readonly getAccounts: () => Promise<readonly AccountData[]>
     readonly signDirect: (signerAddress: string, signDoc: SignDoc) => Promise<DirectSignResponse>;
+    readonly setEIP712Enabled?: (enabled: boolean) => void;
+    readonly getEIP712Enabled?: () => boolean;
 }

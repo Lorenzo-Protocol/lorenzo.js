@@ -1,17 +1,18 @@
 import keccak256 from 'keccak256'
 import { bech32 } from 'bech32'
-import { DirectSignResponse, makeSignBytes } from '@cosmjs/proto-signing'
+import { DirectSignResponse, makeSignBytes as makeDirectSignBytes } from '@cosmjs/proto-signing'
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
-import {HDNodeWallet, Mnemonic} from 'ethers/src.ts/wallet'
-import { AccountData, OfflineDirectSigner } from './signer'
+import { HDNodeWallet, Mnemonic} from 'ethers/src.ts/wallet'
 import * as BytesUtils from '@ethersproject/bytes'
+
+import { AccountData, OfflineDirectSigner } from './signer'
+import { createTypedData, parseChainId, convertDirectSignDocToStdSignDoc, typedDataAndHash } from "../../eip712";
 
 /**
  * A wallet for protobuf based signing using SIGN_MODE_DIRECT and eth_secp256k1.
  *
  * NOTE: there's bunch of method to implement but currently we focus only on getAccounts and signDirect.
  *
- * TODO: add prefix and path
  * */
 /**
  * A wallet for protobuf based signing using SIGN_MODE_DIRECT and eth_secp256k1.
@@ -30,6 +31,7 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
 
   private readonly wallet: HDNodeWallet;
   private readonly prefix: string;
+  private eip712Enabled: boolean;
 
   private constructor(wallet: HDNodeWallet, prefix: string) {
     this.wallet = wallet;
@@ -47,17 +49,23 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
     ];
   }
 
+  /**
+   * Sign a sign doc using the private key in this wallet.
+   *
+   * @param address
+   * @param signDoc
+   */
   public async signDirect(
       address: string,
       signDoc: SignDoc,
   ): Promise<DirectSignResponse> {
-    const signBytes = makeSignBytes(signDoc);
-
+    // signBytes can either be eip712TypedData or directSignDoc
+    const signBytes = this.makeDirectOrEIP712SignBytes(signDoc);
     if (address !== this.getCosmosAddress()) {
       throw new Error(`Address ${address} not found in wallet`);
     }
 
-    // NOTE: check if this is the right way to sign
+    // TODO(test): test signature.
     const msgHash = keccak256(Buffer.from(signBytes))
     const rsvSignature = this.wallet.signingKey.sign(msgHash)
     const splitSignature = BytesUtils.splitSignature(rsvSignature)
@@ -73,6 +81,21 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
         signature: Buffer.from(signature).toString('base64'),
       },
     };
+  }
+
+  /**
+   * Make the sign bytes for the given sign doc.
+   *
+   * @param signDoc
+   */
+  public makeDirectOrEIP712SignBytes(signDoc: SignDoc): Uint8Array {
+    if (this.isEIP712Enabled()) {
+      const chainId = parseChainId(signDoc.chainId)
+      const stdSignDoc = convertDirectSignDocToStdSignDoc(signDoc)
+      const typedData = createTypedData(chainId, stdSignDoc)
+      return typedDataAndHash(typedData)
+    }
+    return makeDirectSignBytes(signDoc);
   }
 
   /**
@@ -97,4 +120,19 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
   public getEthereumAddress(): string {
     return this.wallet.address;
   }
+
+  /**
+   * Set the EIP712 enabled flag
+   */
+  public setEIP712Enabled(enabled: boolean) {
+    this.eip712Enabled = enabled;
+  }
+
+  /**
+   * Get the EIP712 enabled flag
+   */
+  public isEIP712Enabled(): boolean {
+        return this.eip712Enabled;
+  }
+
 }

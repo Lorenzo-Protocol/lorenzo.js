@@ -19,17 +19,25 @@ export enum SigningMode {
 export abstract class Signer implements OfflineDirectSigner {
     public abstract getAccounts(): Promise<readonly AccountData[]>;
 
-    public abstract get signingMode(): SigningMode;
-
     public abstract signDirect(
         signerAddress: string,
         signDoc: SignDoc,
     ): Promise<DirectSignResponse>;
+
+    public abstract getSigningMode(): SigningMode;
+
+    public abstract setEIP712Enabled(enabled: boolean): void;
+
+    public abstract getEIP712Enabled(): boolean;
 }
 
+/**
+ * LorenzoOfflineSigner can be both Direct and Amino signer.
+ *
+ * TODO: signAmino
+ */
 export class LorenzoOfflineSigner extends Signer {
     private readonly signer: OfflineSigner;
-
     private readonly signMode: SigningMode | undefined;
 
     signDirect(
@@ -46,13 +54,19 @@ export class LorenzoOfflineSigner extends Signer {
         return Promise.reject(new Error("Direct sign mode not supported"));
     }
 
-    // TODO: signAmino
-
     getAccounts(): Promise<readonly AccountData[]> {
         return this.signer.getAccounts();
     }
 
-    get signingMode(): SigningMode {
+    public getSigningMode(): SigningMode {
         return this.signMode
+    }
+
+    public setEIP712Enabled(enabled: boolean) {
+        this.signer.setEIP712Enabled(enabled);
+    }
+
+    public getEIP712Enabled(): boolean {
+        return this.signer.getEIP712Enabled();
     }
 }
