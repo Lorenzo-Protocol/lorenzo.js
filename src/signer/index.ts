@@ -3,5 +3,7 @@ import {OfflineDirectSigner} from "./direct/signer";
 
 export * from './direct/signer'
 export * from './direct/directEthSecp256k1Signer'
+export * from './amino/aminoEthSecp256k1Wallet'
+export { OfflineAminoSigner } from './amino/signer'
 
-export type OfflineSigner = OfflineAminoSigner | OfflineDirectSigner
+export type OfflineAminoOrDirectSigner = OfflineDirectSigner | OfflineAminoSigner

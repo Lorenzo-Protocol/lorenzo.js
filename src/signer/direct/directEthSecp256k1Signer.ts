@@ -14,9 +14,6 @@ import { createTypedData, parseChainId, convertDirectSignDocToStdSignDoc, typedD
  * NOTE: there's bunch of method to implement but currently we focus only on getAccounts and signDirect.
  *
  * */
-/**
- * A wallet for protobuf based signing using SIGN_MODE_DIRECT and eth_secp256k1.
- */
 export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
     /**
      * Creates a DirectEthSecp256k1Wallet from the given mnemonic

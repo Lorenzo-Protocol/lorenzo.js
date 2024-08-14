@@ -1,6 +1,7 @@
 import { Tendermint37Client } from "@cosmjs/tendermint-rpc";
 import { EncodeObject, encodePubkey, makeSignDoc, Registry, TxBodyEncodeObject } from "@cosmjs/proto-signing";
 import { calculateFee, DeliverTxResponse, SignerData, SigningStargateClientOptions, StdFee, SigningStargateClient } from "@cosmjs/stargate";
+import { AminoMsg, makeSignDoc as makeSignDocAmino } from "@cosmjs/amino";
 import { assertDefined } from "@cosmjs/utils";
 import { Int53, Uint53, Uint64 } from "@cosmjs/math";
 import { fromBase64, toHex } from "@cosmjs/encoding";
@@ -12,9 +13,9 @@ import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { ethAccountParser } from "./account";
 import { SignatureResult, PublicKey } from "./types";
 import { AccountData, Signer, SigningMode } from "./signer";
-import { AminoTypes } from "./aminotypes";
 import * as EIP712  from "../eip712";
 import { PubKey } from "../telescope/ethermint/crypto/v1/ethsecp256k1/keys";
+import {getSigningLorenzoClientOptions, GlobalDecoderRegistry} from '../telescope';
 
 /**
  * Creates a SignerInfo instance from the data given.
@@ -85,7 +86,6 @@ interface LorenzoClientOptions extends SigningStargateClientOptions {
 export class LorenzoClient extends SigningStargateClient {
     private txSigner: Signer;
     private typesRegistry: Registry;
-    private types: AminoTypes;
     private options: LorenzoClientOptions;
 
     public static override async connect(
@@ -101,14 +101,13 @@ export class LorenzoClient extends SigningStargateClient {
         options: LorenzoClientOptions,
         signer: undefined,
     ) {
-       // TODO: registry and amino
-
         super(client, signer, {
             accountParser: ethAccountParser,
             ...options,
         });
         this.txSigner = signer;
         this.options = options;
+        this.typesRegistry = options.registry
     }
 
     public override async signAndBroadcast(
@@ -160,6 +159,25 @@ export class LorenzoClient extends SigningStargateClient {
         return accountFromSigner;
     }
 
+    public encodeToAmino(msgs: readonly EncodeObject[]): AminoMsg[] {
+        return msgs.map((msg) => {
+            const decoder = GlobalDecoderRegistry.getDecoder(msg.typeUrl);
+            if (!decoder) {
+                throw new Error(`No decoder found for typeUrl: ${msg.typeUrl}`);
+            }
+
+            const aminoMsg = decoder.toAmino(msg.value);
+            if (typeof aminoMsg !== 'object' || !('type' in aminoMsg)) {
+                const type = msg.typeUrl.split('/').pop() || '';
+                return {
+                    type,
+                    value: aminoMsg
+                };
+            }
+            return aminoMsg as AminoMsg;
+        });
+    }
+
     public override async sign(
         signerAddress: string,
         messages: readonly EncodeObject[],
@@ -205,10 +223,14 @@ export class LorenzoClient extends SigningStargateClient {
                 signerData,
                 options?.feeGranter,
             )
-            : (() => {
-                // TODO: support amino method.
-                throw new Error("AMINO signing mode is not supported. Only DIRECT signing mode is available.");
-            })();
+            : this.signTxAmino(
+                signerAddress,
+                messages,
+                txFee,
+                options?.memo,
+                signerData,
+                options?.feeGranter,
+            );
     }
 
     /**
@@ -245,7 +267,6 @@ export class LorenzoClient extends SigningStargateClient {
         const txBodyBytes = this.registry.encode(txBodyEncodeObject);
         const gasLimit = Int53.fromString(fee.gas).toNumber();
 
-        // NOTE: eth_secp256k1 encoding.
         const pubkey = Any.fromPartial({
             typeUrl: '/ethermint.crypto.v1.ethsecp256k1.PubKey',
             value: PubKey.encode({
@@ -283,6 +304,76 @@ export class LorenzoClient extends SigningStargateClient {
             txRaw: TxRaw.fromPartial({
                 bodyBytes: signed.bodyBytes,
                 authInfoBytes: signed.authInfoBytes,
+                signatures: [fromBase64(signature.signature)],
+            }),
+        };
+    }
+
+    private async signTxAmino(
+        signerAddress: string,
+        messages: readonly EncodeObject[],
+        fee: StdFee,
+        memo: string | undefined,
+        { accountNumber, sequence, chainId }: SignerData,
+        feeGranter?: string,
+    ): Promise<SignatureResult> {
+        const signerAccount = await this.getAccountFromSigner(signerAddress);
+
+        // Convert messages to Amino and build stdSignDoc
+        const aminoMsgs = this.encodeToAmino(messages);
+        const stdSignDoc = makeSignDocAmino(
+            aminoMsgs,
+            {
+                ...fee,
+                granter: feeGranter ?? fee.granter,
+            },
+            chainId,
+            memo,
+            accountNumber,
+            sequence,
+        );
+
+        const { signature, signed } = await this.txSigner.signAmino(
+            signerAddress,
+            stdSignDoc
+        );
+
+        const signedTxBodyEncodeObject: TxBodyEncodeObject = {
+            typeUrl: "/cosmos.tx.v1beta1.TxBody",
+            value: {
+                messages: messages, // TODO: check this, should it be converting from amino to proto?
+                memo: signed.memo,
+            },
+        };
+
+        const pubkey = Any.fromPartial({
+            typeUrl: '/ethermint.crypto.v1.ethsecp256k1.PubKey',
+            value: PubKey.encode({key: signerAccount.pubkey}).finish(),
+        });
+        const signedGasLimit = Int53.fromString(signed.fee.gas).toNumber();
+        const signedSequence = Int53.fromString(signed.sequence).toNumber();
+        const signedTxBodyBytes = this.typesRegistry.encode(signedTxBodyEncodeObject);
+
+        const signedAuthInfoBytes = makeAuthInfoBytes(
+            [
+                {
+                    pubkey,
+                    sequence: signedSequence,
+                },
+            ],
+            signed.fee.amount,
+            signedGasLimit,
+            SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
+            feeGranter,
+        );
+
+        return {
+            signerData: { accountNumber, sequence, chainId },
+            pubKey: pubkey,
+            signDoc: signed,
+            txRaw: TxRaw.fromPartial({
+                bodyBytes: signedTxBodyBytes,
+                authInfoBytes: signedAuthInfoBytes,
                 signatures: [fromBase64(signature.signature)],
             }),
         };

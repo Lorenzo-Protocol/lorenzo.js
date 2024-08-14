@@ -1,7 +1,8 @@
 import { DirectSignResponse } from "@cosmjs/proto-signing";
 import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
-import { AccountData, OfflineSigner, OfflineDirectSigner} from "../signer";
+import { AccountData, OfflineAminoOrDirectSigner, OfflineDirectSigner, OfflineAminoSigner } from "../signer";
+import {AminoSignResponse, StdSignDoc} from "@cosmjs/amino";
 
 export { AccountData } from "../signer";
 
@@ -14,15 +15,20 @@ export enum SigningMode {
 }
 
 /**
- * Represents a signer that can sign transactions in a specific mode.
+ * Signer is an abstract class that requires the implementation of both OfflineDirectSigner and OfflineAminoSigner.
  */
-export abstract class Signer implements OfflineDirectSigner {
+export abstract class Signer implements OfflineDirectSigner, OfflineAminoSigner {
     public abstract getAccounts(): Promise<readonly AccountData[]>;
 
     public abstract signDirect(
         signerAddress: string,
         signDoc: SignDoc,
     ): Promise<DirectSignResponse>;
+
+    public abstract signAmino(
+        signerAddress: string,
+        signDoc: StdSignDoc,
+    ): Promise<AminoSignResponse>;
 
     public abstract getSigningMode(): SigningMode;
 
@@ -32,18 +38,14 @@ export abstract class Signer implements OfflineDirectSigner {
 }
 
 /**
- * LorenzoOfflineSigner can be both Direct and Amino signer.
+ * LorenzoOfflineSigner is an offline signer can both sign transactions in direct and amino mode.
  *
- * TODO: signAmino
  */
 export class LorenzoOfflineSigner extends Signer {
-    private readonly signer: OfflineSigner;
+    private readonly signer: OfflineAminoOrDirectSigner;
     private readonly signMode: SigningMode | undefined;
 
-    signDirect(
-        signerAddress: string,
-        signDoc: SignDoc,
-    ): Promise<DirectSignResponse> {
+    signDirect(signerAddress: string, signDoc: SignDoc): Promise<DirectSignResponse> {
         if (this.signMode === SigningMode.DIRECT) {
             return (this.signer as OfflineDirectSigner).signDirect(
                 signerAddress,
@@ -52,6 +54,17 @@ export class LorenzoOfflineSigner extends Signer {
         }
 
         return Promise.reject(new Error("Direct sign mode not supported"));
+    }
+
+    signAmino(signerAddress: string, signDoc: StdSignDoc): Promise<AminoSignResponse> {
+        if (this.signMode === SigningMode.AMINO) {
+            return (this.signer as OfflineAminoSigner).signAmino(
+                signerAddress,
+                signDoc,
+            );
+        }
+
+        return Promise.reject(new Error("Amino sign mode not supported"));
     }
 
     getAccounts(): Promise<readonly AccountData[]> {

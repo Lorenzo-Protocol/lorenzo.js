@@ -1,8 +1,4 @@
 import {
-    AccountData,
-    DirectSignResponse,
-} from "@cosmjs/proto-signing";
-import {
     AminoSignResponse,
     StdSignDoc,
     OfflineAminoSigner,
