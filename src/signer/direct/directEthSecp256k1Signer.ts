@@ -57,6 +57,7 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
       throw new Error(`Address ${address} not found in wallet`);
     }
 
+    // NOTE: check if this is the right way to sign
     const msgHash = keccak256(Buffer.from(signBytes))
     const rsvSignature = this.wallet.signingKey.sign(msgHash)
     const splitSignature = BytesUtils.splitSignature(rsvSignature)

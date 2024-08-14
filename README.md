@@ -18,14 +18,11 @@ TODO: Use buf dep rather than building them from source.
 
 ### EIP-712
 
-EIP-712 currently has two implementations: `LegacyTypedData` and `TypedData`:
+EIP-712 creates an EIP-712 `TypedData` given the Amino encoded `StdSignDoc`.
 
-1. `eip712/encoding` and `eip712/messages` create legacy eip-712 typed data in the same way as `LegacyWrapTxToTypedData`.
-2. `eip712/payload` creates eip-712 typed data in the way of `WrapTxToTypedData`.
+Since Lorenzo supports both `TypedData` and `LegacyTypedData`, we implement only the `TypedData` format.
 
-Since `ethsecp256k1` uses the `LegacyWrapTxToTypedData` sign doc format to verify eip-712 signatures, we only use `LegacyTypedData` here.
-
-**NOTE**: Don't use `eip712/payload` for now.
+This repo doesn't include components like `GetEIP712BytesForMsg` and focus only on constructing `TypeData`. 
 
 ### Lorenzo Client
 

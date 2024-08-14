@@ -51,6 +51,26 @@ const flattenPayloadMessages = (payload: JSONObject) => {
 // the number of messages and transformed payload.
 // (Modifies the payload since we generally do not care about preserving
 // the original object, and we can thus decrease processing).
+//
+// const inputPayload = {
+//     msgs: [
+//         { type: "send", amount: 100, recipient: "address1" },
+//         { type: "delegate", amount: 200, validator: "validator1" }
+//     ],
+//     fee: { amount: 10, gas: 100000 }
+// };
+//
+// const result = flattenPayload(inputPayload);
+//
+// console(result)
+// {
+//   numMessages: 2,
+//   payload: {
+//     msg0: { type: "send", amount: 100, recipient: "address1" },
+//     msg1: { type: "delegate", amount: 200, validator: "validator1" },
+//     fee: { amount: 10, gas: 100000 }
+//   }
+// }
 export const flattenPayload = (payload: JSONObject): FlattenPayloadResponse => {
     const numMessages = flattenPayloadMessages(payload)
 

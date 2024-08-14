@@ -5,7 +5,12 @@ import { flattenPayload } from './flattenPayload.js'
 
 export const PRIMARY_TYPE = 'Tx'
 
-// createTypedData creates an EIP-712 typed data
+/**
+ * Create EIP-712 Typed Data (not legacy one)
+ *
+ * @param chainId
+ * @param stdSignDoc
+ */
 export const createTypedData = (chainId: number, stdSignDoc: JSONObject) => {
     const transformResponse = flattenPayload(stdSignDoc)
     const types = createTypes(transformResponse)
