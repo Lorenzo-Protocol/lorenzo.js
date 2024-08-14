@@ -10,6 +10,8 @@ export const PRIMARY_TYPE = 'Tx'
  *
  * @param chainId
  * @param stdSignDoc
+ *
+ * TODO: accept @cosmjs/amino stdSignDoc instead of JSONObject
  */
 export const createTypedData = (chainId: number, stdSignDoc: JSONObject) => {
     const transformResponse = flattenPayload(stdSignDoc)
