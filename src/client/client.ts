@@ -1,10 +1,26 @@
-import { Tendermint37Client } from "@cosmjs/tendermint-rpc";
-import { EncodeObject, encodePubkey, makeSignDoc, Registry, TxBodyEncodeObject } from "@cosmjs/proto-signing";
-import { calculateFee, DeliverTxResponse, SignerData, SigningStargateClientOptions, StdFee, SigningStargateClient } from "@cosmjs/stargate";
+import {
+    EncodeObject,
+    makeSignDoc,
+    OfflineSigner,
+    Registry,
+    TxBodyEncodeObject
+} from "@cosmjs/proto-signing";
+
+import {
+    calculateFee,
+    AminoTypes,
+    DeliverTxResponse,
+    SignerData,
+    SigningStargateClientOptions,
+    StdFee,
+    SigningStargateClient
+} from "@cosmjs/stargate";
+
+import {HttpEndpoint, Tendermint37Client} from "@cosmjs/tendermint-rpc";
 import { AminoMsg, makeSignDoc as makeSignDocAmino } from "@cosmjs/amino";
 import { assertDefined } from "@cosmjs/utils";
-import { Int53, Uint53, Uint64 } from "@cosmjs/math";
-import { fromBase64, toHex } from "@cosmjs/encoding";
+import { Int53 } from "@cosmjs/math";
+import { fromBase64 } from "@cosmjs/encoding";
 import { Any } from "cosmjs-types/google/protobuf/any";
 import { AuthInfo, SignerInfo, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing";
@@ -13,9 +29,9 @@ import { Coin } from "cosmjs-types/cosmos/base/v1beta1/coin";
 import { ethAccountParser } from "./account";
 import { SignatureResult, PublicKey } from "./types";
 import { AccountData, Signer, SigningMode } from "./signer";
-import * as EIP712  from "../eip712";
+import { createRegistry, createAminoTypes } from './registry'
 import { PubKey } from "../telescope/ethermint/crypto/v1/ethsecp256k1/keys";
-import {getSigningLorenzoClientOptions, GlobalDecoderRegistry} from '../telescope';
+import { GlobalDecoderRegistry } from '../telescope';
 
 /**
  * Creates a SignerInfo instance from the data given.
@@ -63,12 +79,6 @@ export function makeAuthInfoBytes(
     ).finish();
 }
 
-export interface SimulateOptions {
-    publicKey?: PublicKey;
-    memo?: string;
-    feeGranter?: string;
-}
-
 export interface SignTxOptions {
     fee?: StdFee;
     memo?: string;
@@ -85,29 +95,49 @@ interface LorenzoClientOptions extends SigningStargateClientOptions {
  */
 export class LorenzoClient extends SigningStargateClient {
     private txSigner: Signer;
+    private typesAmino: AminoTypes;
     private typesRegistry: Registry;
     private options: LorenzoClientOptions;
 
-    public static override async connect(
-        endpoint: string,
-        options: LorenzoClientOptions = {},
+    /**
+     * Connect to RPC endpoint with eth_secp256k1 signer.
+     *
+     */
+    public static async connectWithEthSigner(
+    endpoint: string,
+    signer: Signer,
+    options: LorenzoClientOptions = {
+        registry: createRegistry(),
+        aminoTypes: createAminoTypes(),
+        accountParser: ethAccountParser,
+    },
     ): Promise<LorenzoClient> {
         const tmClient = await Tendermint37Client.connect(endpoint);
-        return new LorenzoClient(tmClient, options, undefined);
+        return new LorenzoClient(tmClient, options, signer);
+    }
+
+    public static override connectWithSigner(
+        endpoint: string | HttpEndpoint,
+        signer: OfflineSigner,
+        options?: SigningStargateClientOptions
+    ): Promise<SigningStargateClient> {
+       throw new Error("connect with signer is not allowed")
     }
 
     protected constructor(
         client: Tendermint37Client | undefined,
         options: LorenzoClientOptions,
-        signer: undefined,
+        signer: Signer,
     ) {
-        super(client, signer, {
-            accountParser: ethAccountParser,
+        // NOTE: mute signer in super class, thus we should avoid
+        // using every method where the super.signer is called.
+        super(client, undefined, {
             ...options,
         });
         this.txSigner = signer;
         this.options = options;
         this.typesRegistry = options.registry
+        this.typesAmino = options.aminoTypes
     }
 
     public override async signAndBroadcast(

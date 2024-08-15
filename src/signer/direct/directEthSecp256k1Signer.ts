@@ -2,9 +2,10 @@ import keccak256 from 'keccak256'
 import { bech32 } from 'bech32'
 import { DirectSignResponse, makeSignBytes as makeDirectSignBytes } from '@cosmjs/proto-signing'
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
-import { HDNodeWallet, Mnemonic} from 'ethers/src.ts/wallet'
+import { HDNodeWallet, Mnemonic} from 'ethers'
 import * as BytesUtils from '@ethersproject/bytes'
 
+import { decompressPubKey } from '../index'
 import { AccountData, OfflineDirectSigner } from './signer'
 import { createTypedData, parseChainId, convertDirectSignDocToStdSignDoc, typedDataAndHash } from "../../eip712";
 
@@ -100,7 +101,8 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
    */
   public getCosmosAddress(): string {
     const pubkey = this.getPubkey();
-    const address = keccak256(Buffer.from(pubkey, 'hex')).slice(-20);
+    const decompressedPubKey = decompressPubKey(pubkey);
+    const address = keccak256(Buffer.from(decompressedPubKey, 'hex')).slice(-20);
     return bech32.encode(this.prefix, bech32.toWords(address));
   }
 
@@ -131,5 +133,4 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
   public isEIP712Enabled(): boolean {
         return this.eip712Enabled;
   }
-
 }

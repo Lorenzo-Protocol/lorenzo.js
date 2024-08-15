@@ -1,11 +1,12 @@
 import keccak256 from 'keccak256'
 import { bech32 } from 'bech32'
 import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino'
-import { HDNodeWallet, Mnemonic } from 'ethers/src.ts/wallet'
+import { HDNodeWallet, Mnemonic } from 'ethers'
 import * as BytesUtils from '@ethersproject/bytes'
 
 import { AccountData, OfflineAminoSigner } from './signer'
 import { createTypedData, parseChainId, typedDataAndHash } from "../../eip712";
+import {decompressPubKey} from "../utils/crypto";
 
 export class AminoEthSecp256k1Signer implements OfflineAminoSigner {
     public static async fromMnemonic(mnemonic: string, prefix: string = "lrz"): Promise<AminoEthSecp256k1Signer> {
@@ -77,7 +78,8 @@ export class AminoEthSecp256k1Signer implements OfflineAminoSigner {
 
     public getCosmosAddress(): string {
         const pubkey = this.getPubkey();
-        const address = keccak256(Buffer.from(pubkey, 'hex')).slice(-20);
+        const decompressedPubKey = decompressPubKey(pubkey);
+        const address = keccak256(Buffer.from(decompressedPubKey, 'hex')).slice(-20);
         return bech32.encode(this.prefix, bech32.toWords(address));
     }
 
