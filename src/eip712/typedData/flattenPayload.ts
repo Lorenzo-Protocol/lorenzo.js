@@ -75,7 +75,7 @@ export const flattenPayload = (payload: JSONObject): FlattenPayloadResponse => {
     const numMessages = flattenPayloadMessages(payload)
 
     return {
-        numMessages,
         payload,
+        numMessages,
     }
 }

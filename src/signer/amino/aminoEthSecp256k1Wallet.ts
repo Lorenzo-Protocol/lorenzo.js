@@ -66,7 +66,7 @@ export class AminoEthSecp256k1Signer implements OfflineAminoSigner {
     }
 
     private makeAminoSignBytes(signDoc: StdSignDoc): Uint8Array {
-        if (this.isEIP712Enabled()) {
+        if (this.getEIP712Enabled()) {
             const chainId = parseChainId(signDoc.chain_id)
             const typedData = createTypedData(chainId, signDoc)
             return typedDataAndHash(typedData)
@@ -95,7 +95,7 @@ export class AminoEthSecp256k1Signer implements OfflineAminoSigner {
         this.eip712Enabled = enabled;
     }
 
-    public isEIP712Enabled(): boolean {
+    public getEIP712Enabled(): boolean {
         return this.eip712Enabled;
     }
 }

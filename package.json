@@ -28,7 +28,7 @@
     "@ethersproject/bytes": "^5.7.0",
     "@injectivelabs/sdk-ts": "^1.14.13",
     "@injectivelabs/ts-types": "^1.14.13",
-    "@metamask/eth-sig-util": "^7.0.3",
+    "@metamask/eth-sig-util": "^4.0.1",
     "@types/jest": "^29.5.12",
     "bech32": "^2.0.0",
     "bip39": "^3.1.0",

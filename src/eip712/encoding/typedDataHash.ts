@@ -1,6 +1,4 @@
-import { SignTypedDataVersion, TypedDataUtils } from '@metamask/eth-sig-util'
-
-import '../index'
+import { TypedDataUtils, SignTypedDataVersion } from "@metamask/eth-sig-util";
 
 export function typedDataAndHash(typedData: any ) {
     try {
@@ -10,9 +8,11 @@ export function typedDataAndHash(typedData: any ) {
             typedData.types,
             SignTypedDataVersion.V4,
         )
+
+        // FIXME: we can't get the same hash here and on chain.
         const typedDataHash = TypedDataUtils.hashStruct(
             typedData.primaryType,
-            typedData.message as Record<string, unknown>,
+            typedData.message,
             typedData.types,
             SignTypedDataVersion.V4,
         )
@@ -22,6 +22,11 @@ export function typedDataAndHash(typedData: any ) {
         rawData.set(prefix, 0);
         rawData.set(domainSeparator, prefix.length);
         rawData.set(typedDataHash, prefix.length + domainSeparator.length);
+
+        console.log('typedData: ', JSON.stringify(typedData))
+        console.log('domainSeparator: ', domainSeparator)
+        console.log('typedDataHash: ', typedDataHash)
+        console.log('rawData: ', rawData)
 
         return rawData
     } catch (e) {

@@ -16,6 +16,7 @@ export const createBaseTypes = () => ({
         { name: 'fee', type: 'Fee' },
         { name: 'memo', type: 'string' },
         { name: 'sequence', type: 'string' },
+        // NOTE: in createTypes messages are added in sequence.
     ],
     Fee: [
         { name: 'amount', type: 'Coin[]' },
@@ -27,6 +28,13 @@ export const createBaseTypes = () => ({
     ],
 })
 
+/**
+ * Create the types for the EIP712 payload
+ *
+ * CONTRACT: The primary types and its child type must be in the same sequence everywhere.
+ *
+ * @param flattenedPayload
+ */
 export const createTypes = (flattenedPayload: FlattenPayloadResponse) => {
     const { numMessages, payload } = flattenedPayload
     const types = createBaseTypes()

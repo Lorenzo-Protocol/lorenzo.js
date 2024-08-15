@@ -11,7 +11,7 @@ export const SALT = '0'
 export const createDomain = (chainId: number) => ({
     name: NAME,
     version: VERSION,
-    chainId,
+    chainId: "0x"+chainId.toString(16),
     verifyingContract: VERIFYING_CONTRACT,
     salt: SALT,
 })

@@ -27,20 +27,12 @@ export enum SigningMode {
 export abstract class Signer implements OfflineDirectSigner, OfflineAminoSigner {
     public abstract getAccounts(): Promise<readonly AccountData[]>;
 
-    public abstract signDirect(
-        signerAddress: string,
-        signDoc: SignDoc,
-    ): Promise<DirectSignResponse>;
-
-    public abstract signAmino(
-        signerAddress: string,
-        signDoc: StdSignDoc,
-    ): Promise<AminoSignResponse>;
+    public abstract signDirect(signerAddress: string, signDoc: SignDoc): Promise<DirectSignResponse>;
+    public abstract signAmino(signerAddress: string, signDoc: StdSignDoc): Promise<AminoSignResponse>;
 
     public abstract getSigningMode(): SigningMode;
 
     public abstract setEIP712Enabled(enabled: boolean): void;
-
     public abstract getEIP712Enabled(): boolean;
 }
 

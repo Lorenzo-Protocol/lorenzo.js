@@ -161,6 +161,7 @@ export class LorenzoClient extends SigningStargateClient {
 
         const txRaw = await this.sign(signerAddress, messages, usedFee, memo);
         const txBytes = TxRaw.encode(txRaw).finish();
+        // TODO: use sync broadcast?
         return this.broadcastTx(
             txBytes,
             this.broadcastTimeoutMs,

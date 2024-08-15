@@ -57,13 +57,11 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
       address: string,
       signDoc: SignDoc,
   ): Promise<DirectSignResponse> {
-    // signBytes can either be eip712TypedData or directSignDoc
     const signBytes = this.makeDirectOrEIP712SignBytes(signDoc);
     if (address !== this.getCosmosAddress()) {
       throw new Error(`Address ${address} not found in wallet`);
     }
 
-    // TODO(test): test signature.
     const msgHash = keccak256(Buffer.from(signBytes))
     const rsvSignature = this.wallet.signingKey.sign(msgHash)
     const splitSignature = BytesUtils.splitSignature(rsvSignature)
@@ -87,7 +85,7 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
    * @param signDoc
    */
   public makeDirectOrEIP712SignBytes(signDoc: SignDoc): Uint8Array {
-    if (this.isEIP712Enabled()) {
+    if (this.getEIP712Enabled()) {
       const chainId = parseChainId(signDoc.chainId)
       const stdSignDoc = convertDirectSignDocToStdSignDoc(signDoc)
       const typedData = createTypedData(chainId, stdSignDoc)
@@ -130,7 +128,7 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
   /**
    * Get the EIP712 enabled flag
    */
-  public isEIP712Enabled(): boolean {
+  public getEIP712Enabled(): boolean {
         return this.eip712Enabled;
   }
 }
