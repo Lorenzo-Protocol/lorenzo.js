@@ -84,13 +84,7 @@ export class LorenzoOfflineSigner extends Signer {
     }
 
     signAmino(signerAddress: string, signDoc: StdSignDoc): Promise<AminoSignResponse> {
-        if (this.signMode === SigningMode.AMINO) {
-            return (this.signer as OfflineAminoSigner).signAmino(
-                signerAddress,
-                signDoc,
-            );
-        }
-
+        // NOTE: currently not support amino sign mode.
         return Promise.reject(new Error("Amino sign mode not supported"));
     }
 

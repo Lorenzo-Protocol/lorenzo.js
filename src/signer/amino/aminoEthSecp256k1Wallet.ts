@@ -5,7 +5,6 @@ import { HDNodeWallet, Mnemonic } from 'ethers'
 import * as BytesUtils from '@ethersproject/bytes'
 
 import { AccountData, OfflineAminoSigner } from './signer'
-import { createTypedData, parseChainId, typedDataAndHash } from "../../eip712";
 import {decompressPubKey} from "../utils/crypto";
 
 export class AminoEthSecp256k1Signer implements OfflineAminoSigner {
@@ -66,13 +65,6 @@ export class AminoEthSecp256k1Signer implements OfflineAminoSigner {
     }
 
     private makeAminoSignBytes(signDoc: StdSignDoc): Uint8Array {
-        if (this.getEIP712Enabled()) {
-            const chainId = parseChainId(signDoc.chain_id)
-            const typedData = createTypedData(chainId, signDoc)
-            return typedDataAndHash(typedData)
-        }
-
-        // If EIP712 is not enabled, use standard Amino encoding
         return new TextEncoder().encode(JSON.stringify(signDoc));
     }
 
