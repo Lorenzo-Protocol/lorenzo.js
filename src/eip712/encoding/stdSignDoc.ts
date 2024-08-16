@@ -10,41 +10,41 @@ import { JSONObject } from "../typedData/message";
  *
  */
 export function convertDirectSignDocToStdSignDoc(signDoc: SignDoc): JSONObject {
-    const txBody = TxBody.decode(signDoc.bodyBytes)
-    const authInfo = AuthInfo.decode(signDoc.authInfoBytes)
-    const aminomsgs = convertMessagesToAmino(txBody.messages);
-    const signerInfo0 = authInfo.signerInfos[0];
+  const txBody = TxBody.decode(signDoc.bodyBytes);
+  const authInfo = AuthInfo.decode(signDoc.authInfoBytes);
+  const aminomsgs = convertMessagesToAmino(txBody.messages);
+  const signerInfo0 = authInfo.signerInfos[0];
 
-    // NOTE: eip 712 does not support multiple signers
-    for (const signerInfo of authInfo.signerInfos) {
-        if (signerInfo.publicKey !== signerInfo0.publicKey) {
-            throw new Error("Multiple signers are not supported");
-        }
+  // NOTE: eip 712 does not support multiple signers
+  for (const signerInfo of authInfo.signerInfos) {
+    if (signerInfo.publicKey !== signerInfo0.publicKey) {
+      throw new Error("Multiple signers are not supported");
     }
+  }
 
-    const stdFee = {
-        amount: [
-            {
-                amount: authInfo.fee.amount[0].amount,
-                denom: authInfo.fee.amount[0].denom,
-            },
-        ],
-        gas: authInfo.fee.gasLimit.toString(),
-    }
+  const stdFee = {
+    amount: [
+      {
+        amount: authInfo.fee.amount[0].amount,
+        denom: authInfo.fee.amount[0].denom,
+      },
+    ],
+    gas: authInfo.fee.gasLimit.toString(),
+  };
 
-    return {
-        account_number: signDoc.accountNumber.toString(),
-        chain_id: signDoc.chainId,
-        fee: stdFee,
-        memo: txBody.memo,
-        msgs: aminomsgs,
-        sequence: signerInfo0.sequence.toString(),
-    }
+  return {
+    account_number: signDoc.accountNumber.toString(),
+    chain_id: signDoc.chainId,
+    fee: stdFee,
+    memo: txBody.memo,
+    msgs: aminomsgs,
+    sequence: signerInfo0.sequence.toString(),
+  };
 }
 
 function convertMessagesToAmino(messages: any[]): any[] {
-    return messages.map(msg => {
-        const decodedMsg = GlobalDecoderRegistry.unwrapAny(msg);
-        return GlobalDecoderRegistry.toAminoMsg(decodedMsg);
-    });
+  return messages.map((msg) => {
+    const decodedMsg = GlobalDecoderRegistry.unwrapAny(msg);
+    return GlobalDecoderRegistry.toAminoMsg(decodedMsg);
+  });
 }

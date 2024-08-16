@@ -1,1 +1,1 @@
-export * from './createTypedData'
+export * from "./createTypedData";

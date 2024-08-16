@@ -1,12 +1,15 @@
 {
   "name": "lorenzo.js",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest",
     "fetch-proto": "./scripts/protogen.sh",
-    "codegen": "ts-node ./scripts/codegen.ts"
+    "codegen": "ts-node ./scripts/codegen.ts",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\" \"!src/telescope/**/*.ts\""
   },
   "jest": {
     "preset": "ts-jest",

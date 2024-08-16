@@ -1,13 +1,21 @@
-import keccak256 from 'keccak256'
-import { bech32 } from 'bech32'
-import { DirectSignResponse, makeSignBytes as makeDirectSignBytes } from '@cosmjs/proto-signing'
-import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
-import { HDNodeWallet, Mnemonic} from 'ethers'
-import * as BytesUtils from '@ethersproject/bytes'
+import keccak256 from "keccak256";
+import { bech32 } from "bech32";
+import {
+  DirectSignResponse,
+  makeSignBytes as makeDirectSignBytes,
+} from "@cosmjs/proto-signing";
+import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { HDNodeWallet, Mnemonic } from "ethers";
+import * as BytesUtils from "@ethersproject/bytes";
 
-import { decompressPubKey } from '../index'
-import { AccountData, OfflineDirectSigner } from './signer'
-import { createTypedData, parseChainId, convertDirectSignDocToStdSignDoc, typedDataAndHash } from "../../eip712";
+import { decompressPubKey } from "../index";
+import { AccountData, OfflineDirectSigner } from "./signer";
+import {
+  createTypedData,
+  parseChainId,
+  convertDirectSignDocToStdSignDoc,
+  typedDataAndHash,
+} from "../../eip712";
 
 /**
  * A wallet for protobuf based signing using SIGN_MODE_DIRECT and eth_secp256k1.
@@ -16,13 +24,16 @@ import { createTypedData, parseChainId, convertDirectSignDocToStdSignDoc, typedD
  *
  * */
 export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
-    /**
-     * Creates a DirectEthSecp256k1Wallet from the given mnemonic
-     *
-     * @param mnemonic The mnemonic.
-     * @param prefix The bech32 address prefix (human readable part). Defaults to "lrz".
-     * */
-  public static async fromMnemonic(mnemonic: string, prefix: string = "lrz"): Promise<DirectEthSecp256k1Signer> {
+  /**
+   * Creates a DirectEthSecp256k1Wallet from the given mnemonic
+   *
+   * @param mnemonic The mnemonic.
+   * @param prefix The bech32 address prefix (human readable part). Defaults to "lrz".
+   * */
+  public static async fromMnemonic(
+    mnemonic: string,
+    prefix: string = "lrz"
+  ): Promise<DirectEthSecp256k1Signer> {
     const wallet = HDNodeWallet.fromMnemonic(Mnemonic.fromPhrase(mnemonic));
     return new DirectEthSecp256k1Signer(wallet, prefix);
   }
@@ -40,9 +51,9 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
     const pubkey = this.getPubkey();
     return [
       {
-        algo: 'eth_secp256k1',
+        algo: "eth_secp256k1",
         address: this.getCosmosAddress(),
-        pubkey: Buffer.from(pubkey, 'hex'),
+        pubkey: Buffer.from(pubkey, "hex"),
       },
     ];
   }
@@ -54,27 +65,29 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
    * @param signDoc
    */
   public async signDirect(
-      address: string,
-      signDoc: SignDoc,
+    address: string,
+    signDoc: SignDoc
   ): Promise<DirectSignResponse> {
     const signBytes = this.makeDirectOrEIP712SignBytes(signDoc);
     if (address !== this.getCosmosAddress()) {
       throw new Error(`Address ${address} not found in wallet`);
     }
 
-    const msgHash = keccak256(Buffer.from(signBytes))
-    const rsvSignature = this.wallet.signingKey.sign(msgHash)
-    const splitSignature = BytesUtils.splitSignature(rsvSignature)
-    const signature = BytesUtils.arrayify(BytesUtils.concat([splitSignature.r, splitSignature.s]))
+    const msgHash = keccak256(Buffer.from(signBytes));
+    const rsvSignature = this.wallet.signingKey.sign(msgHash);
+    const splitSignature = BytesUtils.splitSignature(rsvSignature);
+    const signature = BytesUtils.arrayify(
+      BytesUtils.concat([splitSignature.r, splitSignature.s])
+    );
 
     return {
       signed: signDoc,
       signature: {
         pub_key: {
-          type: '/ethermint.crypto.v1.ethsecp256k1.PubKey',
-          value: Buffer.from(this.getPubkey(), 'hex').toString('base64'),
+          type: "/ethermint.crypto.v1.ethsecp256k1.PubKey",
+          value: Buffer.from(this.getPubkey(), "hex").toString("base64"),
         },
-        signature: Buffer.from(signature).toString('base64'),
+        signature: Buffer.from(signature).toString("base64"),
       },
     };
   }
@@ -86,10 +99,10 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
    */
   public makeDirectOrEIP712SignBytes(signDoc: SignDoc): Uint8Array {
     if (this.getEIP712Enabled()) {
-      const chainId = parseChainId(signDoc.chainId)
-      const stdSignDoc = convertDirectSignDocToStdSignDoc(signDoc)
-      const typedData = createTypedData(chainId, stdSignDoc)
-      return typedDataAndHash(typedData)
+      const chainId = parseChainId(signDoc.chainId);
+      const stdSignDoc = convertDirectSignDocToStdSignDoc(signDoc);
+      const typedData = createTypedData(chainId, stdSignDoc);
+      return typedDataAndHash(typedData);
     }
     return makeDirectSignBytes(signDoc);
   }
@@ -100,7 +113,9 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
   public getCosmosAddress(): string {
     const pubkey = this.getPubkey();
     const decompressedPubKey = decompressPubKey(pubkey);
-    const address = keccak256(Buffer.from(decompressedPubKey, 'hex')).slice(-20);
+    const address = keccak256(Buffer.from(decompressedPubKey, "hex")).slice(
+      -20
+    );
     return bech32.encode(this.prefix, bech32.toWords(address));
   }
 
@@ -129,6 +144,6 @@ export class DirectEthSecp256k1Signer implements OfflineDirectSigner {
    * Get the EIP712 enabled flag
    */
   public getEIP712Enabled(): boolean {
-        return this.eip712Enabled;
+    return this.eip712Enabled;
   }
 }

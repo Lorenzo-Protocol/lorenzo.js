@@ -1,2 +1,2 @@
-export * from './typedData'
-export * from './encoding'
+export * from "./typedData";
+export * from "./encoding";

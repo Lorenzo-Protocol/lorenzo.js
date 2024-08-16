@@ -1,3 +1,3 @@
-export * from './parseChainID'
-export * from './stdSignDoc'
-export * from './typedDataHash'
+export * from "./parseChainID";
+export * from "./stdSignDoc";
+export * from "./typedDataHash";
