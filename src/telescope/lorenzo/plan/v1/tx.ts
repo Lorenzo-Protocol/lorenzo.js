@@ -33,7 +33,7 @@ export interface MsgUpdateParamsAmino {
   params?: ParamsAmino;
 }
 export interface MsgUpdateParamsAminoMsg {
-  type: "/lorenzo.plan.v1.MsgUpdateParams";
+  type: "lorenzo/plan/MsgUpdateParams";
   value: MsgUpdateParamsAmino;
 }
 /** MsgUpdateParams is the request type for the Msg/UpdateParams RPC method. */
@@ -93,7 +93,7 @@ export interface MsgUpgradePlanAmino {
   authority?: string;
 }
 export interface MsgUpgradePlanAminoMsg {
-  type: "/lorenzo.plan.v1.MsgUpgradePlan";
+  type: "lorenzo/plan/MsgUpgradePlan";
   value: MsgUpgradePlanAmino;
 }
 /** MsgUpgradePlan is the request type for the Msg/UpgradePlan RPC method. */
@@ -154,7 +154,7 @@ export interface MsgCreatePlanAmino {
   sender?: string;
 }
 export interface MsgCreatePlanAminoMsg {
-  type: "/lorenzo.plan.v1.MsgCreatePlan";
+  type: "lorenzo/plan/MsgCreatePlan";
   value: MsgCreatePlanAmino;
 }
 /** MsgCreatePlan is the request type for the Msg/CreatePlan RPC method. */
@@ -216,7 +216,7 @@ export interface MsgSetMerkleRootAmino {
   sender?: string;
 }
 export interface MsgSetMerkleRootAminoMsg {
-  type: "/lorenzo.plan.v1.MsgSetMerkleRoot";
+  type: "lorenzo/plan/MsgSetMerkleRoot";
   value: MsgSetMerkleRootAmino;
 }
 /** MsgSetMerkleRoot is the request type for the Msg/SetMerkleRoot RPC method. */
@@ -284,7 +284,7 @@ export interface MsgClaimsAmino {
   sender?: string;
 }
 export interface MsgClaimsAminoMsg {
-  type: "/lorenzo.plan.v1.MsgClaims";
+  type: "lorenzo/plan/MsgClaims";
   value: MsgClaimsAmino;
 }
 /** MsgClaims is the request type for the Msg/Claims RPC method. */
@@ -339,7 +339,7 @@ export interface MsgUpdatePlanStatusAmino {
   sender?: string;
 }
 export interface MsgUpdatePlanStatusAminoMsg {
-  type: "/lorenzo.plan.v1.MsgUpdatePlanStatus";
+  type: "lorenzo/plan/MsgUpdatePlanStatus";
   value: MsgUpdatePlanStatusAmino;
 }
 /**
@@ -397,7 +397,7 @@ export interface MsgCreateYATAmino {
   sender?: string;
 }
 export interface MsgCreateYATAminoMsg {
-  type: "/lorenzo.plan.v1.MsgCreateYAT";
+  type: "lorenzo/plan/MsgCreateYAT";
   value: MsgCreateYATAmino;
 }
 /** MsgCreateYAT is the request type for the Msg/CreateYAT RPC method. */
@@ -451,7 +451,7 @@ export interface MsgSetMinterAmino {
   sender?: string;
 }
 export interface MsgSetMinterAminoMsg {
-  type: "/lorenzo.plan.v1.MsgSetMinter";
+  type: "lorenzo/plan/MsgSetMinter";
   value: MsgSetMinterAmino;
 }
 /** MsgSetMinter is the request type for the Msg/SetMinter RPC method. */
@@ -497,7 +497,7 @@ export interface MsgRemoveMinterAmino {
   sender?: string;
 }
 export interface MsgRemoveMinterAminoMsg {
-  type: "/lorenzo.plan.v1.MsgRemoveMinter";
+  type: "lorenzo/plan/MsgRemoveMinter";
   value: MsgRemoveMinterAmino;
 }
 /** MsgRemoveMinter is the request type for the Msg/RemoveMinter RPC method. */
@@ -537,6 +537,7 @@ function createBaseMsgUpdateParams(): MsgUpdateParams {
 }
 export const MsgUpdateParams = {
   typeUrl: "/lorenzo.plan.v1.MsgUpdateParams",
+  aminoType: "lorenzo/plan/MsgUpdateParams",
   is(o: any): o is MsgUpdateParams {
     return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.is(o.params));
   },
@@ -612,6 +613,12 @@ export const MsgUpdateParams = {
   fromAminoMsg(object: MsgUpdateParamsAminoMsg): MsgUpdateParams {
     return MsgUpdateParams.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgUpdateParams): MsgUpdateParamsAminoMsg {
+    return {
+      type: "lorenzo/plan/MsgUpdateParams",
+      value: MsgUpdateParams.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgUpdateParamsProtoMsg): MsgUpdateParams {
     return MsgUpdateParams.decode(message.value);
   },
@@ -626,6 +633,7 @@ export const MsgUpdateParams = {
   }
 };
 GlobalDecoderRegistry.register(MsgUpdateParams.typeUrl, MsgUpdateParams);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUpdateParams.aminoType, MsgUpdateParams.typeUrl);
 function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
   return {};
 }
@@ -701,6 +709,7 @@ function createBaseMsgUpgradePlan(): MsgUpgradePlan {
 }
 export const MsgUpgradePlan = {
   typeUrl: "/lorenzo.plan.v1.MsgUpgradePlan",
+  aminoType: "lorenzo/plan/MsgUpgradePlan",
   is(o: any): o is MsgUpgradePlan {
     return o && (o.$typeUrl === MsgUpgradePlan.typeUrl || typeof o.implementation === "string" && typeof o.authority === "string");
   },
@@ -776,6 +785,12 @@ export const MsgUpgradePlan = {
   fromAminoMsg(object: MsgUpgradePlanAminoMsg): MsgUpgradePlan {
     return MsgUpgradePlan.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgUpgradePlan): MsgUpgradePlanAminoMsg {
+    return {
+      type: "lorenzo/plan/MsgUpgradePlan",
+      value: MsgUpgradePlan.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgUpgradePlanProtoMsg): MsgUpgradePlan {
     return MsgUpgradePlan.decode(message.value);
   },
@@ -790,6 +805,7 @@ export const MsgUpgradePlan = {
   }
 };
 GlobalDecoderRegistry.register(MsgUpgradePlan.typeUrl, MsgUpgradePlan);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUpgradePlan.aminoType, MsgUpgradePlan.typeUrl);
 function createBaseMsgUpgradePlanResponse(): MsgUpgradePlanResponse {
   return {};
 }
@@ -870,6 +886,7 @@ function createBaseMsgCreatePlan(): MsgCreatePlan {
 }
 export const MsgCreatePlan = {
   typeUrl: "/lorenzo.plan.v1.MsgCreatePlan",
+  aminoType: "lorenzo/plan/MsgCreatePlan",
   is(o: any): o is MsgCreatePlan {
     return o && (o.$typeUrl === MsgCreatePlan.typeUrl || typeof o.name === "string" && typeof o.planDescUri === "string" && typeof o.agentId === "bigint" && typeof o.planStartTime === "bigint" && typeof o.periodTime === "bigint" && typeof o.yatContractAddress === "string" && typeof o.sender === "string");
   },
@@ -1010,6 +1027,12 @@ export const MsgCreatePlan = {
   fromAminoMsg(object: MsgCreatePlanAminoMsg): MsgCreatePlan {
     return MsgCreatePlan.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgCreatePlan): MsgCreatePlanAminoMsg {
+    return {
+      type: "lorenzo/plan/MsgCreatePlan",
+      value: MsgCreatePlan.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgCreatePlanProtoMsg): MsgCreatePlan {
     return MsgCreatePlan.decode(message.value);
   },
@@ -1024,6 +1047,7 @@ export const MsgCreatePlan = {
   }
 };
 GlobalDecoderRegistry.register(MsgCreatePlan.typeUrl, MsgCreatePlan);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCreatePlan.aminoType, MsgCreatePlan.typeUrl);
 function createBaseMsgCreatePlanResponse(): MsgCreatePlanResponse {
   return {
     id: BigInt(0)
@@ -1117,6 +1141,7 @@ function createBaseMsgSetMerkleRoot(): MsgSetMerkleRoot {
 }
 export const MsgSetMerkleRoot = {
   typeUrl: "/lorenzo.plan.v1.MsgSetMerkleRoot",
+  aminoType: "lorenzo/plan/MsgSetMerkleRoot",
   is(o: any): o is MsgSetMerkleRoot {
     return o && (o.$typeUrl === MsgSetMerkleRoot.typeUrl || typeof o.planId === "bigint" && typeof o.roundId === "string" && typeof o.merkleRoot === "string" && typeof o.sender === "string");
   },
@@ -1218,6 +1243,12 @@ export const MsgSetMerkleRoot = {
   fromAminoMsg(object: MsgSetMerkleRootAminoMsg): MsgSetMerkleRoot {
     return MsgSetMerkleRoot.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgSetMerkleRoot): MsgSetMerkleRootAminoMsg {
+    return {
+      type: "lorenzo/plan/MsgSetMerkleRoot",
+      value: MsgSetMerkleRoot.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgSetMerkleRootProtoMsg): MsgSetMerkleRoot {
     return MsgSetMerkleRoot.decode(message.value);
   },
@@ -1232,6 +1263,7 @@ export const MsgSetMerkleRoot = {
   }
 };
 GlobalDecoderRegistry.register(MsgSetMerkleRoot.typeUrl, MsgSetMerkleRoot);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetMerkleRoot.aminoType, MsgSetMerkleRoot.typeUrl);
 function createBaseMsgSetMerkleRootResponse(): MsgSetMerkleRootResponse {
   return {};
 }
@@ -1311,6 +1343,7 @@ function createBaseMsgClaims(): MsgClaims {
 }
 export const MsgClaims = {
   typeUrl: "/lorenzo.plan.v1.MsgClaims",
+  aminoType: "lorenzo/plan/MsgClaims",
   is(o: any): o is MsgClaims {
     return o && (o.$typeUrl === MsgClaims.typeUrl || typeof o.planId === "bigint" && typeof o.receiver === "string" && typeof o.roundId === "string" && typeof o.amount === "string" && typeof o.merkleProof === "string" && typeof o.sender === "string");
   },
@@ -1438,6 +1471,12 @@ export const MsgClaims = {
   fromAminoMsg(object: MsgClaimsAminoMsg): MsgClaims {
     return MsgClaims.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgClaims): MsgClaimsAminoMsg {
+    return {
+      type: "lorenzo/plan/MsgClaims",
+      value: MsgClaims.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgClaimsProtoMsg): MsgClaims {
     return MsgClaims.decode(message.value);
   },
@@ -1452,6 +1491,7 @@ export const MsgClaims = {
   }
 };
 GlobalDecoderRegistry.register(MsgClaims.typeUrl, MsgClaims);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgClaims.aminoType, MsgClaims.typeUrl);
 function createBaseMsgClaimsResponse(): MsgClaimsResponse {
   return {};
 }
@@ -1528,6 +1568,7 @@ function createBaseMsgUpdatePlanStatus(): MsgUpdatePlanStatus {
 }
 export const MsgUpdatePlanStatus = {
   typeUrl: "/lorenzo.plan.v1.MsgUpdatePlanStatus",
+  aminoType: "lorenzo/plan/MsgUpdatePlanStatus",
   is(o: any): o is MsgUpdatePlanStatus {
     return o && (o.$typeUrl === MsgUpdatePlanStatus.typeUrl || typeof o.planId === "bigint" && isSet(o.status) && typeof o.sender === "string");
   },
@@ -1616,6 +1657,12 @@ export const MsgUpdatePlanStatus = {
   fromAminoMsg(object: MsgUpdatePlanStatusAminoMsg): MsgUpdatePlanStatus {
     return MsgUpdatePlanStatus.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgUpdatePlanStatus): MsgUpdatePlanStatusAminoMsg {
+    return {
+      type: "lorenzo/plan/MsgUpdatePlanStatus",
+      value: MsgUpdatePlanStatus.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgUpdatePlanStatusProtoMsg): MsgUpdatePlanStatus {
     return MsgUpdatePlanStatus.decode(message.value);
   },
@@ -1630,6 +1677,7 @@ export const MsgUpdatePlanStatus = {
   }
 };
 GlobalDecoderRegistry.register(MsgUpdatePlanStatus.typeUrl, MsgUpdatePlanStatus);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUpdatePlanStatus.aminoType, MsgUpdatePlanStatus.typeUrl);
 function createBaseMsgUpdatePlanStatusResponse(): MsgUpdatePlanStatusResponse {
   return {};
 }
@@ -1706,6 +1754,7 @@ function createBaseMsgCreateYAT(): MsgCreateYAT {
 }
 export const MsgCreateYAT = {
   typeUrl: "/lorenzo.plan.v1.MsgCreateYAT",
+  aminoType: "lorenzo/plan/MsgCreateYAT",
   is(o: any): o is MsgCreateYAT {
     return o && (o.$typeUrl === MsgCreateYAT.typeUrl || typeof o.name === "string" && typeof o.symbol === "string" && typeof o.sender === "string");
   },
@@ -1794,6 +1843,12 @@ export const MsgCreateYAT = {
   fromAminoMsg(object: MsgCreateYATAminoMsg): MsgCreateYAT {
     return MsgCreateYAT.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgCreateYAT): MsgCreateYATAminoMsg {
+    return {
+      type: "lorenzo/plan/MsgCreateYAT",
+      value: MsgCreateYAT.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgCreateYATProtoMsg): MsgCreateYAT {
     return MsgCreateYAT.decode(message.value);
   },
@@ -1808,6 +1863,7 @@ export const MsgCreateYAT = {
   }
 };
 GlobalDecoderRegistry.register(MsgCreateYAT.typeUrl, MsgCreateYAT);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCreateYAT.aminoType, MsgCreateYAT.typeUrl);
 function createBaseMsgCreateYATResponse(): MsgCreateYATResponse {
   return {
     contractAddress: ""
@@ -1900,6 +1956,7 @@ function createBaseMsgSetMinter(): MsgSetMinter {
 }
 export const MsgSetMinter = {
   typeUrl: "/lorenzo.plan.v1.MsgSetMinter",
+  aminoType: "lorenzo/plan/MsgSetMinter",
   is(o: any): o is MsgSetMinter {
     return o && (o.$typeUrl === MsgSetMinter.typeUrl || typeof o.minter === "string" && typeof o.contractAddress === "string" && typeof o.sender === "string");
   },
@@ -1988,6 +2045,12 @@ export const MsgSetMinter = {
   fromAminoMsg(object: MsgSetMinterAminoMsg): MsgSetMinter {
     return MsgSetMinter.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgSetMinter): MsgSetMinterAminoMsg {
+    return {
+      type: "lorenzo/plan/MsgSetMinter",
+      value: MsgSetMinter.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgSetMinterProtoMsg): MsgSetMinter {
     return MsgSetMinter.decode(message.value);
   },
@@ -2002,6 +2065,7 @@ export const MsgSetMinter = {
   }
 };
 GlobalDecoderRegistry.register(MsgSetMinter.typeUrl, MsgSetMinter);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgSetMinter.aminoType, MsgSetMinter.typeUrl);
 function createBaseMsgSetMinterResponse(): MsgSetMinterResponse {
   return {};
 }
@@ -2078,6 +2142,7 @@ function createBaseMsgRemoveMinter(): MsgRemoveMinter {
 }
 export const MsgRemoveMinter = {
   typeUrl: "/lorenzo.plan.v1.MsgRemoveMinter",
+  aminoType: "lorenzo/plan/MsgRemoveMinter",
   is(o: any): o is MsgRemoveMinter {
     return o && (o.$typeUrl === MsgRemoveMinter.typeUrl || typeof o.minter === "string" && typeof o.contractAddress === "string" && typeof o.sender === "string");
   },
@@ -2166,6 +2231,12 @@ export const MsgRemoveMinter = {
   fromAminoMsg(object: MsgRemoveMinterAminoMsg): MsgRemoveMinter {
     return MsgRemoveMinter.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgRemoveMinter): MsgRemoveMinterAminoMsg {
+    return {
+      type: "lorenzo/plan/MsgRemoveMinter",
+      value: MsgRemoveMinter.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgRemoveMinterProtoMsg): MsgRemoveMinter {
     return MsgRemoveMinter.decode(message.value);
   },
@@ -2180,6 +2251,7 @@ export const MsgRemoveMinter = {
   }
 };
 GlobalDecoderRegistry.register(MsgRemoveMinter.typeUrl, MsgRemoveMinter);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgRemoveMinter.aminoType, MsgRemoveMinter.typeUrl);
 function createBaseMsgRemoveMinterResponse(): MsgRemoveMinterResponse {
   return {};
 }

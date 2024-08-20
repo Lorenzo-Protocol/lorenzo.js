@@ -104,7 +104,7 @@ export interface MsgCreateBTCStakingAmino {
   agent_id?: string;
 }
 export interface MsgCreateBTCStakingAminoMsg {
-  type: "/lorenzo.btcstaking.v1.MsgCreateBTCStaking";
+  type: "lorenzo/btcstaking/MsgCreateBTCStaking";
   value: MsgCreateBTCStakingAmino;
 }
 export interface MsgCreateBTCStakingSDKType {
@@ -124,6 +124,43 @@ export interface MsgCreateBTCStakingResponseAminoMsg {
   value: MsgCreateBTCStakingResponseAmino;
 }
 export interface MsgCreateBTCStakingResponseSDKType {}
+export interface MsgCreateBTCBStaking {
+  signer: string;
+  number: bigint;
+  receipt: Uint8Array;
+  proof: Uint8Array;
+}
+export interface MsgCreateBTCBStakingProtoMsg {
+  typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCBStaking";
+  value: Uint8Array;
+}
+export interface MsgCreateBTCBStakingAmino {
+  signer?: string;
+  number?: string;
+  receipt?: string;
+  proof?: string;
+}
+export interface MsgCreateBTCBStakingAminoMsg {
+  type: "lorenzo/btcstaking/MsgCreateBTCBStaking";
+  value: MsgCreateBTCBStakingAmino;
+}
+export interface MsgCreateBTCBStakingSDKType {
+  signer: string;
+  number: bigint;
+  receipt: Uint8Array;
+  proof: Uint8Array;
+}
+export interface MsgCreateBTCBStakingResponse {}
+export interface MsgCreateBTCBStakingResponseProtoMsg {
+  typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCBStakingResponse";
+  value: Uint8Array;
+}
+export interface MsgCreateBTCBStakingResponseAmino {}
+export interface MsgCreateBTCBStakingResponseAminoMsg {
+  type: "/lorenzo.btcstaking.v1.MsgCreateBTCBStakingResponse";
+  value: MsgCreateBTCBStakingResponseAmino;
+}
+export interface MsgCreateBTCBStakingResponseSDKType {}
 export interface MsgBurnRequest {
   signer: string;
   btcTargetAddress: string;
@@ -139,7 +176,7 @@ export interface MsgBurnRequestAmino {
   amount?: string;
 }
 export interface MsgBurnRequestAminoMsg {
-  type: "btcstaking/MsgBurnRequest";
+  type: "lorenzo/btcstaking/MsgBurnRequest";
   value: MsgBurnRequestAmino;
 }
 export interface MsgBurnRequestSDKType {
@@ -171,7 +208,7 @@ export interface MsgAddReceiverAmino {
   receiver?: ReceiverAmino;
 }
 export interface MsgAddReceiverAminoMsg {
-  type: "/lorenzo.btcstaking.v1.MsgAddReceiver";
+  type: "lorenzo/btcstaking/MsgAddReceiver";
   value: MsgAddReceiverAmino;
 }
 export interface MsgAddReceiverSDKType {
@@ -202,7 +239,7 @@ export interface MsgRemoveReceiverAmino {
   receiver?: string;
 }
 export interface MsgRemoveReceiverAminoMsg {
-  type: "/lorenzo.btcstaking.v1.MsgRemoveReceiver";
+  type: "lorenzo/btcstaking/MsgRemoveReceiver";
   value: MsgRemoveReceiverAmino;
 }
 export interface MsgRemoveReceiverSDKType {
@@ -233,7 +270,7 @@ export interface MsgUpdateParamsAmino {
   params?: ParamsAmino;
 }
 export interface MsgUpdateParamsAminoMsg {
-  type: "/lorenzo.btcstaking.v1.MsgUpdateParams";
+  type: "lorenzo/btcstaking/MsgUpdateParams";
   value: MsgUpdateParamsAmino;
 }
 export interface MsgUpdateParamsSDKType {
@@ -469,6 +506,7 @@ function createBaseMsgCreateBTCStaking(): MsgCreateBTCStaking {
 }
 export const MsgCreateBTCStaking = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCStaking",
+  aminoType: "lorenzo/btcstaking/MsgCreateBTCStaking",
   is(o: any): o is MsgCreateBTCStaking {
     return o && (o.$typeUrl === MsgCreateBTCStaking.typeUrl || typeof o.signer === "string" && typeof o.receiver === "string" && typeof o.agentId === "bigint");
   },
@@ -570,6 +608,12 @@ export const MsgCreateBTCStaking = {
   fromAminoMsg(object: MsgCreateBTCStakingAminoMsg): MsgCreateBTCStaking {
     return MsgCreateBTCStaking.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgCreateBTCStaking): MsgCreateBTCStakingAminoMsg {
+    return {
+      type: "lorenzo/btcstaking/MsgCreateBTCStaking",
+      value: MsgCreateBTCStaking.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgCreateBTCStakingProtoMsg): MsgCreateBTCStaking {
     return MsgCreateBTCStaking.decode(message.value);
   },
@@ -584,6 +628,7 @@ export const MsgCreateBTCStaking = {
   }
 };
 GlobalDecoderRegistry.register(MsgCreateBTCStaking.typeUrl, MsgCreateBTCStaking);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCreateBTCStaking.aminoType, MsgCreateBTCStaking.typeUrl);
 function createBaseMsgCreateBTCStakingResponse(): MsgCreateBTCStakingResponse {
   return {};
 }
@@ -651,6 +696,206 @@ export const MsgCreateBTCStakingResponse = {
   }
 };
 GlobalDecoderRegistry.register(MsgCreateBTCStakingResponse.typeUrl, MsgCreateBTCStakingResponse);
+function createBaseMsgCreateBTCBStaking(): MsgCreateBTCBStaking {
+  return {
+    signer: "",
+    number: BigInt(0),
+    receipt: new Uint8Array(),
+    proof: new Uint8Array()
+  };
+}
+export const MsgCreateBTCBStaking = {
+  typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCBStaking",
+  aminoType: "lorenzo/btcstaking/MsgCreateBTCBStaking",
+  is(o: any): o is MsgCreateBTCBStaking {
+    return o && (o.$typeUrl === MsgCreateBTCBStaking.typeUrl || typeof o.signer === "string" && typeof o.number === "bigint" && (o.receipt instanceof Uint8Array || typeof o.receipt === "string") && (o.proof instanceof Uint8Array || typeof o.proof === "string"));
+  },
+  isSDK(o: any): o is MsgCreateBTCBStakingSDKType {
+    return o && (o.$typeUrl === MsgCreateBTCBStaking.typeUrl || typeof o.signer === "string" && typeof o.number === "bigint" && (o.receipt instanceof Uint8Array || typeof o.receipt === "string") && (o.proof instanceof Uint8Array || typeof o.proof === "string"));
+  },
+  isAmino(o: any): o is MsgCreateBTCBStakingAmino {
+    return o && (o.$typeUrl === MsgCreateBTCBStaking.typeUrl || typeof o.signer === "string" && typeof o.number === "bigint" && (o.receipt instanceof Uint8Array || typeof o.receipt === "string") && (o.proof instanceof Uint8Array || typeof o.proof === "string"));
+  },
+  encode(message: MsgCreateBTCBStaking, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.signer !== "") {
+      writer.uint32(10).string(message.signer);
+    }
+    if (message.number !== BigInt(0)) {
+      writer.uint32(16).uint64(message.number);
+    }
+    if (message.receipt.length !== 0) {
+      writer.uint32(26).bytes(message.receipt);
+    }
+    if (message.proof.length !== 0) {
+      writer.uint32(34).bytes(message.proof);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgCreateBTCBStaking {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgCreateBTCBStaking();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.signer = reader.string();
+          break;
+        case 2:
+          message.number = reader.uint64();
+          break;
+        case 3:
+          message.receipt = reader.bytes();
+          break;
+        case 4:
+          message.proof = reader.bytes();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromPartial(object: Partial<MsgCreateBTCBStaking>): MsgCreateBTCBStaking {
+    const message = createBaseMsgCreateBTCBStaking();
+    message.signer = object.signer ?? "";
+    message.number = object.number !== undefined && object.number !== null ? BigInt(object.number.toString()) : BigInt(0);
+    message.receipt = object.receipt ?? new Uint8Array();
+    message.proof = object.proof ?? new Uint8Array();
+    return message;
+  },
+  fromSDK(object: MsgCreateBTCBStakingSDKType): MsgCreateBTCBStaking {
+    return {
+      signer: object?.signer,
+      number: object?.number,
+      receipt: object?.receipt,
+      proof: object?.proof
+    };
+  },
+  toSDK(message: MsgCreateBTCBStaking): MsgCreateBTCBStakingSDKType {
+    const obj: any = {};
+    obj.signer = message.signer;
+    obj.number = message.number;
+    obj.receipt = message.receipt;
+    obj.proof = message.proof;
+    return obj;
+  },
+  fromAmino(object: MsgCreateBTCBStakingAmino): MsgCreateBTCBStaking {
+    const message = createBaseMsgCreateBTCBStaking();
+    if (object.signer !== undefined && object.signer !== null) {
+      message.signer = object.signer;
+    }
+    if (object.number !== undefined && object.number !== null) {
+      message.number = BigInt(object.number);
+    }
+    if (object.receipt !== undefined && object.receipt !== null) {
+      message.receipt = bytesFromBase64(object.receipt);
+    }
+    if (object.proof !== undefined && object.proof !== null) {
+      message.proof = bytesFromBase64(object.proof);
+    }
+    return message;
+  },
+  toAmino(message: MsgCreateBTCBStaking): MsgCreateBTCBStakingAmino {
+    const obj: any = {};
+    obj.signer = message.signer === "" ? undefined : message.signer;
+    obj.number = message.number !== BigInt(0) ? message.number.toString() : undefined;
+    obj.receipt = message.receipt ? base64FromBytes(message.receipt) : undefined;
+    obj.proof = message.proof ? base64FromBytes(message.proof) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: MsgCreateBTCBStakingAminoMsg): MsgCreateBTCBStaking {
+    return MsgCreateBTCBStaking.fromAmino(object.value);
+  },
+  toAminoMsg(message: MsgCreateBTCBStaking): MsgCreateBTCBStakingAminoMsg {
+    return {
+      type: "lorenzo/btcstaking/MsgCreateBTCBStaking",
+      value: MsgCreateBTCBStaking.toAmino(message)
+    };
+  },
+  fromProtoMsg(message: MsgCreateBTCBStakingProtoMsg): MsgCreateBTCBStaking {
+    return MsgCreateBTCBStaking.decode(message.value);
+  },
+  toProto(message: MsgCreateBTCBStaking): Uint8Array {
+    return MsgCreateBTCBStaking.encode(message).finish();
+  },
+  toProtoMsg(message: MsgCreateBTCBStaking): MsgCreateBTCBStakingProtoMsg {
+    return {
+      typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCBStaking",
+      value: MsgCreateBTCBStaking.encode(message).finish()
+    };
+  }
+};
+GlobalDecoderRegistry.register(MsgCreateBTCBStaking.typeUrl, MsgCreateBTCBStaking);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgCreateBTCBStaking.aminoType, MsgCreateBTCBStaking.typeUrl);
+function createBaseMsgCreateBTCBStakingResponse(): MsgCreateBTCBStakingResponse {
+  return {};
+}
+export const MsgCreateBTCBStakingResponse = {
+  typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCBStakingResponse",
+  is(o: any): o is MsgCreateBTCBStakingResponse {
+    return o && o.$typeUrl === MsgCreateBTCBStakingResponse.typeUrl;
+  },
+  isSDK(o: any): o is MsgCreateBTCBStakingResponseSDKType {
+    return o && o.$typeUrl === MsgCreateBTCBStakingResponse.typeUrl;
+  },
+  isAmino(o: any): o is MsgCreateBTCBStakingResponseAmino {
+    return o && o.$typeUrl === MsgCreateBTCBStakingResponse.typeUrl;
+  },
+  encode(_: MsgCreateBTCBStakingResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgCreateBTCBStakingResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgCreateBTCBStakingResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromPartial(_: Partial<MsgCreateBTCBStakingResponse>): MsgCreateBTCBStakingResponse {
+    const message = createBaseMsgCreateBTCBStakingResponse();
+    return message;
+  },
+  fromSDK(_: MsgCreateBTCBStakingResponseSDKType): MsgCreateBTCBStakingResponse {
+    return {};
+  },
+  toSDK(_: MsgCreateBTCBStakingResponse): MsgCreateBTCBStakingResponseSDKType {
+    const obj: any = {};
+    return obj;
+  },
+  fromAmino(_: MsgCreateBTCBStakingResponseAmino): MsgCreateBTCBStakingResponse {
+    const message = createBaseMsgCreateBTCBStakingResponse();
+    return message;
+  },
+  toAmino(_: MsgCreateBTCBStakingResponse): MsgCreateBTCBStakingResponseAmino {
+    const obj: any = {};
+    return obj;
+  },
+  fromAminoMsg(object: MsgCreateBTCBStakingResponseAminoMsg): MsgCreateBTCBStakingResponse {
+    return MsgCreateBTCBStakingResponse.fromAmino(object.value);
+  },
+  fromProtoMsg(message: MsgCreateBTCBStakingResponseProtoMsg): MsgCreateBTCBStakingResponse {
+    return MsgCreateBTCBStakingResponse.decode(message.value);
+  },
+  toProto(message: MsgCreateBTCBStakingResponse): Uint8Array {
+    return MsgCreateBTCBStakingResponse.encode(message).finish();
+  },
+  toProtoMsg(message: MsgCreateBTCBStakingResponse): MsgCreateBTCBStakingResponseProtoMsg {
+    return {
+      typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCBStakingResponse",
+      value: MsgCreateBTCBStakingResponse.encode(message).finish()
+    };
+  }
+};
+GlobalDecoderRegistry.register(MsgCreateBTCBStakingResponse.typeUrl, MsgCreateBTCBStakingResponse);
 function createBaseMsgBurnRequest(): MsgBurnRequest {
   return {
     signer: "",
@@ -660,7 +905,7 @@ function createBaseMsgBurnRequest(): MsgBurnRequest {
 }
 export const MsgBurnRequest = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgBurnRequest",
-  aminoType: "btcstaking/MsgBurnRequest",
+  aminoType: "lorenzo/btcstaking/MsgBurnRequest",
   is(o: any): o is MsgBurnRequest {
     return o && (o.$typeUrl === MsgBurnRequest.typeUrl || typeof o.signer === "string" && typeof o.btcTargetAddress === "string" && typeof o.amount === "string");
   },
@@ -751,7 +996,7 @@ export const MsgBurnRequest = {
   },
   toAminoMsg(message: MsgBurnRequest): MsgBurnRequestAminoMsg {
     return {
-      type: "btcstaking/MsgBurnRequest",
+      type: "lorenzo/btcstaking/MsgBurnRequest",
       value: MsgBurnRequest.toAmino(message)
     };
   },
@@ -845,6 +1090,7 @@ function createBaseMsgAddReceiver(): MsgAddReceiver {
 }
 export const MsgAddReceiver = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgAddReceiver",
+  aminoType: "lorenzo/btcstaking/MsgAddReceiver",
   is(o: any): o is MsgAddReceiver {
     return o && (o.$typeUrl === MsgAddReceiver.typeUrl || typeof o.authority === "string" && Receiver.is(o.receiver));
   },
@@ -920,6 +1166,12 @@ export const MsgAddReceiver = {
   fromAminoMsg(object: MsgAddReceiverAminoMsg): MsgAddReceiver {
     return MsgAddReceiver.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgAddReceiver): MsgAddReceiverAminoMsg {
+    return {
+      type: "lorenzo/btcstaking/MsgAddReceiver",
+      value: MsgAddReceiver.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgAddReceiverProtoMsg): MsgAddReceiver {
     return MsgAddReceiver.decode(message.value);
   },
@@ -934,6 +1186,7 @@ export const MsgAddReceiver = {
   }
 };
 GlobalDecoderRegistry.register(MsgAddReceiver.typeUrl, MsgAddReceiver);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgAddReceiver.aminoType, MsgAddReceiver.typeUrl);
 function createBaseMsgAddReceiverResponse(): MsgAddReceiverResponse {
   return {};
 }
@@ -1009,6 +1262,7 @@ function createBaseMsgRemoveReceiver(): MsgRemoveReceiver {
 }
 export const MsgRemoveReceiver = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgRemoveReceiver",
+  aminoType: "lorenzo/btcstaking/MsgRemoveReceiver",
   is(o: any): o is MsgRemoveReceiver {
     return o && (o.$typeUrl === MsgRemoveReceiver.typeUrl || typeof o.authority === "string" && typeof o.receiver === "string");
   },
@@ -1084,6 +1338,12 @@ export const MsgRemoveReceiver = {
   fromAminoMsg(object: MsgRemoveReceiverAminoMsg): MsgRemoveReceiver {
     return MsgRemoveReceiver.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgRemoveReceiver): MsgRemoveReceiverAminoMsg {
+    return {
+      type: "lorenzo/btcstaking/MsgRemoveReceiver",
+      value: MsgRemoveReceiver.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgRemoveReceiverProtoMsg): MsgRemoveReceiver {
     return MsgRemoveReceiver.decode(message.value);
   },
@@ -1098,6 +1358,7 @@ export const MsgRemoveReceiver = {
   }
 };
 GlobalDecoderRegistry.register(MsgRemoveReceiver.typeUrl, MsgRemoveReceiver);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgRemoveReceiver.aminoType, MsgRemoveReceiver.typeUrl);
 function createBaseMsgRemoveReceiverResponse(): MsgRemoveReceiverResponse {
   return {};
 }
@@ -1173,6 +1434,7 @@ function createBaseMsgUpdateParams(): MsgUpdateParams {
 }
 export const MsgUpdateParams = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgUpdateParams",
+  aminoType: "lorenzo/btcstaking/MsgUpdateParams",
   is(o: any): o is MsgUpdateParams {
     return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.is(o.params));
   },
@@ -1248,6 +1510,12 @@ export const MsgUpdateParams = {
   fromAminoMsg(object: MsgUpdateParamsAminoMsg): MsgUpdateParams {
     return MsgUpdateParams.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgUpdateParams): MsgUpdateParamsAminoMsg {
+    return {
+      type: "lorenzo/btcstaking/MsgUpdateParams",
+      value: MsgUpdateParams.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgUpdateParamsProtoMsg): MsgUpdateParams {
     return MsgUpdateParams.decode(message.value);
   },
@@ -1262,6 +1530,7 @@ export const MsgUpdateParams = {
   }
 };
 GlobalDecoderRegistry.register(MsgUpdateParams.typeUrl, MsgUpdateParams);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUpdateParams.aminoType, MsgUpdateParams.typeUrl);
 function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
   return {};
 }

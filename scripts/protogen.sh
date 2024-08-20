@@ -11,7 +11,8 @@ PROTO_DIR=${ROOT_PATH}/proto
 TMP_DIR=${ROOT_PATH}/tmp
 
 COSMOS_TAG="v0.47.0"
-LORENZO_TAG="v2.0.0-rc2"
+LORENZO_TAG=${LORENZO_TAG:-""}
+LORENZO_COMMIT=${LORENZO_COMMIT:-"dcfdeb89fc327be79bfd55f342fae01c4d1270ce"}
 LORENZO_REPO="https://github.com/Lorenzo-Protocol/lorenzo"
 ETHERMINT_TAG="v0.22.0-lorenzo-4"
 ETHERMINT_REPO="https://github.com/Lorenzo-Protocol/ethermint"
@@ -25,7 +26,17 @@ echo "Entering ${PROTO_DIR}"
 cd ${PROTO_DIR}
 
 echo "Download lorenzo proto files..."
-git clone --depth 1 --branch ${LORENZO_TAG} ${LORENZO_REPO} ${TMP_DIR} >/dev/null 2>&1
+if [ -n "${LORENZO_TAG}" ]; then
+    git clone --depth 1 --branch ${LORENZO_TAG} ${LORENZO_REPO} ${TMP_DIR} >/dev/null 2>&1
+elif [ -n "${LORENZO_COMMIT}" ]; then
+    git clone ${LORENZO_REPO} ${TMP_DIR} >/dev/null 2>&1
+    cd ${TMP_DIR}
+    git checkout ${LORENZO_COMMIT} >/dev/null 2>&1
+    cd ${PROTO_DIR}
+else
+    echo "Error: Neither LORENZO_TAG nor LORENZO_COMMIT is specified"
+    exit 1
+fi
 cp -rf ${TMP_DIR}/proto/lorenzo ${PROTO_DIR}
 rm -rf ${TMP_DIR}
 

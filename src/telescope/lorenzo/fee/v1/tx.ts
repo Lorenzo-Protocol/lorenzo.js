@@ -39,7 +39,7 @@ export interface MsgUpdateParamsAmino {
   params?: ParamsAmino;
 }
 export interface MsgUpdateParamsAminoMsg {
-  type: "/lorenzo.fee.v1.MsgUpdateParams";
+  type: "lorenzo/fee/MsgUpdateParams";
   value: MsgUpdateParamsAmino;
 }
 /** MsgUpdateParams defines a message for updating fee module parameters. */
@@ -69,6 +69,7 @@ function createBaseMsgUpdateParams(): MsgUpdateParams {
 }
 export const MsgUpdateParams = {
   typeUrl: "/lorenzo.fee.v1.MsgUpdateParams",
+  aminoType: "lorenzo/fee/MsgUpdateParams",
   is(o: any): o is MsgUpdateParams {
     return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.is(o.params));
   },
@@ -144,6 +145,12 @@ export const MsgUpdateParams = {
   fromAminoMsg(object: MsgUpdateParamsAminoMsg): MsgUpdateParams {
     return MsgUpdateParams.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgUpdateParams): MsgUpdateParamsAminoMsg {
+    return {
+      type: "lorenzo/fee/MsgUpdateParams",
+      value: MsgUpdateParams.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgUpdateParamsProtoMsg): MsgUpdateParams {
     return MsgUpdateParams.decode(message.value);
   },
@@ -158,6 +165,7 @@ export const MsgUpdateParams = {
   }
 };
 GlobalDecoderRegistry.register(MsgUpdateParams.typeUrl, MsgUpdateParams);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUpdateParams.aminoType, MsgUpdateParams.typeUrl);
 function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
   return {};
 }

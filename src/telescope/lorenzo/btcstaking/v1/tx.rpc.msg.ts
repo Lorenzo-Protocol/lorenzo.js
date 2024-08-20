@@ -1,10 +1,11 @@
 //@ts-nocheck
 import { Rpc } from "../../../helpers";
 import { BinaryReader } from "../../../binary";
-import { MsgCreateBTCStaking, MsgCreateBTCStakingResponse, MsgBurnRequest, MsgBurnResponse, MsgAddReceiver, MsgAddReceiverResponse, MsgRemoveReceiver, MsgRemoveReceiverResponse, MsgUpdateParams, MsgUpdateParamsResponse } from "./tx";
+import { MsgCreateBTCStaking, MsgCreateBTCStakingResponse, MsgCreateBTCBStaking, MsgCreateBTCBStakingResponse, MsgBurnRequest, MsgBurnResponse, MsgAddReceiver, MsgAddReceiverResponse, MsgRemoveReceiver, MsgRemoveReceiverResponse, MsgUpdateParams, MsgUpdateParamsResponse } from "./tx";
 /** Msg defines the Msg service. */
 export interface Msg {
   createBTCStaking(request: MsgCreateBTCStaking): Promise<MsgCreateBTCStakingResponse>;
+  createBTCBStaking(request: MsgCreateBTCBStaking): Promise<MsgCreateBTCBStakingResponse>;
   burn(request: MsgBurnRequest): Promise<MsgBurnResponse>;
   addReceiver(request: MsgAddReceiver): Promise<MsgAddReceiverResponse>;
   removeReceiver(request: MsgRemoveReceiver): Promise<MsgRemoveReceiverResponse>;
@@ -15,6 +16,7 @@ export class MsgClientImpl implements Msg {
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.createBTCStaking = this.createBTCStaking.bind(this);
+    this.createBTCBStaking = this.createBTCBStaking.bind(this);
     this.burn = this.burn.bind(this);
     this.addReceiver = this.addReceiver.bind(this);
     this.removeReceiver = this.removeReceiver.bind(this);
@@ -24,6 +26,11 @@ export class MsgClientImpl implements Msg {
     const data = MsgCreateBTCStaking.encode(request).finish();
     const promise = this.rpc.request("lorenzo.btcstaking.v1.Msg", "CreateBTCStaking", data);
     return promise.then(data => MsgCreateBTCStakingResponse.decode(new BinaryReader(data)));
+  }
+  createBTCBStaking(request: MsgCreateBTCBStaking): Promise<MsgCreateBTCBStakingResponse> {
+    const data = MsgCreateBTCBStaking.encode(request).finish();
+    const promise = this.rpc.request("lorenzo.btcstaking.v1.Msg", "CreateBTCBStaking", data);
+    return promise.then(data => MsgCreateBTCBStakingResponse.decode(new BinaryReader(data)));
   }
   burn(request: MsgBurnRequest): Promise<MsgBurnResponse> {
     const data = MsgBurnRequest.encode(request).finish();

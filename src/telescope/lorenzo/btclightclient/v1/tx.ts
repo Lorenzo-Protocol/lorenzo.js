@@ -18,7 +18,7 @@ export interface MsgInsertHeadersAmino {
   headers?: string[];
 }
 export interface MsgInsertHeadersAminoMsg {
-  type: "/lorenzo.btclightclient.v1.MsgInsertHeaders";
+  type: "lorenzo/btclightclient/MsgInsertHeaders";
   value: MsgInsertHeadersAmino;
 }
 /** MsgInsertHeaders defines the message for multiple incoming header bytes */
@@ -92,7 +92,7 @@ export interface MsgUpdateParamsAmino {
   params?: ParamsAmino;
 }
 export interface MsgUpdateParamsAminoMsg {
-  type: "/lorenzo.btclightclient.v1.MsgUpdateParams";
+  type: "lorenzo/btclightclient/MsgUpdateParams";
   value: MsgUpdateParamsAmino;
 }
 /**
@@ -132,7 +132,7 @@ export interface MsgUpdateFeeRateAmino {
   fee_rate?: string;
 }
 export interface MsgUpdateFeeRateAminoMsg {
-  type: "/lorenzo.btclightclient.v1.MsgUpdateFeeRate";
+  type: "lorenzo/btclightclient/MsgUpdateFeeRate";
   value: MsgUpdateFeeRateAmino;
 }
 export interface MsgUpdateFeeRateSDKType {
@@ -158,6 +158,7 @@ function createBaseMsgInsertHeaders(): MsgInsertHeaders {
 }
 export const MsgInsertHeaders = {
   typeUrl: "/lorenzo.btclightclient.v1.MsgInsertHeaders",
+  aminoType: "lorenzo/btclightclient/MsgInsertHeaders",
   is(o: any): o is MsgInsertHeaders {
     return o && (o.$typeUrl === MsgInsertHeaders.typeUrl || typeof o.signer === "string" && Array.isArray(o.headers) && (!o.headers.length || o.headers[0] instanceof Uint8Array || typeof o.headers[0] === "string"));
   },
@@ -239,6 +240,12 @@ export const MsgInsertHeaders = {
   fromAminoMsg(object: MsgInsertHeadersAminoMsg): MsgInsertHeaders {
     return MsgInsertHeaders.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgInsertHeaders): MsgInsertHeadersAminoMsg {
+    return {
+      type: "lorenzo/btclightclient/MsgInsertHeaders",
+      value: MsgInsertHeaders.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgInsertHeadersProtoMsg): MsgInsertHeaders {
     return MsgInsertHeaders.decode(message.value);
   },
@@ -253,6 +260,7 @@ export const MsgInsertHeaders = {
   }
 };
 GlobalDecoderRegistry.register(MsgInsertHeaders.typeUrl, MsgInsertHeaders);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgInsertHeaders.aminoType, MsgInsertHeaders.typeUrl);
 function createBaseMsgInsertHeadersResponse(): MsgInsertHeadersResponse {
   return {};
 }
@@ -328,6 +336,7 @@ function createBaseMsgUpdateParams(): MsgUpdateParams {
 }
 export const MsgUpdateParams = {
   typeUrl: "/lorenzo.btclightclient.v1.MsgUpdateParams",
+  aminoType: "lorenzo/btclightclient/MsgUpdateParams",
   is(o: any): o is MsgUpdateParams {
     return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.is(o.params));
   },
@@ -403,6 +412,12 @@ export const MsgUpdateParams = {
   fromAminoMsg(object: MsgUpdateParamsAminoMsg): MsgUpdateParams {
     return MsgUpdateParams.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgUpdateParams): MsgUpdateParamsAminoMsg {
+    return {
+      type: "lorenzo/btclightclient/MsgUpdateParams",
+      value: MsgUpdateParams.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgUpdateParamsProtoMsg): MsgUpdateParams {
     return MsgUpdateParams.decode(message.value);
   },
@@ -417,6 +432,7 @@ export const MsgUpdateParams = {
   }
 };
 GlobalDecoderRegistry.register(MsgUpdateParams.typeUrl, MsgUpdateParams);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUpdateParams.aminoType, MsgUpdateParams.typeUrl);
 function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
   return {};
 }
@@ -492,6 +508,7 @@ function createBaseMsgUpdateFeeRate(): MsgUpdateFeeRate {
 }
 export const MsgUpdateFeeRate = {
   typeUrl: "/lorenzo.btclightclient.v1.MsgUpdateFeeRate",
+  aminoType: "lorenzo/btclightclient/MsgUpdateFeeRate",
   is(o: any): o is MsgUpdateFeeRate {
     return o && (o.$typeUrl === MsgUpdateFeeRate.typeUrl || typeof o.signer === "string" && typeof o.feeRate === "bigint");
   },
@@ -567,6 +584,12 @@ export const MsgUpdateFeeRate = {
   fromAminoMsg(object: MsgUpdateFeeRateAminoMsg): MsgUpdateFeeRate {
     return MsgUpdateFeeRate.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgUpdateFeeRate): MsgUpdateFeeRateAminoMsg {
+    return {
+      type: "lorenzo/btclightclient/MsgUpdateFeeRate",
+      value: MsgUpdateFeeRate.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgUpdateFeeRateProtoMsg): MsgUpdateFeeRate {
     return MsgUpdateFeeRate.decode(message.value);
   },
@@ -581,6 +604,7 @@ export const MsgUpdateFeeRate = {
   }
 };
 GlobalDecoderRegistry.register(MsgUpdateFeeRate.typeUrl, MsgUpdateFeeRate);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUpdateFeeRate.aminoType, MsgUpdateFeeRate.typeUrl);
 function createBaseMsgUpdateFeeRateResponse(): MsgUpdateFeeRateResponse {
   return {};
 }

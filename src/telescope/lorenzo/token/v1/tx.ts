@@ -28,7 +28,7 @@ export interface MsgRegisterCoinAmino {
   metadata?: MetadataAmino[];
 }
 export interface MsgRegisterCoinAminoMsg {
-  type: "/lorenzo.token.v1.MsgRegisterCoin";
+  type: "lorenzo/token/MsgRegisterCoin";
   value: MsgRegisterCoinAmino;
 }
 /**
@@ -75,7 +75,7 @@ export interface MsgRegisterERC20Amino {
   contract_addresses?: string[];
 }
 export interface MsgRegisterERC20AminoMsg {
-  type: "/lorenzo.token.v1.MsgRegisterERC20";
+  type: "lorenzo/token/MsgRegisterERC20";
   value: MsgRegisterERC20Amino;
 }
 /**
@@ -122,7 +122,7 @@ export interface MsgToggleConversionAmino {
   token?: string;
 }
 export interface MsgToggleConversionAminoMsg {
-  type: "/lorenzo.token.v1.MsgToggleConversion";
+  type: "lorenzo/token/MsgToggleConversion";
   value: MsgToggleConversionAmino;
 }
 /**
@@ -167,7 +167,7 @@ export interface MsgConvertCoinAmino {
   sender?: string;
 }
 export interface MsgConvertCoinAminoMsg {
-  type: "/lorenzo.token.v1.MsgConvertCoin";
+  type: "lorenzo/token/MsgConvertCoin";
   value: MsgConvertCoinAmino;
 }
 /** MsgConvertCoin converts a coin to an ERC20 token */
@@ -214,7 +214,7 @@ export interface MsgConvertERC20Amino {
   sender?: string;
 }
 export interface MsgConvertERC20AminoMsg {
-  type: "/lorenzo.token.v1.MsgConvertERC20";
+  type: "lorenzo/token/MsgConvertERC20";
   value: MsgConvertERC20Amino;
 }
 /** MsgConvertERC20 converts an ERC20 token to a coin */
@@ -254,7 +254,7 @@ export interface MsgUpdateParamsAmino {
   params?: ParamsAmino;
 }
 export interface MsgUpdateParamsAminoMsg {
-  type: "/lorenzo.token.v1.MsgUpdateParams";
+  type: "lorenzo/token/MsgUpdateParams";
   value: MsgUpdateParamsAmino;
 }
 /** MsgUpdateParams updates the convert module parameters */
@@ -281,6 +281,7 @@ function createBaseMsgRegisterCoin(): MsgRegisterCoin {
 }
 export const MsgRegisterCoin = {
   typeUrl: "/lorenzo.token.v1.MsgRegisterCoin",
+  aminoType: "lorenzo/token/MsgRegisterCoin",
   is(o: any): o is MsgRegisterCoin {
     return o && (o.$typeUrl === MsgRegisterCoin.typeUrl || typeof o.authority === "string" && Array.isArray(o.metadata) && (!o.metadata.length || Metadata.is(o.metadata[0])));
   },
@@ -362,6 +363,12 @@ export const MsgRegisterCoin = {
   fromAminoMsg(object: MsgRegisterCoinAminoMsg): MsgRegisterCoin {
     return MsgRegisterCoin.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgRegisterCoin): MsgRegisterCoinAminoMsg {
+    return {
+      type: "lorenzo/token/MsgRegisterCoin",
+      value: MsgRegisterCoin.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgRegisterCoinProtoMsg): MsgRegisterCoin {
     return MsgRegisterCoin.decode(message.value);
   },
@@ -376,6 +383,7 @@ export const MsgRegisterCoin = {
   }
 };
 GlobalDecoderRegistry.register(MsgRegisterCoin.typeUrl, MsgRegisterCoin);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgRegisterCoin.aminoType, MsgRegisterCoin.typeUrl);
 function createBaseMsgRegisterCoinResponse(): MsgRegisterCoinResponse {
   return {};
 }
@@ -451,6 +459,7 @@ function createBaseMsgRegisterERC20(): MsgRegisterERC20 {
 }
 export const MsgRegisterERC20 = {
   typeUrl: "/lorenzo.token.v1.MsgRegisterERC20",
+  aminoType: "lorenzo/token/MsgRegisterERC20",
   is(o: any): o is MsgRegisterERC20 {
     return o && (o.$typeUrl === MsgRegisterERC20.typeUrl || typeof o.authority === "string" && Array.isArray(o.contractAddresses) && (!o.contractAddresses.length || typeof o.contractAddresses[0] === "string"));
   },
@@ -532,6 +541,12 @@ export const MsgRegisterERC20 = {
   fromAminoMsg(object: MsgRegisterERC20AminoMsg): MsgRegisterERC20 {
     return MsgRegisterERC20.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgRegisterERC20): MsgRegisterERC20AminoMsg {
+    return {
+      type: "lorenzo/token/MsgRegisterERC20",
+      value: MsgRegisterERC20.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgRegisterERC20ProtoMsg): MsgRegisterERC20 {
     return MsgRegisterERC20.decode(message.value);
   },
@@ -546,6 +561,7 @@ export const MsgRegisterERC20 = {
   }
 };
 GlobalDecoderRegistry.register(MsgRegisterERC20.typeUrl, MsgRegisterERC20);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgRegisterERC20.aminoType, MsgRegisterERC20.typeUrl);
 function createBaseMsgRegisterERC20Response(): MsgRegisterERC20Response {
   return {};
 }
@@ -621,6 +637,7 @@ function createBaseMsgToggleConversion(): MsgToggleConversion {
 }
 export const MsgToggleConversion = {
   typeUrl: "/lorenzo.token.v1.MsgToggleConversion",
+  aminoType: "lorenzo/token/MsgToggleConversion",
   is(o: any): o is MsgToggleConversion {
     return o && (o.$typeUrl === MsgToggleConversion.typeUrl || typeof o.authority === "string" && typeof o.token === "string");
   },
@@ -696,6 +713,12 @@ export const MsgToggleConversion = {
   fromAminoMsg(object: MsgToggleConversionAminoMsg): MsgToggleConversion {
     return MsgToggleConversion.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgToggleConversion): MsgToggleConversionAminoMsg {
+    return {
+      type: "lorenzo/token/MsgToggleConversion",
+      value: MsgToggleConversion.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgToggleConversionProtoMsg): MsgToggleConversion {
     return MsgToggleConversion.decode(message.value);
   },
@@ -710,6 +733,7 @@ export const MsgToggleConversion = {
   }
 };
 GlobalDecoderRegistry.register(MsgToggleConversion.typeUrl, MsgToggleConversion);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgToggleConversion.aminoType, MsgToggleConversion.typeUrl);
 function createBaseMsgToggleConversionResponse(): MsgToggleConversionResponse {
   return {};
 }
@@ -786,6 +810,7 @@ function createBaseMsgConvertCoin(): MsgConvertCoin {
 }
 export const MsgConvertCoin = {
   typeUrl: "/lorenzo.token.v1.MsgConvertCoin",
+  aminoType: "lorenzo/token/MsgConvertCoin",
   is(o: any): o is MsgConvertCoin {
     return o && (o.$typeUrl === MsgConvertCoin.typeUrl || Coin.is(o.coin) && typeof o.receiver === "string" && typeof o.sender === "string");
   },
@@ -874,6 +899,12 @@ export const MsgConvertCoin = {
   fromAminoMsg(object: MsgConvertCoinAminoMsg): MsgConvertCoin {
     return MsgConvertCoin.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgConvertCoin): MsgConvertCoinAminoMsg {
+    return {
+      type: "lorenzo/token/MsgConvertCoin",
+      value: MsgConvertCoin.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgConvertCoinProtoMsg): MsgConvertCoin {
     return MsgConvertCoin.decode(message.value);
   },
@@ -888,6 +919,7 @@ export const MsgConvertCoin = {
   }
 };
 GlobalDecoderRegistry.register(MsgConvertCoin.typeUrl, MsgConvertCoin);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgConvertCoin.aminoType, MsgConvertCoin.typeUrl);
 function createBaseMsgConvertCoinResponse(): MsgConvertCoinResponse {
   return {};
 }
@@ -965,6 +997,7 @@ function createBaseMsgConvertERC20(): MsgConvertERC20 {
 }
 export const MsgConvertERC20 = {
   typeUrl: "/lorenzo.token.v1.MsgConvertERC20",
+  aminoType: "lorenzo/token/MsgConvertERC20",
   is(o: any): o is MsgConvertERC20 {
     return o && (o.$typeUrl === MsgConvertERC20.typeUrl || typeof o.contractAddress === "string" && typeof o.amount === "string" && typeof o.receiver === "string" && typeof o.sender === "string");
   },
@@ -1066,6 +1099,12 @@ export const MsgConvertERC20 = {
   fromAminoMsg(object: MsgConvertERC20AminoMsg): MsgConvertERC20 {
     return MsgConvertERC20.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgConvertERC20): MsgConvertERC20AminoMsg {
+    return {
+      type: "lorenzo/token/MsgConvertERC20",
+      value: MsgConvertERC20.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgConvertERC20ProtoMsg): MsgConvertERC20 {
     return MsgConvertERC20.decode(message.value);
   },
@@ -1080,6 +1119,7 @@ export const MsgConvertERC20 = {
   }
 };
 GlobalDecoderRegistry.register(MsgConvertERC20.typeUrl, MsgConvertERC20);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgConvertERC20.aminoType, MsgConvertERC20.typeUrl);
 function createBaseMsgConvertERC20Response(): MsgConvertERC20Response {
   return {};
 }
@@ -1155,6 +1195,7 @@ function createBaseMsgUpdateParams(): MsgUpdateParams {
 }
 export const MsgUpdateParams = {
   typeUrl: "/lorenzo.token.v1.MsgUpdateParams",
+  aminoType: "lorenzo/token/MsgUpdateParams",
   is(o: any): o is MsgUpdateParams {
     return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.is(o.params));
   },
@@ -1230,6 +1271,12 @@ export const MsgUpdateParams = {
   fromAminoMsg(object: MsgUpdateParamsAminoMsg): MsgUpdateParams {
     return MsgUpdateParams.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgUpdateParams): MsgUpdateParamsAminoMsg {
+    return {
+      type: "lorenzo/token/MsgUpdateParams",
+      value: MsgUpdateParams.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgUpdateParamsProtoMsg): MsgUpdateParams {
     return MsgUpdateParams.decode(message.value);
   },
@@ -1244,6 +1291,7 @@ export const MsgUpdateParams = {
   }
 };
 GlobalDecoderRegistry.register(MsgUpdateParams.typeUrl, MsgUpdateParams);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUpdateParams.aminoType, MsgUpdateParams.typeUrl);
 function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
   return {};
 }

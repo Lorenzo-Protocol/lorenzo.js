@@ -1,6 +1,6 @@
 //@ts-nocheck
 import { Params, ParamsAmino, ParamsSDKType } from "./params";
-import { BTCStakingRecord, BTCStakingRecordAmino, BTCStakingRecordSDKType } from "./staking_record";
+import { BTCStakingRecord, BTCStakingRecordAmino, BTCStakingRecordSDKType, BTCBStakingRecord, BTCBStakingRecordAmino, BTCBStakingRecordSDKType } from "./staking_record";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { GlobalDecoderRegistry } from "../../../registry";
 import { bytesFromBase64, base64FromBytes } from "../../../helpers";
@@ -97,6 +97,46 @@ export interface QueryStakingRecordResponseAminoMsg {
 }
 export interface QueryStakingRecordResponseSDKType {
   record?: BTCStakingRecordSDKType;
+}
+export interface QueryBTCBStakingRecordRequest {
+  chainId: number;
+  contract: string;
+  stakingIdx: bigint;
+}
+export interface QueryBTCBStakingRecordRequestProtoMsg {
+  typeUrl: "/lorenzo.btcstaking.v1.QueryBTCBStakingRecordRequest";
+  value: Uint8Array;
+}
+export interface QueryBTCBStakingRecordRequestAmino {
+  chain_id?: number;
+  contract?: string;
+  staking_idx?: string;
+}
+export interface QueryBTCBStakingRecordRequestAminoMsg {
+  type: "/lorenzo.btcstaking.v1.QueryBTCBStakingRecordRequest";
+  value: QueryBTCBStakingRecordRequestAmino;
+}
+export interface QueryBTCBStakingRecordRequestSDKType {
+  chain_id: number;
+  contract: string;
+  staking_idx: bigint;
+}
+export interface QueryBTCBStakingRecordResponse {
+  record?: BTCBStakingRecord;
+}
+export interface QueryBTCBStakingRecordResponseProtoMsg {
+  typeUrl: "/lorenzo.btcstaking.v1.QueryBTCBStakingRecordResponse";
+  value: Uint8Array;
+}
+export interface QueryBTCBStakingRecordResponseAmino {
+  record?: BTCBStakingRecordAmino;
+}
+export interface QueryBTCBStakingRecordResponseAminoMsg {
+  type: "/lorenzo.btcstaking.v1.QueryBTCBStakingRecordResponse";
+  value: QueryBTCBStakingRecordResponseAmino;
+}
+export interface QueryBTCBStakingRecordResponseSDKType {
+  record?: BTCBStakingRecordSDKType;
 }
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
@@ -567,3 +607,197 @@ export const QueryStakingRecordResponse = {
   }
 };
 GlobalDecoderRegistry.register(QueryStakingRecordResponse.typeUrl, QueryStakingRecordResponse);
+function createBaseQueryBTCBStakingRecordRequest(): QueryBTCBStakingRecordRequest {
+  return {
+    chainId: 0,
+    contract: "",
+    stakingIdx: BigInt(0)
+  };
+}
+export const QueryBTCBStakingRecordRequest = {
+  typeUrl: "/lorenzo.btcstaking.v1.QueryBTCBStakingRecordRequest",
+  is(o: any): o is QueryBTCBStakingRecordRequest {
+    return o && (o.$typeUrl === QueryBTCBStakingRecordRequest.typeUrl || typeof o.chainId === "number" && typeof o.contract === "string" && typeof o.stakingIdx === "bigint");
+  },
+  isSDK(o: any): o is QueryBTCBStakingRecordRequestSDKType {
+    return o && (o.$typeUrl === QueryBTCBStakingRecordRequest.typeUrl || typeof o.chain_id === "number" && typeof o.contract === "string" && typeof o.staking_idx === "bigint");
+  },
+  isAmino(o: any): o is QueryBTCBStakingRecordRequestAmino {
+    return o && (o.$typeUrl === QueryBTCBStakingRecordRequest.typeUrl || typeof o.chain_id === "number" && typeof o.contract === "string" && typeof o.staking_idx === "bigint");
+  },
+  encode(message: QueryBTCBStakingRecordRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.chainId !== 0) {
+      writer.uint32(8).uint32(message.chainId);
+    }
+    if (message.contract !== "") {
+      writer.uint32(18).string(message.contract);
+    }
+    if (message.stakingIdx !== BigInt(0)) {
+      writer.uint32(24).uint64(message.stakingIdx);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryBTCBStakingRecordRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryBTCBStakingRecordRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.chainId = reader.uint32();
+          break;
+        case 2:
+          message.contract = reader.string();
+          break;
+        case 3:
+          message.stakingIdx = reader.uint64();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromPartial(object: Partial<QueryBTCBStakingRecordRequest>): QueryBTCBStakingRecordRequest {
+    const message = createBaseQueryBTCBStakingRecordRequest();
+    message.chainId = object.chainId ?? 0;
+    message.contract = object.contract ?? "";
+    message.stakingIdx = object.stakingIdx !== undefined && object.stakingIdx !== null ? BigInt(object.stakingIdx.toString()) : BigInt(0);
+    return message;
+  },
+  fromSDK(object: QueryBTCBStakingRecordRequestSDKType): QueryBTCBStakingRecordRequest {
+    return {
+      chainId: object?.chain_id,
+      contract: object?.contract,
+      stakingIdx: object?.staking_idx
+    };
+  },
+  toSDK(message: QueryBTCBStakingRecordRequest): QueryBTCBStakingRecordRequestSDKType {
+    const obj: any = {};
+    obj.chain_id = message.chainId;
+    obj.contract = message.contract;
+    obj.staking_idx = message.stakingIdx;
+    return obj;
+  },
+  fromAmino(object: QueryBTCBStakingRecordRequestAmino): QueryBTCBStakingRecordRequest {
+    const message = createBaseQueryBTCBStakingRecordRequest();
+    if (object.chain_id !== undefined && object.chain_id !== null) {
+      message.chainId = object.chain_id;
+    }
+    if (object.contract !== undefined && object.contract !== null) {
+      message.contract = object.contract;
+    }
+    if (object.staking_idx !== undefined && object.staking_idx !== null) {
+      message.stakingIdx = BigInt(object.staking_idx);
+    }
+    return message;
+  },
+  toAmino(message: QueryBTCBStakingRecordRequest): QueryBTCBStakingRecordRequestAmino {
+    const obj: any = {};
+    obj.chain_id = message.chainId === 0 ? undefined : message.chainId;
+    obj.contract = message.contract === "" ? undefined : message.contract;
+    obj.staking_idx = message.stakingIdx !== BigInt(0) ? message.stakingIdx.toString() : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: QueryBTCBStakingRecordRequestAminoMsg): QueryBTCBStakingRecordRequest {
+    return QueryBTCBStakingRecordRequest.fromAmino(object.value);
+  },
+  fromProtoMsg(message: QueryBTCBStakingRecordRequestProtoMsg): QueryBTCBStakingRecordRequest {
+    return QueryBTCBStakingRecordRequest.decode(message.value);
+  },
+  toProto(message: QueryBTCBStakingRecordRequest): Uint8Array {
+    return QueryBTCBStakingRecordRequest.encode(message).finish();
+  },
+  toProtoMsg(message: QueryBTCBStakingRecordRequest): QueryBTCBStakingRecordRequestProtoMsg {
+    return {
+      typeUrl: "/lorenzo.btcstaking.v1.QueryBTCBStakingRecordRequest",
+      value: QueryBTCBStakingRecordRequest.encode(message).finish()
+    };
+  }
+};
+GlobalDecoderRegistry.register(QueryBTCBStakingRecordRequest.typeUrl, QueryBTCBStakingRecordRequest);
+function createBaseQueryBTCBStakingRecordResponse(): QueryBTCBStakingRecordResponse {
+  return {
+    record: undefined
+  };
+}
+export const QueryBTCBStakingRecordResponse = {
+  typeUrl: "/lorenzo.btcstaking.v1.QueryBTCBStakingRecordResponse",
+  is(o: any): o is QueryBTCBStakingRecordResponse {
+    return o && o.$typeUrl === QueryBTCBStakingRecordResponse.typeUrl;
+  },
+  isSDK(o: any): o is QueryBTCBStakingRecordResponseSDKType {
+    return o && o.$typeUrl === QueryBTCBStakingRecordResponse.typeUrl;
+  },
+  isAmino(o: any): o is QueryBTCBStakingRecordResponseAmino {
+    return o && o.$typeUrl === QueryBTCBStakingRecordResponse.typeUrl;
+  },
+  encode(message: QueryBTCBStakingRecordResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.record !== undefined) {
+      BTCBStakingRecord.encode(message.record, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryBTCBStakingRecordResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryBTCBStakingRecordResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.record = BTCBStakingRecord.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromPartial(object: Partial<QueryBTCBStakingRecordResponse>): QueryBTCBStakingRecordResponse {
+    const message = createBaseQueryBTCBStakingRecordResponse();
+    message.record = object.record !== undefined && object.record !== null ? BTCBStakingRecord.fromPartial(object.record) : undefined;
+    return message;
+  },
+  fromSDK(object: QueryBTCBStakingRecordResponseSDKType): QueryBTCBStakingRecordResponse {
+    return {
+      record: object.record ? BTCBStakingRecord.fromSDK(object.record) : undefined
+    };
+  },
+  toSDK(message: QueryBTCBStakingRecordResponse): QueryBTCBStakingRecordResponseSDKType {
+    const obj: any = {};
+    message.record !== undefined && (obj.record = message.record ? BTCBStakingRecord.toSDK(message.record) : undefined);
+    return obj;
+  },
+  fromAmino(object: QueryBTCBStakingRecordResponseAmino): QueryBTCBStakingRecordResponse {
+    const message = createBaseQueryBTCBStakingRecordResponse();
+    if (object.record !== undefined && object.record !== null) {
+      message.record = BTCBStakingRecord.fromAmino(object.record);
+    }
+    return message;
+  },
+  toAmino(message: QueryBTCBStakingRecordResponse): QueryBTCBStakingRecordResponseAmino {
+    const obj: any = {};
+    obj.record = message.record ? BTCBStakingRecord.toAmino(message.record) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: QueryBTCBStakingRecordResponseAminoMsg): QueryBTCBStakingRecordResponse {
+    return QueryBTCBStakingRecordResponse.fromAmino(object.value);
+  },
+  fromProtoMsg(message: QueryBTCBStakingRecordResponseProtoMsg): QueryBTCBStakingRecordResponse {
+    return QueryBTCBStakingRecordResponse.decode(message.value);
+  },
+  toProto(message: QueryBTCBStakingRecordResponse): Uint8Array {
+    return QueryBTCBStakingRecordResponse.encode(message).finish();
+  },
+  toProtoMsg(message: QueryBTCBStakingRecordResponse): QueryBTCBStakingRecordResponseProtoMsg {
+    return {
+      typeUrl: "/lorenzo.btcstaking.v1.QueryBTCBStakingRecordResponse",
+      value: QueryBTCBStakingRecordResponse.encode(message).finish()
+    };
+  }
+};
+GlobalDecoderRegistry.register(QueryBTCBStakingRecordResponse.typeUrl, QueryBTCBStakingRecordResponse);

@@ -60,6 +60,9 @@ export const createRPCMsgClient = async ({
     agent: {
       v1: new (await import("./agent/v1/tx.rpc.msg")).MsgClientImpl(rpc)
     },
+    bnblightclient: {
+      v1: new (await import("./bnblightclient/v1/tx.rpc.msg")).MsgClientImpl(rpc)
+    },
     btclightclient: {
       v1: new (await import("./btclightclient/v1/tx.rpc.msg")).MsgClientImpl(rpc)
     },

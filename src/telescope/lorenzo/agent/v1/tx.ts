@@ -29,7 +29,7 @@ export interface MsgUpdateParamsAmino {
   params?: ParamsAmino;
 }
 export interface MsgUpdateParamsAminoMsg {
-  type: "/lorenzo.agent.v1.MsgUpdateParams";
+  type: "lorenzo/agent/MsgUpdateParams";
   value: MsgUpdateParamsAmino;
 }
 export interface MsgUpdateParamsSDKType {
@@ -85,7 +85,7 @@ export interface MsgAddAgentAmino {
   sender?: string;
 }
 export interface MsgAddAgentAminoMsg {
-  type: "/lorenzo.agent.v1.MsgAddAgent";
+  type: "lorenzo/agent/MsgAddAgent";
   value: MsgAddAgentAmino;
 }
 /** MsgUpdateParams defines a message for add a agent. */
@@ -150,7 +150,7 @@ export interface MsgEditAgentAmino {
   sender?: string;
 }
 export interface MsgEditAgentAminoMsg {
-  type: "/lorenzo.agent.v1.MsgEditAgent";
+  type: "lorenzo/agent/MsgEditAgent";
   value: MsgEditAgentAmino;
 }
 /** MsgEditAgent defines a message for editting the agent. */
@@ -194,7 +194,7 @@ export interface MsgRemoveAgentAmino {
   sender?: string;
 }
 export interface MsgRemoveAgentAminoMsg {
-  type: "/lorenzo.agent.v1.MsgRemoveAgent";
+  type: "lorenzo/agent/MsgRemoveAgent";
   value: MsgRemoveAgentAmino;
 }
 /** MsgRemoveAgent defines a message for removing the agent. */
@@ -224,6 +224,7 @@ function createBaseMsgUpdateParams(): MsgUpdateParams {
 }
 export const MsgUpdateParams = {
   typeUrl: "/lorenzo.agent.v1.MsgUpdateParams",
+  aminoType: "lorenzo/agent/MsgUpdateParams",
   is(o: any): o is MsgUpdateParams {
     return o && (o.$typeUrl === MsgUpdateParams.typeUrl || typeof o.authority === "string" && Params.is(o.params));
   },
@@ -299,6 +300,12 @@ export const MsgUpdateParams = {
   fromAminoMsg(object: MsgUpdateParamsAminoMsg): MsgUpdateParams {
     return MsgUpdateParams.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgUpdateParams): MsgUpdateParamsAminoMsg {
+    return {
+      type: "lorenzo/agent/MsgUpdateParams",
+      value: MsgUpdateParams.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgUpdateParamsProtoMsg): MsgUpdateParams {
     return MsgUpdateParams.decode(message.value);
   },
@@ -313,6 +320,7 @@ export const MsgUpdateParams = {
   }
 };
 GlobalDecoderRegistry.register(MsgUpdateParams.typeUrl, MsgUpdateParams);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgUpdateParams.aminoType, MsgUpdateParams.typeUrl);
 function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
   return {};
 }
@@ -392,6 +400,7 @@ function createBaseMsgAddAgent(): MsgAddAgent {
 }
 export const MsgAddAgent = {
   typeUrl: "/lorenzo.agent.v1.MsgAddAgent",
+  aminoType: "lorenzo/agent/MsgAddAgent",
   is(o: any): o is MsgAddAgent {
     return o && (o.$typeUrl === MsgAddAgent.typeUrl || typeof o.name === "string" && typeof o.btcReceivingAddress === "string" && typeof o.ethAddr === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
   },
@@ -519,6 +528,12 @@ export const MsgAddAgent = {
   fromAminoMsg(object: MsgAddAgentAminoMsg): MsgAddAgent {
     return MsgAddAgent.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgAddAgent): MsgAddAgentAminoMsg {
+    return {
+      type: "lorenzo/agent/MsgAddAgent",
+      value: MsgAddAgent.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgAddAgentProtoMsg): MsgAddAgent {
     return MsgAddAgent.decode(message.value);
   },
@@ -533,6 +548,7 @@ export const MsgAddAgent = {
   }
 };
 GlobalDecoderRegistry.register(MsgAddAgent.typeUrl, MsgAddAgent);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgAddAgent.aminoType, MsgAddAgent.typeUrl);
 function createBaseMsgAddAgentResponse(): MsgAddAgentResponse {
   return {
     id: BigInt(0)
@@ -627,6 +643,7 @@ function createBaseMsgEditAgent(): MsgEditAgent {
 }
 export const MsgEditAgent = {
   typeUrl: "/lorenzo.agent.v1.MsgEditAgent",
+  aminoType: "lorenzo/agent/MsgEditAgent",
   is(o: any): o is MsgEditAgent {
     return o && (o.$typeUrl === MsgEditAgent.typeUrl || typeof o.id === "bigint" && typeof o.name === "string" && typeof o.description === "string" && typeof o.url === "string" && typeof o.sender === "string");
   },
@@ -741,6 +758,12 @@ export const MsgEditAgent = {
   fromAminoMsg(object: MsgEditAgentAminoMsg): MsgEditAgent {
     return MsgEditAgent.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgEditAgent): MsgEditAgentAminoMsg {
+    return {
+      type: "lorenzo/agent/MsgEditAgent",
+      value: MsgEditAgent.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgEditAgentProtoMsg): MsgEditAgent {
     return MsgEditAgent.decode(message.value);
   },
@@ -755,6 +778,7 @@ export const MsgEditAgent = {
   }
 };
 GlobalDecoderRegistry.register(MsgEditAgent.typeUrl, MsgEditAgent);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgEditAgent.aminoType, MsgEditAgent.typeUrl);
 function createBaseMsgEditAgentResponse(): MsgEditAgentResponse {
   return {};
 }
@@ -830,6 +854,7 @@ function createBaseMsgRemoveAgent(): MsgRemoveAgent {
 }
 export const MsgRemoveAgent = {
   typeUrl: "/lorenzo.agent.v1.MsgRemoveAgent",
+  aminoType: "lorenzo/agent/MsgRemoveAgent",
   is(o: any): o is MsgRemoveAgent {
     return o && (o.$typeUrl === MsgRemoveAgent.typeUrl || typeof o.id === "bigint" && typeof o.sender === "string");
   },
@@ -905,6 +930,12 @@ export const MsgRemoveAgent = {
   fromAminoMsg(object: MsgRemoveAgentAminoMsg): MsgRemoveAgent {
     return MsgRemoveAgent.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgRemoveAgent): MsgRemoveAgentAminoMsg {
+    return {
+      type: "lorenzo/agent/MsgRemoveAgent",
+      value: MsgRemoveAgent.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgRemoveAgentProtoMsg): MsgRemoveAgent {
     return MsgRemoveAgent.decode(message.value);
   },
@@ -919,6 +950,7 @@ export const MsgRemoveAgent = {
   }
 };
 GlobalDecoderRegistry.register(MsgRemoveAgent.typeUrl, MsgRemoveAgent);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgRemoveAgent.aminoType, MsgRemoveAgent.typeUrl);
 function createBaseMsgRemoveAgentResponse(): MsgRemoveAgentResponse {
   return {};
 }

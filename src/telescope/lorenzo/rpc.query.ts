@@ -83,6 +83,9 @@ export const createRPCQueryClient = async ({
       agent: {
         v1: (await import("./agent/v1/query.rpc.Query")).createRpcQueryExtension(client)
       },
+      bnblightclient: {
+        v1: (await import("./bnblightclient/v1/query.rpc.Query")).createRpcQueryExtension(client)
+      },
       btclightclient: {
         v1: (await import("./btclightclient/v1/query.rpc.Query")).createRpcQueryExtension(client)
       },

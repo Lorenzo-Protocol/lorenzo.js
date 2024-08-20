@@ -51,7 +51,7 @@ export class LCDQueryClient {
   }
   /* ContainsBytes is a temporary method that
    checks whether a hash is maintained by the module.
-   See discussion at https://github.com/Lorenzo-Protocol/lorenzo/v2/pull/132
+   See discussion at https://github.com/Lorenzo-Protocol/lorenzo/v3/pull/132
    for more details. */
   async containsBytes(params: QueryContainsBytesRequest): Promise<QueryContainsBytesResponseSDKType> {
     const options: any = {

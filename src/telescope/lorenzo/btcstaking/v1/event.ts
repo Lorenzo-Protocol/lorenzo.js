@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { BTCStakingRecord, BTCStakingRecordAmino, BTCStakingRecordSDKType } from "./staking_record";
+import { BTCStakingRecord, BTCStakingRecordAmino, BTCStakingRecordSDKType, BTCBStakingRecord, BTCBStakingRecordAmino, BTCBStakingRecordSDKType } from "./staking_record";
 import { Coin, CoinAmino, CoinSDKType } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { GlobalDecoderRegistry } from "../../../registry";
@@ -22,6 +22,26 @@ export interface EventBTCStakingCreatedAminoMsg {
 /** BTC staking creation event */
 export interface EventBTCStakingCreatedSDKType {
   record?: BTCStakingRecordSDKType;
+}
+/** BTCB staking creation event */
+export interface EventBTCBStakingCreated {
+  record?: BTCBStakingRecord;
+}
+export interface EventBTCBStakingCreatedProtoMsg {
+  typeUrl: "/lorenzo.btcstaking.v1.EventBTCBStakingCreated";
+  value: Uint8Array;
+}
+/** BTCB staking creation event */
+export interface EventBTCBStakingCreatedAmino {
+  record?: BTCBStakingRecordAmino;
+}
+export interface EventBTCBStakingCreatedAminoMsg {
+  type: "/lorenzo.btcstaking.v1.EventBTCBStakingCreated";
+  value: EventBTCBStakingCreatedAmino;
+}
+/** BTCB staking creation event */
+export interface EventBTCBStakingCreatedSDKType {
+  record?: BTCBStakingRecordSDKType;
 }
 export interface EventBurnCreated {
   signer: string;
@@ -129,6 +149,89 @@ export const EventBTCStakingCreated = {
   }
 };
 GlobalDecoderRegistry.register(EventBTCStakingCreated.typeUrl, EventBTCStakingCreated);
+function createBaseEventBTCBStakingCreated(): EventBTCBStakingCreated {
+  return {
+    record: undefined
+  };
+}
+export const EventBTCBStakingCreated = {
+  typeUrl: "/lorenzo.btcstaking.v1.EventBTCBStakingCreated",
+  is(o: any): o is EventBTCBStakingCreated {
+    return o && o.$typeUrl === EventBTCBStakingCreated.typeUrl;
+  },
+  isSDK(o: any): o is EventBTCBStakingCreatedSDKType {
+    return o && o.$typeUrl === EventBTCBStakingCreated.typeUrl;
+  },
+  isAmino(o: any): o is EventBTCBStakingCreatedAmino {
+    return o && o.$typeUrl === EventBTCBStakingCreated.typeUrl;
+  },
+  encode(message: EventBTCBStakingCreated, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.record !== undefined) {
+      BTCBStakingRecord.encode(message.record, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): EventBTCBStakingCreated {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEventBTCBStakingCreated();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.record = BTCBStakingRecord.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromPartial(object: Partial<EventBTCBStakingCreated>): EventBTCBStakingCreated {
+    const message = createBaseEventBTCBStakingCreated();
+    message.record = object.record !== undefined && object.record !== null ? BTCBStakingRecord.fromPartial(object.record) : undefined;
+    return message;
+  },
+  fromSDK(object: EventBTCBStakingCreatedSDKType): EventBTCBStakingCreated {
+    return {
+      record: object.record ? BTCBStakingRecord.fromSDK(object.record) : undefined
+    };
+  },
+  toSDK(message: EventBTCBStakingCreated): EventBTCBStakingCreatedSDKType {
+    const obj: any = {};
+    message.record !== undefined && (obj.record = message.record ? BTCBStakingRecord.toSDK(message.record) : undefined);
+    return obj;
+  },
+  fromAmino(object: EventBTCBStakingCreatedAmino): EventBTCBStakingCreated {
+    const message = createBaseEventBTCBStakingCreated();
+    if (object.record !== undefined && object.record !== null) {
+      message.record = BTCBStakingRecord.fromAmino(object.record);
+    }
+    return message;
+  },
+  toAmino(message: EventBTCBStakingCreated): EventBTCBStakingCreatedAmino {
+    const obj: any = {};
+    obj.record = message.record ? BTCBStakingRecord.toAmino(message.record) : undefined;
+    return obj;
+  },
+  fromAminoMsg(object: EventBTCBStakingCreatedAminoMsg): EventBTCBStakingCreated {
+    return EventBTCBStakingCreated.fromAmino(object.value);
+  },
+  fromProtoMsg(message: EventBTCBStakingCreatedProtoMsg): EventBTCBStakingCreated {
+    return EventBTCBStakingCreated.decode(message.value);
+  },
+  toProto(message: EventBTCBStakingCreated): Uint8Array {
+    return EventBTCBStakingCreated.encode(message).finish();
+  },
+  toProtoMsg(message: EventBTCBStakingCreated): EventBTCBStakingCreatedProtoMsg {
+    return {
+      typeUrl: "/lorenzo.btcstaking.v1.EventBTCBStakingCreated",
+      value: EventBTCBStakingCreated.encode(message).finish()
+    };
+  }
+};
+GlobalDecoderRegistry.register(EventBTCBStakingCreated.typeUrl, EventBTCBStakingCreated);
 function createBaseEventBurnCreated(): EventBurnCreated {
   return {
     signer: "",

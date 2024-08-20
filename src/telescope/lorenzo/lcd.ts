@@ -112,6 +112,11 @@ export const createLCDClient = async ({
           requestClient
         })
       },
+      bnblightclient: {
+        v1: new (await import("./bnblightclient/v1/query.lcd")).LCDQueryClient({
+          requestClient
+        })
+      },
       btclightclient: {
         v1: new (await import("./btclightclient/v1/query.lcd")).LCDQueryClient({
           requestClient

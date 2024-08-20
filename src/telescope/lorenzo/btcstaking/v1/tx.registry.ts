@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
-import { MsgCreateBTCStaking, MsgBurnRequest, MsgAddReceiver, MsgRemoveReceiver, MsgUpdateParams } from "./tx";
-export const registry: ReadonlyArray<[string, GeneratedType]> = [["/lorenzo.btcstaking.v1.MsgCreateBTCStaking", MsgCreateBTCStaking], ["/lorenzo.btcstaking.v1.MsgBurnRequest", MsgBurnRequest], ["/lorenzo.btcstaking.v1.MsgAddReceiver", MsgAddReceiver], ["/lorenzo.btcstaking.v1.MsgRemoveReceiver", MsgRemoveReceiver], ["/lorenzo.btcstaking.v1.MsgUpdateParams", MsgUpdateParams]];
+import { MsgCreateBTCStaking, MsgCreateBTCBStaking, MsgBurnRequest, MsgAddReceiver, MsgRemoveReceiver, MsgUpdateParams } from "./tx";
+export const registry: ReadonlyArray<[string, GeneratedType]> = [["/lorenzo.btcstaking.v1.MsgCreateBTCStaking", MsgCreateBTCStaking], ["/lorenzo.btcstaking.v1.MsgCreateBTCBStaking", MsgCreateBTCBStaking], ["/lorenzo.btcstaking.v1.MsgBurnRequest", MsgBurnRequest], ["/lorenzo.btcstaking.v1.MsgAddReceiver", MsgAddReceiver], ["/lorenzo.btcstaking.v1.MsgRemoveReceiver", MsgRemoveReceiver], ["/lorenzo.btcstaking.v1.MsgUpdateParams", MsgUpdateParams]];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {
     protoRegistry.register(typeUrl, mod);
@@ -13,6 +13,12 @@ export const MessageComposer = {
       return {
         typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCStaking",
         value: MsgCreateBTCStaking.encode(value).finish()
+      };
+    },
+    createBTCBStaking(value: MsgCreateBTCBStaking) {
+      return {
+        typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCBStaking",
+        value: MsgCreateBTCBStaking.encode(value).finish()
       };
     },
     burn(value: MsgBurnRequest) {
@@ -47,6 +53,12 @@ export const MessageComposer = {
         value
       };
     },
+    createBTCBStaking(value: MsgCreateBTCBStaking) {
+      return {
+        typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCBStaking",
+        value
+      };
+    },
     burn(value: MsgBurnRequest) {
       return {
         typeUrl: "/lorenzo.btcstaking.v1.MsgBurnRequest",
@@ -77,6 +89,12 @@ export const MessageComposer = {
       return {
         typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCStaking",
         value: MsgCreateBTCStaking.fromPartial(value)
+      };
+    },
+    createBTCBStaking(value: MsgCreateBTCBStaking) {
+      return {
+        typeUrl: "/lorenzo.btcstaking.v1.MsgCreateBTCBStaking",
+        value: MsgCreateBTCBStaking.fromPartial(value)
       };
     },
     burn(value: MsgBurnRequest) {
