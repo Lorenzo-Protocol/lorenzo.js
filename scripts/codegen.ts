@@ -23,6 +23,7 @@ telescope({
         prototypes: {
             addTypeUrlToDecoders: true,
             addTypeUrlToObjects: true,
+            addAminoTypeToObjects: true,
             excluded: {
                 hardProtos: [
                     // SINCE: lorenzo-v2.0.0-rc2

@@ -19,7 +19,7 @@ import {
 import { HttpEndpoint, Tendermint37Client } from "@cosmjs/tendermint-rpc";
 import { AminoMsg, makeSignDoc as makeSignDocAmino } from "@cosmjs/amino";
 import { assertDefined } from "@cosmjs/utils";
-import { Int53 } from "@cosmjs/math";
+import { Int53, Uint64 } from "@cosmjs/math";
 import { fromBase64 } from "@cosmjs/encoding";
 import { Any } from "cosmjs-types/google/protobuf/any";
 import { AuthInfo, SignerInfo, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
@@ -32,6 +32,7 @@ import { AccountData, Signer, SigningMode } from "./signer";
 import { createRegistry, createAminoTypes } from "./registry";
 import { PubKey } from "../telescope/ethermint/crypto/v1/ethsecp256k1/keys";
 import { GlobalDecoderRegistry } from "../telescope";
+import { createRPCQueryClient } from "../telescope/lorenzo/rpc.query";
 
 /**
  * Creates a SignerInfo instance from the data given.
@@ -87,6 +88,7 @@ export interface SignTxOptions {
 }
 
 interface LorenzoClientOptions extends SigningStargateClientOptions {
+  endpoint: string | HttpEndpoint;
   readonly gasAdjustment?: number;
 }
 
@@ -98,24 +100,29 @@ export class LorenzoClient extends SigningStargateClient {
   private typesAmino: AminoTypes;
   private typesRegistry: Registry;
   private options: LorenzoClientOptions;
+  private rpcQueryClient: Awaited<ReturnType<typeof createRPCQueryClient>>;
 
   /**
    * Connect to RPC endpoint with eth_secp256k1 signer.
    *
    */
   public static async connectWithEthSigner(
-    endpoint: string,
+    endpoint: string | HttpEndpoint,
     signer: Signer,
     options: LorenzoClientOptions = {
       registry: createRegistry(),
       aminoTypes: createAminoTypes(),
       accountParser: ethAccountParser,
+      endpoint: endpoint,
     }
   ): Promise<LorenzoClient> {
     const tmClient = await Tendermint37Client.connect(endpoint);
     return new LorenzoClient(tmClient, options, signer);
   }
 
+  /**
+   * Override connectWithSigner to suppress its basic impl.
+   */
   public static override connectWithSigner(
     endpoint: string | HttpEndpoint,
     signer: OfflineSigner,
@@ -129,7 +136,7 @@ export class LorenzoClient extends SigningStargateClient {
     options: LorenzoClientOptions,
     signer: Signer
   ) {
-    // NOTE: mute signer in super class, thus we should avoid
+    // NOTE: suppress signer in super class, thus we should avoid
     // using every method where the super.signer is called.
     super(client, undefined, {
       ...options,
@@ -138,6 +145,16 @@ export class LorenzoClient extends SigningStargateClient {
     this.options = options;
     this.typesRegistry = options.registry;
     this.typesAmino = options.aminoTypes;
+  }
+
+  /**
+   * Get the RPC query client.
+   */
+  protected async getRPCQueryClient() {
+    if (!this.rpcQueryClient) {
+      this.rpcQueryClient = await createRPCQueryClient({ rpcEndpoint: this.options.endpoint });
+    }
+    return this.rpcQueryClient;
   }
 
   public override async signAndBroadcast(
@@ -165,11 +182,40 @@ export class LorenzoClient extends SigningStargateClient {
 
     const txRaw = await this.sign(signerAddress, messages, usedFee, memo);
     const txBytes = TxRaw.encode(txRaw).finish();
-    // TODO: use sync broadcast?
     return this.broadcastTx(
       txBytes,
       this.broadcastTimeoutMs,
       this.broadcastPollIntervalMs
+    );
+  }
+
+  public override async signAndBroadcastSync(
+      signerAddress: string,
+      messages: readonly EncodeObject[],
+      fee: StdFee | "auto" | number,
+      memo?: string
+  ): Promise<string> {
+    let usedFee: StdFee;
+    if (fee === "auto" || typeof fee === "number") {
+      assertDefined(
+          this.options.gasPrice,
+          "Gas price must be set in the client options when auto gas is used."
+      );
+      const gasEstimation = await this.simulate(signerAddress, messages, memo);
+      const multiplier =
+          typeof fee === "number" ? fee : this.options.gasAdjustment || 1.5;
+      usedFee = calculateFee(
+          Math.round(gasEstimation * multiplier),
+          this.options.gasPrice
+      );
+    } else {
+      usedFee = fee;
+    }
+
+    const txRaw = await this.sign(signerAddress, messages, usedFee, memo);
+    const txBytes = TxRaw.encode(txRaw).finish();
+    return this.broadcastTxSync(
+        txBytes,
     );
   }
 
@@ -233,7 +279,6 @@ export class LorenzoClient extends SigningStargateClient {
     messages: readonly EncodeObject[],
     options?: SignTxOptions
   ): Promise<SignatureResult> {
-    // TODO: estimate fee; here no granter and payer?
     const txFee: StdFee = {
       amount: [
         {

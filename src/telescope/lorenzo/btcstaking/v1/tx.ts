@@ -139,7 +139,7 @@ export interface MsgBurnRequestAmino {
   amount?: string;
 }
 export interface MsgBurnRequestAminoMsg {
-  type: "/lorenzo.btcstaking.v1.MsgBurnRequest";
+  type: "btcstaking/MsgBurnRequest";
   value: MsgBurnRequestAmino;
 }
 export interface MsgBurnRequestSDKType {
@@ -660,6 +660,7 @@ function createBaseMsgBurnRequest(): MsgBurnRequest {
 }
 export const MsgBurnRequest = {
   typeUrl: "/lorenzo.btcstaking.v1.MsgBurnRequest",
+  aminoType: "btcstaking/MsgBurnRequest",
   is(o: any): o is MsgBurnRequest {
     return o && (o.$typeUrl === MsgBurnRequest.typeUrl || typeof o.signer === "string" && typeof o.btcTargetAddress === "string" && typeof o.amount === "string");
   },
@@ -748,6 +749,12 @@ export const MsgBurnRequest = {
   fromAminoMsg(object: MsgBurnRequestAminoMsg): MsgBurnRequest {
     return MsgBurnRequest.fromAmino(object.value);
   },
+  toAminoMsg(message: MsgBurnRequest): MsgBurnRequestAminoMsg {
+    return {
+      type: "btcstaking/MsgBurnRequest",
+      value: MsgBurnRequest.toAmino(message)
+    };
+  },
   fromProtoMsg(message: MsgBurnRequestProtoMsg): MsgBurnRequest {
     return MsgBurnRequest.decode(message.value);
   },
@@ -762,6 +769,7 @@ export const MsgBurnRequest = {
   }
 };
 GlobalDecoderRegistry.register(MsgBurnRequest.typeUrl, MsgBurnRequest);
+GlobalDecoderRegistry.registerAminoProtoMapping(MsgBurnRequest.aminoType, MsgBurnRequest.typeUrl);
 function createBaseMsgBurnResponse(): MsgBurnResponse {
   return {};
 }

@@ -7,7 +7,7 @@ export const AminoConverter = {
     fromAmino: MsgCreateBTCStaking.fromAmino
   },
   "/lorenzo.btcstaking.v1.MsgBurnRequest": {
-    aminoType: "/lorenzo.btcstaking.v1.MsgBurnRequest",
+    aminoType: "btcstaking/MsgBurnRequest",
     toAmino: MsgBurnRequest.toAmino,
     fromAmino: MsgBurnRequest.fromAmino
   },

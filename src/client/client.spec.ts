@@ -7,6 +7,8 @@ import dotenv from "dotenv";
 dotenv.config();
 const mnemonic = process.env.MNEMONICS;
 const rpcUrl = process.env.ENDPOINT;
+const SECONDS = 1000;
+jest.setTimeout(10 * SECONDS)
 
 const setupTest = async (signingMode: SigningMode) => {
   const signer = await LorenzoOfflineSigner.fromMnemonic(
