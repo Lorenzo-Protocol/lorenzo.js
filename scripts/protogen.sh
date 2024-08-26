@@ -11,7 +11,7 @@ PROTO_DIR=${ROOT_PATH}/proto
 TMP_DIR=${ROOT_PATH}/tmp
 
 COSMOS_TAG="v0.47.0"
-LORENZO_TAG=${LORENZO_TAG:-""}
+LORENZO_TAG=${LORENZO_TAG:-"v3.0.0"}
 LORENZO_COMMIT=${LORENZO_COMMIT:-"dcfdeb89fc327be79bfd55f342fae01c4d1270ce"}
 LORENZO_REPO="https://github.com/Lorenzo-Protocol/lorenzo"
 ETHERMINT_TAG="v0.22.0-lorenzo-4"
