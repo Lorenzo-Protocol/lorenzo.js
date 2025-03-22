@@ -16,8 +16,12 @@
 
 ## Usage
 
-```
+```bash
 npm install
+
+# @count: number of accounts to generate
+# @max: maximum amount of stBTC generated for each account
+npx ts-node example/generate-accounts.ts --count 15 --max 20
 
 npx ts-node example/batch-send.ts
 ```
