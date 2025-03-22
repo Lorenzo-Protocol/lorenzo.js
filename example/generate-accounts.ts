@@ -1,4 +1,4 @@
-import { Mnemonic } from "ethers";
+import { Mnemonic, HDNodeWallet } from "ethers";
 import { LorenzoOfflineSigner, SigningMode } from "../src/client/signer";
 import fs from "fs";
 import path from "path";
@@ -7,6 +7,7 @@ import crypto from "crypto";
 interface Account {
   mnemonic: string;
   address: string;
+  evmAddress: string;
   amount?: string;
 }
 
@@ -35,7 +36,9 @@ function generateRandomMnemonic(): string {
   return mnemonic.phrase;
 }
 
-async function getAddressFromMnemonic(mnemonic: string): Promise<string> {
+async function getAddressFromMnemonic(mnemonic: string): Promise<{address: string, evmAddress: string}> {
+  const wallet = HDNodeWallet.fromPhrase(mnemonic);
+  const evmAddress = wallet.address;
   const signer = await LorenzoOfflineSigner.fromMnemonic(
     SigningMode.DIRECT,
     mnemonic,
@@ -43,7 +46,7 @@ async function getAddressFromMnemonic(mnemonic: string): Promise<string> {
   );
 
   const [account] = await signer.getAccounts();
-  return account.address;
+  return { address: account.address, evmAddress };
 }
 
 function generateRandomAmount(maxAmount: number): string {
@@ -62,7 +65,8 @@ async function generateRandomAccounts(count: number, maxAmount: number): Promise
     
     accounts.push({
       mnemonic,
-      address,
+      address: address.address,
+      evmAddress: address.evmAddress,
       amount
     });
   }
