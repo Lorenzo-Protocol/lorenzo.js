@@ -76,6 +76,10 @@ async function main() {
       fee,
     );
     console.log("Transaction hash:", result.transactionHash);
+    if (result.code !== 0) {
+      console.error("Transaction failed with code:", result.code, result);
+      return;
+    }
     console.log("Transaction successful!");
   } catch (error) {
     console.error("Transaction failed:", error);
