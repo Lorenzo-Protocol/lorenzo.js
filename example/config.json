@@ -1,0 +1,25 @@
+{
+  "rpcUrl": "",
+  "mnemonic": "",
+  "gasWanted": "200000",
+  "gasFee": "400000000000",
+  "gasDenom": "stBTC",
+  "input": {
+    "denom": "stBTC",
+    "amount": "6"
+  },
+  "recipients": [
+    {
+      "address": "lrz144ysmwalylpju9yuplfh2a900pugv5lyjkfkrp",
+      "amount": "1"
+    },
+    {
+      "address": "lrz1zrd95xvtck9q7gz7wqygyym3mrfguqrdhvaql9",
+      "amount": "2"
+    },
+    {
+      "address": "lrz1zrfyfd9xmejk0suyv9xsmzc60xkzz4872va0q7",
+      "amount": "3"
+    }
+  ]
+}
