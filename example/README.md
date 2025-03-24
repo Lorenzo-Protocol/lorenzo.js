@@ -25,14 +25,14 @@ It's not most gas efficient, but it's enough for sending to up to 500 recipients
 - 500: 3040.0,000,000,000 is 3040 satoshi (2.64 usd)
 
 Each main account requires:
-- no less than 26.8,900,000,000 stBTC for each batch account
-- at least 2680.0,000,000,000 stBTC for gas fee
-- in total 14511.6,000,000,000 stBTC
+- no less than 268900000000 stBTC for each batch account
+- at least 26800000000000 stBTC for gas fee
+- in total 27240000440000 stBTC
 
 Thus, for the initial account it requires:
-- no less than 14511.6,000,000,000 for each main account 
-- at least 3040.0,000,000,000 stBTC for gas fee
-- in total 7,258,840.0,000,000,000 stBTC (0.725884 BTC)
+- no less than 145116000000000 for each main account 
+- at least 30400000000000 stBTC for gas fee
+- in total 13650400220000000 stBTC (0.137 BTC)
 
 
 **NOTE**: all stBTC here is small unit of BTC, 1 stBTC = 10e-18 BTC
@@ -51,8 +51,8 @@ It takes 3 to 5 seconds to generate 440 accounts per batch.
 npx ts-node example/generate.ts \
 --batch 500 \
 --accounts-per-batch 440 \
---amount-min 268800000000 \
---amount-max 268900000000 \
+--amount-min 1000000000 \
+--amount-max 1000001000 \
 --fee-amount 26800000000000
 ```
 
