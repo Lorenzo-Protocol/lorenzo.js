@@ -32,8 +32,7 @@ Each main account requires:
 Thus, for the initial account it requires:
 - no less than 145116000000000 for each main account 
 - at least 30400000000000 stBTC for gas fee
-- in total 13650400220000000 stBTC (0.137 BTC)
-
+- in total 13650400220000000 stBTC (0.0137 BTC)
 
 **NOTE**: all stBTC here is small unit of BTC, 1 stBTC = 10e-18 BTC
 
