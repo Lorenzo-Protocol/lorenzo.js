@@ -7,11 +7,6 @@
 ```
 1. rpcUrl: The URL of the node to connect to
 2. mnemonic: The mnemonic of the account to use
-3. gasWanted: The amount of gas to use
-4. gasFee: The fee of gas
-5. gasDenom: The denomination of gas
-6. input: The input amount and denomination
-7. recipients: The recipients and their amounts
 ```
 
 ## Fee Calculation
