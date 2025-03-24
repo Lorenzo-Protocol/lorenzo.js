@@ -1,13 +1,4 @@
 {
-  "rpcUrl": "",
-  "mnemonic": "",
-  "gasWanted": "200000",
-  "gasFee": "400000000000",
-  "gasDenom": "stBTC",
-  "input": {
-    "denom": "stBTC",
-    "amount": "155"
-  },
-  "recipients": [
-  ]
+  "rpcUrl": "https://rpc-cosmos.lorenzo-protocol.xyz:443",
+  "mnemonic": ""
 }
